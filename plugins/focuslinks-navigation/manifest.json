@@ -1,0 +1,9 @@
+{
+  "id": "focuslinks-navigation",
+  "name": "Focuslinks Navigation",
+  "version": "1.5.0",
+  "minAppVersion": "1.0.0",
+  "description": "Pure clinical navigation in the left sidebar — a grouped Clinic navigator (Front desk · Clinical · Insights). Each page docks its own right-panel tools.",
+  "author": "FocusCaseX originals",
+  "isSample": true
+}

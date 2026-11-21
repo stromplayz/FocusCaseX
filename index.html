@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FocusCaseX Marketplace</title>
+<meta name="description" content="The public registry, auto-updating core config and API mediator for FocusCaseX — capsules, plugins, themes and templates served straight from GitHub Pages." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0e14'/%3E%3Cpath d='M6 16c3.2-5 7-7.5 10-7.5S22.8 11 26 16c-3.2 5-7 7.5-10 7.5S9.2 21 6 16Z' fill='none' stroke='%2310b981' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3.2' fill='%2310b981'/%3E%3C/svg%3E" />
+<style>
+  :root {
+    --bg: #0a0e14;
+    --bg-soft: #0e141d;
+    --panel: #111826;
+    --panel-2: #141c2b;
+    --border: #1f2937;
+    --text: #e5e9f0;
+    --muted: #8b94a7;
+    --faint: #5b6472;
+    --accent: #10b981;
+    --accent-soft: rgba(16, 185, 129, 0.12);
+    --capsule: #10b981;
+    --plugin: #8b5cf6;
+    --theme: #f43f5e;
+    --template: #06b6d4;
+    --snippet: #eab308;
+    --radius: 12px;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 15px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code, pre { font-family: var(--mono); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- header ---------- */
+  header.site {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(10, 14, 20, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .site-inner { display: flex; align-items: center; gap: 14px; height: 60px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.01em; }
+  .logo svg { width: 26px; height: 26px; }
+  .logo .dim { color: var(--muted); font-weight: 500; }
+  .spacer { flex: 1; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 12.5px; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 5px 12px; background: var(--bg-soft);
+    white-space: nowrap;
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .pill.err .dot { background: #f43f5e; box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.12); }
+  .pill strong { color: var(--text); font-weight: 600; }
+  .gh-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 8px 14px; font-size: 13.5px; color: var(--text);
+    background: var(--bg-soft); transition: border-color .15s ease;
+  }
+  .gh-btn:hover { border-color: var(--accent); text-decoration: none; }
+  .gh-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 64px 0 40px; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft);
+    border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 999px; padding: 6px 14px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 44px); line-height: 1.12; letter-spacing: -0.02em; margin: 18px 0 12px; }
+  h1 .grad { color: var(--accent); }
+  .sub { max-width: 640px; color: var(--muted); font-size: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 32px; }
+  .stat {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .stat .n { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+  .stat .l { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+
+  /* ---------- core banner ---------- */
+  .core-banner {
+    margin: 28px 0 0; padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(16,185,129,0.07), rgba(16,185,129,0.02));
+    border: 1px solid rgba(16, 185, 129, 0.25); border-radius: var(--radius);
+    display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center;
+  }
+  .core-banner .flag {
+    font-size: 12px; font-family: var(--mono);
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: 8px; padding: 4px 9px; color: var(--muted);
+  }
+  .core-banner .flag.on { color: var(--accent); border-color: rgba(16,185,129,0.35); }
+  .core-banner .when { color: var(--faint); font-size: 12.5px; }
+
+  /* ---------- sections ---------- */
+  section { padding: 42px 0; }
+  .sec-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+  h2 { font-size: 22px; letter-spacing: -0.015em; margin: 0; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 0 0 22px; max-width: 700px; }
+
+  /* ---------- catalog ---------- */
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 18px; }
+  .search { position: relative; flex: 1 1 260px; max-width: 420px; }
+  .search input {
+    width: 100%; height: 42px; padding: 0 14px 0 38px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    color: var(--text); font-size: 14px; outline: none;
+  }
+  .search input:focus { border-color: var(--accent); }
+  .search svg { position: absolute; left: 12px; top: 12px; width: 17px; height: 17px; stroke: var(--faint); fill: none; stroke-width: 2; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    border: 1px solid var(--border); background: var(--panel); color: var(--muted);
+    border-radius: 999px; padding: 7px 14px; font-size: 13px; cursor: pointer;
+  }
+  .chip:hover { color: var(--text); }
+  .chip.on { color: var(--text); border-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 18px; display: flex; flex-direction: column; gap: 9px;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .card:hover { border-color: #2a3648; transform: translateY(-1px); }
+  .card .top { display: flex; align-items: center; gap: 10px; }
+  .kind {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; border: 1px solid;
+  }
+  .kind.capsule { color: var(--capsule); border-color: rgba(16,185,129,.4); background: rgba(16,185,129,.08); }
+  .kind.plugin { color: var(--plugin); border-color: rgba(139,92,246,.4); background: rgba(139,92,246,.08); }
+  .kind.theme { color: var(--theme); border-color: rgba(244,63,94,.4); background: rgba(244,63,94,.08); }
+  .kind.template { color: var(--template); border-color: rgba(6,182,212,.4); background: rgba(6,182,212,.08); }
+  .card .name { font-weight: 650; font-size: 15.5px; letter-spacing: -0.01em; }
+  .card .ver { font-size: 12px; color: var(--faint); font-family: var(--mono); }
+  .card .feat { margin-left: auto; font-size: 11px; font-weight: 700; color: #f59e0b; letter-spacing: 0.06em; text-transform: uppercase; }
+  .card .tagline { color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+  .card .meta { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11.5px; color: var(--faint); background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px; padding: 2px 7px; }
+  .card .foot { display: flex; align-items: center; gap: 12px; margin-top: auto; padding-top: 8px; border-top: 1px solid var(--border); }
+  .card .foot .dl { font-size: 12px; color: var(--faint); }
+  .card .foot .files { margin-left: auto; display: flex; flex-wrap: wrap; gap: 6px; }
+  .f-link { font-size: 11.5px; font-family: var(--mono); color: var(--muted); border: 1px solid var(--border); border-radius: 6px; padding: 2px 7px; }
+  .f-link:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+  .empty { color: var(--faint); padding: 30px 0; text-align: center; }
+  .state-err {
+    border: 1px solid rgba(244,63,94,.4); background: rgba(244,63,94,.06);
+    border-radius: var(--radius); padding: 14px 16px; color: var(--muted); font-size: 14px;
+  }
+
+  /* ---------- api / docs ---------- */
+  .docs { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  table.api { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; font-size: 14px; }
+  table.api th, table.api td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table.api tr:last-child td { border-bottom: none; }
+  table.api th { color: var(--faint); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; background: var(--bg-soft); }
+  table.api td code { color: var(--accent); font-size: 13px; }
+  table.api td .m { color: var(--faint); font-size: 12.5px; }
+  pre.snippet {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px 18px; overflow-x: auto; font-size: 13px; line-height: 1.55; color: var(--text); margin: 0;
+  }
+  pre.snippet .c { color: var(--faint); }
+  pre.snippet .k { color: var(--accent); }
+  .flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .step { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+  .step .num { font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; }
+  .step h3 { font-size: 15px; margin: 6px 0 4px; }
+  .step p { color: var(--muted); font-size: 13.5px; margin: 0; line-height: 1.55; }
+  .step code { font-size: 12.5px; color: var(--accent); }
+
+  footer.site { border-top: 1px solid var(--border); padding: 26px 0 40px; color: var(--faint); font-size: 13px; }
+  footer.site .cols { display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center; }
+
+  @media (max-width: 640px) {
+    .hero { padding: 40px 0 28px; }
+    .pill.core { display: none; }
+    section { padding: 30px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap site-inner">
+    <a class="logo" href="#" style="color: var(--text);">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="none" stroke="#1f2937"/><path d="M6 16c3.2-5 7-7.5 10-7.5S22.8 11 26 16c-3.2 5-7 7.5-10 7.5S9.2 21 6 16Z" fill="none" stroke="#10b981" stroke-width="2"/><circle cx="16" cy="16" r="3.2" fill="#10b981"/></svg>
+      FocusCaseX&nbsp;<span class="dim">Marketplace</span>
+    </a>
+    <span class="spacer"></span>
+    <span class="pill core" id="core-pill"><span class="dot"></span>core <strong id="core-version">…</strong></span>
+    <a class="gh-btn" href="https://github.com/stromplayz/FocusCaseX-Marketplace" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+      GitHub
+    </a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="kicker">Public registry · GitHub Pages API</span>
+    <h1>One open marketplace for <span class="grad">FocusCaseX</span></h1>
+    <p class="sub">
+      Every capsule, plugin, theme and template for FocusCaseX lives here — browsable by anyone,
+      served as JSON by GitHub Pages, and consumed by the app at boot. The private app repo never
+      needs a redeploy to ship marketplace updates.
+    </p>
+    <div class="stats" id="stats">
+      <div class="stat"><div class="n" id="st-all">–</div><div class="l">Items</div></div>
+      <div class="stat"><div class="n" id="st-capsule">–</div><div class="l">Capsules</div></div>
+      <div class="stat"><div class="n" id="st-plugin">–</div><div class="l">Plugins</div></div>
+      <div class="stat"><div class="n" id="st-theme">–</div><div class="l">Themes</div></div>
+      <div class="stat"><div class="n" id="st-template">–</div><div class="l">Templates</div></div>
+      <div class="stat"><div class="n" id="st-snippet">–</div><div class="l">Snippets</div></div>
+    </div>
+    <div class="core-banner" id="core-banner" hidden>
+      <span class="pill" style="border:none;background:none;padding:0;"><span class="dot"></span><strong style="font-size:14px;">Core <span id="cb-version"></span></strong></span>
+      <span class="when" id="cb-updated"></span>
+      <span class="flag" id="cb-flag-remoteMarketplace">remoteMarketplace</span>
+      <span class="flag" id="cb-flag-autoCheckUpdates">autoCheckUpdates</span>
+      <span class="flag" id="cb-flag-showAnnouncements">showAnnouncements</span>
+    </div>
+  </div>
+
+  <section id="catalog">
+    <div class="sec-head"><h2>Catalog</h2></div>
+    <p class="sec-sub">Live from <code>api/registry.json</code> — the same index the in-app Marketplace renders. File links open the raw asset this site serves.</p>
+    <div class="toolbar">
+      <div class="search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search the marketplace…" aria-label="Search the marketplace" />
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="Filter by kind"></div>
+    </div>
+    <div id="catalog-body" class="grid" aria-live="polite"></div>
+  </section>
+
+  <section id="how">
+    <div class="sec-head"><h2>How the mediator works</h2></div>
+    <p class="sec-sub">This site is the single network dependency for marketplace data — the app boot fetches the mandatory core config, then merges the registry.</p>
+    <div class="flow">
+      <div class="step"><div class="num">01</div><h3>Private repo builds</h3><p>The FocusCaseX app repo runs <code>scripts/sync-marketplace.mts</code>: its catalog modules and disk assets are compiled into <code>api/registry.json</code> + <code>api/core.json</code>.</p></div>
+      <div class="step"><div class="num">02</div><h3>Public repo publishes</h3><p>The generated JSON and asset copies are pushed here. GitHub Pages serves them globally with <code>Access-Control-Allow-Origin: *</code> — a free CDN-backed API.</p></div>
+      <div class="step"><div class="num">03</div><h3>App loads core</h3><p>Every FocusCaseX boot fetches <code>api/core.json</code> (cached, stale-while-revalidate). Flags, featured picks and announcements apply without a redeploy.</p></div>
+      <div class="step"><div class="num">04</div><h3>Marketplace stays fresh</h3><p>The in-app store merges <code>api/registry.json</code> and badges items whose remote version is newer — tap to pull the update straight from this site.</p></div>
+    </div>
+  </section>
+
+  <section id="api">
+    <div class="sec-head"><h2>API reference</h2></div>
+    <p class="sec-sub">Static JSON endpoints on this Pages site. No auth, no rate limits beyond GitHub's generous Pages cache.</p>
+    <div class="docs">
+      <table class="api">
+        <thead><tr><th>Endpoint</th><th>Returns</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>GET /api/core.json</code></td>
+            <td><span class="m">Mandatory core config — schema <code style="font-size:12px">fcx.market.core.v1</code>: version, minAppVersion, flags, announcement, featured, autoEnableCapsules</span></td>
+            <td><span class="m">Fetched at every app boot; changes here propagate to all clients on next launch</span></td>
+          </tr>
+          <tr>
+            <td><code>GET /api/registry.json</code></td>
+            <td><span class="m">Full catalog — schema <code style="font-size:12px">fcx.market.registry.v1</code>: counts, items[] (MarketItem contract + <code style="font-size:12px">files</code>), snippets[]</span></td>
+            <td><span class="m">Merged into the in-app Marketplace; versions drive update badges</span></td>
+          </tr>
+          <tr>
+            <td><code>GET /capsules/&lt;id&gt;/*</code></td>
+            <td><span class="m">Raw capsule layers — <code style="font-size:12px">spec.mdui</code>, <code style="font-size:12px">style.css</code>, <code style="font-size:12px">logic.mdui</code></span></td>
+            <td><span class="m">Linked from each registry item's <code style="font-size:12px">files</code> map</span></td>
+          </tr>
+          <tr>
+            <td><code>GET /plugins/&lt;id&gt;/*</code></td>
+            <td><span class="m">Plugin bundle — <code style="font-size:12px">manifest.json</code> + <code style="font-size:12px">main.js</code></span></td>
+            <td><span class="m">Installable / updatable from the in-app store</span></td>
+          </tr>
+          <tr>
+            <td><code>GET /themes/&lt;id&gt;.json</code> · <code>GET /templates/&lt;id&gt;.md</code> · <code>GET /snippets/*</code></td>
+            <td><span class="m">Theme token JSON · template markdown · CSS snippets</span></td>
+            <td><span class="m">Themes apply instantly; templates create pages; snippets are copy-in CSS</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <pre class="snippet"><span class="c"># Registry snapshot</span>
+curl -s https://stromplayz.github.io/FocusCaseX-Marketplace/api/registry.json | jq '.counts'
+
+<span class="c">// Or from any app — CORS is open on GitHub Pages</span>
+<span class="k">const</span> registry = await fetch(
+  <span class="k">"https://stromplayz.github.io/FocusCaseX-Marketplace/api/registry.json"</span>
+).then(<span class="k">r</span> =&gt; r.json());</pre>
+    </div>
+  </section>
+</div>
+
+<footer class="site">
+  <div class="wrap cols">
+    <span>FocusCaseX Marketplace — the public distribution layer of FocusCaseX.</span>
+    <a href="https://github.com/stromplayz/FocusCaseX" target="_blank" rel="noopener">App repo (private)</a>
+    <a href="https://github.com/stromplayz/FocusCaseX-Marketplace" target="_blank" rel="noopener">This repo</a>
+    <a href="api/registry.json">registry.json</a>
+    <a href="api/core.json">core.json</a>
+    <span style="margin-left:auto;">Served by GitHub Pages · MIT</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var BASE = "https://stromplayz.github.io/FocusCaseX-Marketplace/";
+  var REPO = "https://github.com/stromplayz/FocusCaseX-Marketplace/blob/main/";
+
+  var registry = null, core = null;
+  var kind = "all", query = "";
+
+  var KIND_LABELS = { all: "All", capsule: "Capsules", plugin: "Plugins", theme: "Themes", template: "Templates" };
+  var KIND_COLORS = { capsule: "var(--capsule)", plugin: "var(--plugin)", theme: "var(--theme)", template: "var(--template)" };
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  function $(id) { return document.getElementById(id); }
+
+  function text(id, v) { var el = $(id); if (el) el.textContent = v; }
+
+  function fetchJson(url) {
+    return fetch(url, { cache: "no-store" }).then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status + " for " + url);
+      return r.json();
+    });
+  }
+
+  /* ---------- core ---------- */
+  function renderCore() {
+    if (!core) return;
+    text("core-version", "v" + core.version);
+    text("cb-version", "v" + core.version);
+    var when = $("cb-updated");
+    if (when) when.textContent = "updated " + new Date(core.updatedAt).toLocaleString();
+    var banner = $("core-banner");
+    if (banner) banner.hidden = false;
+    ["remoteMarketplace", "autoCheckUpdates", "showAnnouncements"].forEach(function (f) {
+      var el = $("cb-flag-" + f);
+      if (el) el.classList.toggle("on", core.flags && core.flags[f] === true);
+    });
+    var pill = $("core-pill");
+    if (pill) pill.classList.remove("err");
+  }
+
+  /* ---------- catalog ---------- */
+  function fileLinks(item) {
+    var out = [];
+    var files = item.files || {};
+    Object.keys(files).forEach(function (key) {
+      var path = files[key];
+      var label = key === "vars" ? "theme.json" : key === "body" ? "template.md" : key;
+      out.push('<a class="f-link" href="' + esc(BASE + path) + '" target="_blank" rel="noopener">' + esc(label) + "</a>");
+    });
+    return out.join("");
+  }
+
+  function card(item) {
+    var ghLink = REPO + (item.files && (item.files.spec || item.files.manifest || item.files.vars || item.files.body) ? (item.files.spec || item.files.manifest || item.files.vars || item.files.body) : "");
+    return (
+      '<div class="card">' +
+        '<div class="top">' +
+          '<span class="kind ' + esc(item.kind) + '">' + esc(KIND_LABELS[item.kind] || item.kind) + "</span>" +
+          '<span class="name">' + esc(item.name) + "</span>" +
+          '<span class="ver">v' + esc(item.version) + "</span>" +
+          (item.featured ? '<span class="feat">Featured</span>' : "") +
+        "</div>" +
+        '<div class="tagline">' + esc(item.tagline) + "</div>" +
+        '<div class="meta">' +
+          (item.category ? '<span class="tag">' + esc(item.category) + "</span>" : "") +
+          (item.verified ? '<span class="tag">verified</span>' : "") +
+          '<span class="tag">' + esc(item.author) + "</span>" +
+        "</div>" +
+        '<div class="foot">' +
+          '<span class="dl">' + Number(item.downloads || 0).toLocaleString() + " downloads</span>" +
+          '<span class="files">' +
+            '<a class="f-link" href="' + esc(ghLink) + '" target="_blank" rel="noopener">source</a>' +
+            fileLinks(item) +
+          "</span>" +
+        "</div>" +
+      "</div>"
+    );
+  }
+
+  function renderCatalog() {
+    var body = $("catalog-body");
+    if (!body) return;
+    if (!registry) return;
+    var q = query.trim().toLowerCase();
+    var items = registry.items.filter(function (it) {
+      if (kind !== "all" && it.kind !== kind) return false;
+      if (!q) return true;
+      return [it.name, it.tagline, it.description, it.author, it.category, (it.tags || []).join(" ")]
+        .join("\n").toLowerCase().indexOf(q) !== -1;
+    });
+    items.sort(function (a, b) { return (b.downloads || 0) - (a.downloads || 0) || a.name.localeCompare(b.name); });
+    body.innerHTML = items.length
+      ? items.map(card).join("")
+      : '<div class="empty" style="grid-column: 1 / -1;">Nothing matches — clear the search or switch kind.</div>';
+  }
+
+  function renderChips() {
+    var holder = $("chips");
+    if (!holder || !registry) return;
+    var counts = { all: registry.counts.all };
+    registry.items.forEach(function (it) { counts[it.kind] = (counts[it.kind] || 0) + 1; });
+    var order = ["all", "capsule", "plugin", "theme", "template"];
+    holder.innerHTML = order.map(function (k) {
+      return '<button class="chip' + (kind === k ? " on" : "") + '" data-kind="' + k + '" type="button">' +
+        esc(KIND_LABELS[k]) + " · " + (counts[k] || 0) + "</button>";
+    }).join("");
+    Array.prototype.forEach.call(holder.querySelectorAll(".chip"), function (btn) {
+      btn.addEventListener("click", function () {
+        kind = btn.getAttribute("data-kind");
+        renderChips();
+        renderCatalog();
+      });
+    });
+  }
+
+  function renderStats() {
+    if (!registry) return;
+    var c = registry.counts || {};
+    text("st-all", c.all != null ? c.all : registry.items.length);
+    text("st-capsule", c.capsule || 0);
+    text("st-plugin", c.plugin || 0);
+    text("st-theme", c.theme || 0);
+    text("st-template", c.template || 0);
+    text("st-snippet", c.snippet || 0);
+  }
+
+  function failState(message) {
+    var pill = $("core-pill");
+    if (pill) pill.classList.add("err");
+    text("core-version", "offline");
+    var body = $("catalog-body");
+    if (body) body.innerHTML = '<div class="state-err" style="grid-column: 1 / -1;">' + esc(message) + "</div>";
+  }
+
+  /* ---------- boot ---------- */
+  var searchEl = $("q");
+  if (searchEl) {
+    searchEl.addEventListener("input", function () {
+      query = searchEl.value;
+      renderCatalog();
+    });
+  }
+
+  Promise.all([
+    fetchJson(BASE + "api/registry.json").then(function (data) { registry = data; }),
+    fetchJson(BASE + "api/core.json").then(function (data) { core = data; }),
+  ]).then(function () {
+    renderCore();
+    renderStats();
+    renderChips();
+    renderCatalog();
+  }).catch(function (err) {
+    failState("Marketplace API unreachable — " + err.message);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "schema": "fcx.market.core.v1",
+  "version": "1.0.0",
+  "minAppVersion": "1.14.4",
+  "flags": {
+    "remoteMarketplace": true,
+    "autoCheckUpdates": true,
+    "showAnnouncements": true
+  },
+  "announcement": {
+    "id": "marketplace-launch-1",
+    "title": "Marketplace is live",
+    "body": "Capsules, plugins, themes and templates now sync from the public FocusCaseX Marketplace — updates land automatically, no app redeploy needed.",
+    "level": "info"
+  },
+  "featured": {
+    "capsule": "ui-appointment",
+    "theme": "midnight",
+    "plugin": "focus-mode",
+    "template": "refraction-note"
+  },
+  "autoEnableCapsules": [],
+  "endpoints": {
+    "registry": "api/registry.json",
+    "core": "api/core.json"
+  },
+  "updatedAt": "2026-11-21T18:36:56.120Z"
+}

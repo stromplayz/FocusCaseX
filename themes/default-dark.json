@@ -1,0 +1,11 @@
+{
+  "id": "default-dark",
+  "name": "Default Dark",
+  "builtin": true,
+  "description": "The native FocusCaseX look — no overrides, engine off.",
+  "tags": [
+    "dark",
+    "native"
+  ],
+  "vars": {}
+}
