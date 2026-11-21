@@ -1,13 +1,7 @@
 {
   "id": "ocean-breeze",
   "name": "Ocean Breeze",
-  "builtin": true,
-  "description": "Aqua-tinted light with fresh teal — a sea breeze through the clinic.",
-  "tags": [
-    "light",
-    "teal",
-    "fresh"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#edf6f5",
     "bgSidebar": "#e2efed",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Aqua-tinted light with fresh teal — a sea breeze through the clinic.",
+  "tags": [
+    "light",
+    "teal",
+    "fresh"
+  ]
 }

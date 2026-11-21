@@ -1,13 +1,7 @@
 {
   "id": "surgical",
   "name": "Surgical",
-  "builtin": true,
-  "description": "Theater greens — deep green-tinted dark with a mint pulse for on-call focus.",
-  "tags": [
-    "dark",
-    "clinical",
-    "green"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#0b1410",
     "bgSidebar": "#0e1a15",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Theater greens — deep green-tinted dark with a mint pulse for on-call focus.",
+  "tags": [
+    "dark",
+    "clinical",
+    "green"
+  ]
 }

@@ -1,13 +1,7 @@
 {
   "id": "brutalist",
   "name": "Brutalist",
-  "builtin": true,
-  "description": "Raw concrete surfaces, hard offset shadows, square everything.",
-  "tags": [
-    "statement",
-    "light",
-    "sharp"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#e8e6e1",
     "bgSidebar": "#dcd9d2",
@@ -29,5 +23,11 @@
     "headingWeight": "900",
     "headingTransform": "uppercase",
     "tracking": "wide"
-  }
+  },
+  "description": "Raw concrete surfaces, hard offset shadows, square everything.",
+  "tags": [
+    "statement",
+    "light",
+    "sharp"
+  ]
 }

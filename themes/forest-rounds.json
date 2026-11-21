@@ -1,13 +1,7 @@
 {
   "id": "forest-rounds",
   "name": "Forest Rounds",
-  "builtin": true,
-  "description": "Deep pine panels and moss green — a calm walk in the woods between patients.",
-  "tags": [
-    "dark",
-    "nature",
-    "calm"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#111a14",
     "bgSidebar": "#15211a",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Deep pine panels and moss green — a calm walk in the woods between patients.",
+  "tags": [
+    "dark",
+    "nature",
+    "calm"
+  ]
 }

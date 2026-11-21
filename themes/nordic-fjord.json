@@ -1,13 +1,7 @@
 {
   "id": "nordic-fjord",
   "name": "Nordic Fjord",
-  "builtin": true,
-  "description": "Misted Scandinavian minimalism — pale cool surfaces, dusty blue-gray accents.",
-  "tags": [
-    "light",
-    "minimal",
-    "cool"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#eff1f0",
     "bgSidebar": "#e4e8e6",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Misted Scandinavian minimalism — pale cool surfaces, dusty blue-gray accents.",
+  "tags": [
+    "light",
+    "minimal",
+    "cool"
+  ]
 }

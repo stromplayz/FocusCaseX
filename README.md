@@ -1,134 +1,104 @@
-<div align="center">
-
 # FocusCaseX Marketplace
 
-**The public distribution layer of [FocusCaseX](https://github.com/stromplayz/FocusCaseX)** — one open registry for every capsule, plugin, theme and template, served as a zero-cost API by GitHub Pages.
+The **public extension hub** for FocusCaseX — and the **API mediator** every FocusCaseX client reads.
 
-[![GitHub Pages](https://img.shields.io/website?url=https%3A%2F%2Fstromplayz.github.io%2FFocusCaseX-Marketplace%2F&label=Pages&style=flat-square)](https://stromplayz.github.io/FocusCaseX-Marketplace/)
-[![Registry](https://img.shields.io/badge/registry-58%20items-10b981?style=flat-square)](api/registry.json)
-[![Core](https://img.shields.io/badge/core-v1.0.0-06b6d4?style=flat-square)](api/core.json)
-[![Validate](https://img.shields.io/github/actions/workflow/status/stromplayz/FocusCaseX-Marketplace/validate.yml?branch=main&label=validate&style=flat-square)](../../actions/workflows/validate.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-8b94a7?style=flat-square)](LICENSE)
+The clinical app itself lives in the private [`stromplayz/FocusCaseX`](https://github.com/stromplayz/FocusCaseX)
+repo. Everything users can extend the app with — **capsules, plugins, themes, templates, snippets** — plus the
+**mandatory core layer** is published *here*, on a public repo served through GitHub Pages. The app never depends
+on its own repo for updates: it pulls from this site.
 
-</div>
+**Live site → <https://stromplayz.github.io/FocusCaseX-Marketplace/>**
 
 ---
 
-## Why this repo exists
+## The API mediator contract
 
-The FocusCaseX app ships a beautiful in-app Marketplace — but its catalog was bundled inside the app, so any catalog or content change required an app redeploy. This repo breaks that coupling:
+Two static JSON endpoints (no server, no build — plain files on Pages):
 
-- **One public home** for all marketplace content — users can browse capsules, plugins, themes, templates and snippets right here, no app install needed.
-- **An API mediator**: GitHub Pages serves the catalog as static JSON with open CORS. The app consumes `api/core.json` + `api/registry.json` from this site — never from its own private repo.
-- **Auto-updates without redeploying the app**: change content here (via the sync script), and every running FocusCaseX client picks it up on its next boot.
+### `api/core.json` — the mandatory core (fetched on every app boot)
 
-```
-┌────────────────────┐        sync script         ┌─────────────────────────────┐
-│  FocusCaseX (app)  │ ─── scripts/sync- ───────▶ │  FocusCaseX-Marketplace     │
-│  private repo      │     marketplace.mts        │  this public repo           │
-└─────────┬──────────┘                            └──────────────┬──────────────┘
-          │  app boot                                             │ GitHub Pages
-          │  ① GET api/core.json  (mandatory, cached SWR)         ▼
-          │  ② GET api/registry.json (merge + update badges)   JSON API
-          └────────────────────────────────────────────────▶  ● CORS: *
-```
-
-## Live endpoints
-
-Base URL: `https://stromplayz.github.io/FocusCaseX-Marketplace/`
-
-| Endpoint | Schema | Purpose |
-| --- | --- | --- |
-| [`api/core.json`](api/core.json) | `fcx.market.core.v1` | **Mandatory core config** — version, `minAppVersion`, feature `flags`, `announcement`, `featured` picks, `autoEnableCapsules`. Fetched at every app boot; edits propagate to all clients without an app redeploy. |
-| [`api/registry.json`](api/registry.json) | `fcx.market.registry.v1` | Full catalog: `counts`, `items[]` (the `MarketItem` contract + a `files` map of asset paths), `snippets[]`. Drives the in-app Marketplace and its update badges. |
-| `capsules/<id>/{spec.mdui,style.css,logic.mdui}` | — | Raw capsule layers (three-layer capsule packages). |
-| `plugins/<id>/{manifest.json,main.js}` | — | Plugin bundles, installable/updatable from the app. |
-| `themes/<id>.json` | `FcxTheme` v2 token JSON | Whole-app theme presets — applying remaps every surface instantly. |
-| `templates/<id>.md` | markdown | Clinical note templates (bodies include frontmatter + `emr-*` fences). |
-| `snippets/*.css` | CSS | Copy-in editor/UI snippets. |
-
-CORS is open (`Access-Control-Allow-Origin: *`) — GitHub Pages does it for free, which is what makes this site a true API mediator for any client.
-
-## The core contract
-
-`api/core.json` is the **mandatory file**: small, always fetched, always applied. Bump its `version`, edit flags or add an announcement, sync, push — done:
-
-```json
+```jsonc
 {
   "schema": "fcx.market.core.v1",
-  "version": "1.0.0",
-  "minAppVersion": "1.14.4",
-  "flags": { "remoteMarketplace": true, "autoCheckUpdates": true, "showAnnouncements": true },
-  "announcement": { "id": "marketplace-launch-1", "title": "…", "body": "…", "level": "info" },
-  "featured": { "capsule": "ui-appointment", "theme": "midnight", "plugin": "focus-mode", "template": "refraction-note" },
-  "autoEnableCapsules": [],
-  "endpoints": { "registry": "api/registry.json", "core": "api/core.json" }
+  "version": "2.0.0",              // the core version stamp
+  "flags": { ... },                // remote feature flags
+  "announcement": {                 // rendered by the core-announcement surface
+    "id": "core-v2-2026-11",
+    "title": "Update v2 is live",
+    "level": "update",
+    "action": { "label": "DOWNLOAD UPDATE V2", "kind": "core-pull" }
+  },
+  "corePlugins": [                  // pulled by the core-updater on user confirmation
+    { "id": "core-ui", "version": "2.0.0",
+      "files": { "manifest": "plugins/core-ui/manifest.json", "main": "plugins/core-ui/main.js" },
+      "enable": true }
+  ],
+  "coreCss": []                     // site-relative CSS files applied as the core layer
 }
 ```
 
-The authoritative source of truth for the core lives in the private app repo at `marketplace-src/core.source.json`; this repo's `api/core.json` is its published copy.
+### `api/registry.json` — the catalog (rebuilt by `scripts/build-registry.mjs`)
 
-## Item contract
+Every published item with metadata + a `files` map. The app merges it into its in-app Marketplace:
+remote-only items become first-class installable cards; version bumps drive update badges.
 
-Registry items follow the app's `MarketItem` shape, plus `files`:
+### Assets — pulled on demand
 
-```json
-{
-  "id": "capsule:ui-exam",
-  "kind": "capsule",
-  "name": "Exam",
-  "tagline": "…",
-  "description": "…",
-  "author": "CaseX Labs",
-  "version": "1.0.0",
-  "category": "Clinical",
-  "tags": ["capsule", "clinical", "exam"],
-  "icon": "ClipboardList",
-  "rating": 4.6, "reviews": 158, "downloads": 2140,
-  "released": "", "verified": true, "featured": false,
-  "meta": { "capsuleId": "ui-exam", "…": "…" },
-  "files": { "spec": "capsules/ui-exam/spec.mdui", "style": "capsules/ui-exam/style.css", "logic": "capsules/ui-exam/logic.mdui" }
-}
-```
+`plugins/<id>/main.js`, `capsules/<id>/spec.mdui`, `themes/<id>.json`, `templates/<id>.md`, `snippets/*.css` —
+raw files fetched only when an install/update needs them.
 
-`files` paths are site-root relative — clients resolve them against the marketplace base URL.
+---
 
-## How it syncs
-
-From the **private app repo** (stromplayz/FocusCaseX):
-
-```bash
-# 1. edit marketplace-src/core.source.json (optional: flags / announcement / version bump)
-# 2. regenerate the marketplace clone
-npx tsx scripts/sync-marketplace.mts
-# 3. commit + push from /marketplace (the working clone of this repo)
-cd marketplace && git add -A && git commit -m "marketplace: sync" && git push origin main
-```
-
-The script wipes and regenerates `api/`, `capsules/`, `plugins/`, `snippets/`, `themes/`, `templates/` from the app's catalog modules (the exact same code the in-app store renders from) and disk assets. Hand-authored files — this README, the landing page, LICENSE — are never touched.
-
-A [validation workflow](.github/workflows/validate.yml) runs on every push and fails the build if any JSON is malformed or a registry item breaks the contract.
-
-## Structure
+## The core update flow
 
 ```
-FocusCaseX-Marketplace/
-├── index.html               ← the site you are reading (catalog browser + API docs)
-├── api/
-│   ├── core.json            ← mandatory core config (published from marketplace-src/core.source.json)
-│   └── registry.json        ← full catalog manifest
-├── capsules/<id>/           ← spec.mdui · style.css · logic.mdui
-├── plugins/<id>/            ← manifest.json · main.js
-├── themes/<id>.json         ← FcxTheme v2 token files
-├── templates/<id>.md        ← clinical templates
-├── snippets/*.css           ← editor/UI snippets
-├── .github/
-│   ├── workflows/validate.yml
-│   └── scripts/validate.mjs
-├── LICENSE
-└── README.md
+app boot ──▶ fetch api/core.json (stale-while-revalidate)
+             │
+             ├─ flags + featured picks applied
+             ├─ announcement ──▶ core-announcement banner (pixel-art)
+             │                        │
+             │                        ▼ user confirms
+             │                   core-updater: check ▶ pull corePlugins + coreCss
+             │                        ▶ install (disk, or in-memory on read-only hosts)
+             │                        ▶ enable ──▶ core-ui customization is live
+             └─ no redeploys: publish here, clients pull on their next boot
+```
+
+**Core plugins are ordinary plugins once installed** — they run through the same plugin host + CSS system as any
+extension. That's the point of Update v2: *core-ui modification rides the plugin system*, so the app's default
+chrome (settings, sidebar, left/right panels, tabs) can evolve entirely from this repo.
+
+## Publishing a new item
+
+1. Add the asset folder(s): `plugins/<id>/`, `capsules/<id>/`, `themes/<id>.json`, `templates/<id>.md`, `snippets/*.css`.
+2. Add its entry to **`catalog.json`** (metadata + `files` map, site-relative paths).
+3. Rebuild the registry and commit:
+
+   ```bash
+   node scripts/build-registry.mjs
+   git add -A && git commit -m "publish: <id>" && git push
+   ```
+
+   Pages redeploys automatically; every client sees it on its next boot.
+
+## Syncing from the private app repo
+
+The private repo carries `scripts/publish-marketplace.mjs` (run via `npm run sync:marketplace`): it copies the
+app's bundled plugins, capsules and snippets into this repo, refreshes `catalog.json` metadata, rebuilds the
+registry and pushes — keeping both repos in lockstep.
+
+## Repo layout
+
+```
+api/core.json            the mandatory core (version, flags, announcement, corePlugins, coreCss)
+api/registry.json        generated catalog — never hand-edit
+catalog.json             the hand-edited source of truth for item metadata
+plugins/  capsules/  themes/  templates/  snippets/    the assets
+scripts/build-registry.mjs    registry builder (validates every referenced file)
+index.html               this landing page (also renders the live catalog)
+.nojekyll                serve everything as-is
 ```
 
 ## License
 
-MIT — see [LICENSE](LICENSE). FocusCaseX itself remains private; only marketplace content and this API surface are public.
+MIT — see [LICENSE](LICENSE).

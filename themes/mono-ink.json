@@ -1,13 +1,7 @@
 {
   "id": "mono-ink",
   "name": "Monochrome Ink",
-  "builtin": true,
-  "description": "True black-and-white dark mode — one hue removed, zero noise.",
-  "tags": [
-    "dark",
-    "monochrome",
-    "minimal"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#0a0a0a",
     "bgSidebar": "#0f0f0f",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "True black-and-white dark mode — one hue removed, zero noise.",
+  "tags": [
+    "dark",
+    "monochrome",
+    "minimal"
+  ]
 }

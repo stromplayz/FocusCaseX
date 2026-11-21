@@ -1,13 +1,7 @@
 {
   "id": "neubrutalist",
   "name": "Neubrutalist",
-  "builtin": true,
-  "description": "Playful neo-brutalism — candy surfaces, thick ink borders, punchy accent.",
-  "tags": [
-    "statement",
-    "playful",
-    "light"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#fdf3e7",
     "bgSidebar": "#f7e8d8",
@@ -29,5 +23,11 @@
     "headingWeight": "800",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Playful neo-brutalism — candy surfaces, thick ink borders, punchy accent.",
+  "tags": [
+    "statement",
+    "playful",
+    "light"
+  ]
 }

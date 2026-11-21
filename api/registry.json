@@ -1,641 +1,19 @@
 {
   "schema": "fcx.market.registry.v1",
-  "generatedAt": "2026-11-21T18:36:56.119Z",
-  "coreVersion": "1.0.0",
+  "generatedAt": "2026-11-21T19:19:12.362Z",
+  "coreVersion": "2.0.0",
   "app": {
     "name": "FocusCaseX",
     "repo": "stromplayz/FocusCaseX"
   },
   "counts": {
-    "all": 58,
+    "plugin": 14,
     "capsule": 19,
-    "plugin": 6,
     "theme": 22,
     "template": 11,
-    "snippet": 3
+    "all": 66
   },
   "items": [
-    {
-      "id": "capsule:ui-appointment",
-      "kind": "capsule",
-      "name": "Appointment board",
-      "tagline": "The front-desk day book: live stats header (total/done/collected ₹/unpaid/visitors), work…",
-      "description": "The front-desk day book — book, walk in, advance stages, settle cash, card or UPI; day/week/month views write straight back into the appointment table. Stored on disk under capsules/ui-appointment/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-appointment.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Boards",
-      "tags": [
-        "capsule",
-        "boards",
-        "appointment",
-        "board"
-      ],
-      "icon": "CalendarDays",
-      "rating": 4.5,
-      "reviews": 169,
-      "downloads": 2553,
-      "released": "",
-      "verified": true,
-      "featured": true,
-      "meta": {
-        "capsuleId": "ui-appointment",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "book: Clinic/Appointment.md"
-      },
-      "files": {
-        "logic": "capsules/ui-appointment/logic.mdui",
-        "spec": "capsules/ui-appointment/spec.mdui",
-        "style": "capsules/ui-appointment/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-patients",
-      "kind": "capsule",
-      "name": "Patient directory",
-      "tagline": "Tap-first directory of every patient file — live stats (total / seen today / recalls over…",
-      "description": "The whole patient register as one tap-first directory — search, group filters, sorts, rows and cards, one-tap register / book / call and inline identity & notes editing. Stored on disk under capsules/ui-patients/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-patients.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Patient",
-      "tags": [
-        "capsule",
-        "patient",
-        "directory"
-      ],
-      "icon": "Users",
-      "rating": 4.6,
-      "reviews": 246,
-      "downloads": 3658,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-patients",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "folder: Database/Patients"
-      },
-      "files": {
-        "logic": "capsules/ui-patients/logic.mdui",
-        "spec": "capsules/ui-patients/spec.mdui",
-        "style": "capsules/ui-patients/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-exam",
-      "kind": "capsule",
-      "name": "Examination workup",
-      "tagline": "The complete optometry workup as one tap-first board that pre-fills from the appointment…",
-      "description": "The complete optometry workup on one tap-first board — pre-fills from the appointment and chart, and every save writes an emr-visit block into the patient file. Stored on disk under capsules/ui-exam/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-exam.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Clinical",
-      "tags": [
-        "capsule",
-        "clinical",
-        "examination",
-        "workup"
-      ],
-      "icon": "ClipboardList",
-      "rating": 4.3,
-      "reviews": 171,
-      "downloads": 1591,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-exam",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "folder: Database/Patients"
-      },
-      "files": {
-        "logic": "capsules/ui-exam/logic.mdui",
-        "spec": "capsules/ui-exam/spec.mdui",
-        "style": "capsules/ui-exam/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-clinic",
-      "kind": "capsule",
-      "name": "Clinic overview",
-      "tagline": "Business KPIs over any range plus the clinical-load row.",
-      "description": "Business KPIs over any date range plus the clinical-load row, rendered live from the EMR index. Stored on disk under capsules/ui-clinic/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-clinic.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Overview",
-      "tags": [
-        "capsule",
-        "overview",
-        "clinic"
-      ],
-      "icon": "LayoutDashboard",
-      "rating": 4.8,
-      "reviews": 196,
-      "downloads": 1768,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-clinic",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "range: today"
-      },
-      "files": {
-        "spec": "capsules/ui-clinic/spec.mdui",
-        "style": "capsules/ui-clinic/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-flow",
-      "kind": "capsule",
-      "name": "Workflow tracker",
-      "tagline": "Appointment→checkout funnel with per-stage patient lists and one-tap stage advance.",
-      "description": "The appointment→checkout funnel with live per-stage counts, one-tap advance and cash/card/UPI chips at optics and billing. Stored on disk under capsules/ui-flow/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-flow.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Boards",
-      "tags": [
-        "capsule",
-        "boards",
-        "workflow",
-        "tracker"
-      ],
-      "icon": "Workflow",
-      "rating": 4.4,
-      "reviews": 248,
-      "downloads": 2892,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-flow",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": ""
-      },
-      "files": {
-        "style": "capsules/ui-flow/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-today",
-      "kind": "capsule",
-      "name": "Today's patients",
-      "tagline": "Today's book as triage chips and patient rows.",
-      "description": "Today's book condensed into triage chips and patient rows — the morning glance before the first patient walks in. Stored on disk under capsules/ui-today/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-today.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Overview",
-      "tags": [
-        "capsule",
-        "overview",
-        "today's",
-        "patients"
-      ],
-      "icon": "CalendarCheck",
-      "rating": 4.9,
-      "reviews": 297,
-      "downloads": 4421,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-today",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": ""
-      },
-      "files": {
-        "style": "capsules/ui-today/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-recalls",
-      "kind": "capsule",
-      "name": "Recall board",
-      "tagline": "The overdue follow-up safety board computed from visit advice.",
-      "description": "The overdue follow-up safety board, computed from visit advice so no patient silently falls through the cracks. Stored on disk under capsules/ui-recalls/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-recalls.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Boards",
-      "tags": [
-        "capsule",
-        "boards",
-        "recall",
-        "board"
-      ],
-      "icon": "BellRing",
-      "rating": 4.2,
-      "reviews": 42,
-      "downloads": 2118,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-recalls",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": ""
-      },
-      "files": {
-        "style": "capsules/ui-recalls/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-billing",
-      "kind": "capsule",
-      "name": "Billing desk",
-      "tagline": "The front desk's to-bill / dispensing / unbilled worklist.",
-      "description": "The front desk's cash desk — a to-bill queue with one-tap payment, plus dispensing and unbilled worklists. Stored on disk under capsules/ui-billing/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-billing.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Boards",
-      "tags": [
-        "capsule",
-        "boards",
-        "billing",
-        "desk"
-      ],
-      "icon": "Receipt",
-      "rating": 4.3,
-      "reviews": 275,
-      "downloads": 1367,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-billing",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": ""
-      },
-      "files": {
-        "style": "capsules/ui-billing/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-cohorts",
-      "kind": "capsule",
-      "name": "Diagnosis cohorts",
-      "tagline": "Chronic-care registers built from keyword rules.",
-      "description": "Chronic-care registers built from keyword rules in the spec — edit a rule and the register re-groups instantly. Stored on disk under capsules/ui-cohorts/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-cohorts.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Data",
-      "tags": [
-        "capsule",
-        "data",
-        "diagnosis",
-        "cohorts"
-      ],
-      "icon": "Users",
-      "rating": 4.2,
-      "reviews": 154,
-      "downloads": 3422,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-cohorts",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "rules:\n  - Glaucoma|poag, glaucoma, oht, ocular hypertension, suspect"
-      },
-      "files": {
-        "spec": "capsules/ui-cohorts/spec.mdui",
-        "style": "capsules/ui-cohorts/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-stats",
-      "kind": "capsule",
-      "name": "Stat tiles",
-      "tagline": "Headline numbers from the EMR index.",
-      "description": "Headline numbers pulled from the EMR index and laid out as compact stat tiles. Stored on disk under capsules/ui-stats/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-stats.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Overview",
-      "tags": [
-        "capsule",
-        "overview",
-        "stat",
-        "tiles"
-      ],
-      "icon": "Gauge",
-      "rating": 4.7,
-      "reviews": 235,
-      "downloads": 4127,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-stats",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": ""
-      },
-      "files": {
-        "style": "capsules/ui-stats/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-actions",
-      "kind": "capsule",
-      "name": "Action buttons",
-      "tagline": "One-tap command buttons — Label | command pairs.",
-      "description": "One-tap command buttons from Label | command pairs — a launcher embedded right inside the page. Stored on disk under capsules/ui-actions/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-actions.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Overview",
-      "tags": [
-        "capsule",
-        "overview",
-        "action",
-        "buttons"
-      ],
-      "icon": "MousePointerClick",
-      "rating": 4.7,
-      "reviews": 111,
-      "downloads": 1567,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-actions",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "items:\n  - Book appointment|focuslinks-navigation:open-appointments"
-      },
-      "files": {
-        "spec": "capsules/ui-actions/spec.mdui",
-        "style": "capsules/ui-actions/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-note-cards",
-      "kind": "capsule",
-      "name": "Note cards",
-      "tagline": "Linked notes rendered as tappable cards.",
-      "description": "Linked notes rendered as tappable cards, turning a plain list of wikilinks into a small gallery. Stored on disk under capsules/ui-note-cards/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-note-cards.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Overview",
-      "tags": [
-        "capsule",
-        "overview",
-        "note",
-        "cards"
-      ],
-      "icon": "StickyNote",
-      "rating": 4.6,
-      "reviews": 150,
-      "downloads": 3118,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-note-cards",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "items:\n  - Clinic/Patients.md"
-      },
-      "files": {
-        "spec": "capsules/ui-note-cards/spec.mdui",
-        "style": "capsules/ui-note-cards/style.css"
-      }
-    },
-    {
-      "id": "capsule:emr-patient",
-      "kind": "capsule",
-      "name": "Patient header",
-      "tagline": "Identity and recall status resolved from a patient file.",
-      "description": "Patient identity and recall status resolved straight from a patient file's frontmatter. Stored on disk under capsules/emr-patient/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: emr-patient.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Patient",
-      "tags": [
-        "capsule",
-        "patient",
-        "header"
-      ],
-      "icon": "User",
-      "rating": 4.5,
-      "reviews": 45,
-      "downloads": 2465,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "emr-patient",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "mr: MR-1042"
-      },
-      "files": {
-        "spec": "capsules/emr-patient/spec.mdui",
-        "style": "capsules/emr-patient/style.css"
-      }
-    },
-    {
-      "id": "capsule:emr-vitals",
-      "kind": "capsule",
-      "name": "Vitals panel",
-      "tagline": "VA / IOP / Rx chips for a patient's latest visit.",
-      "description": "VA / IOP / Rx chips for a patient's latest visit, resolved through the delta-visit chain. Stored on disk under capsules/emr-vitals/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: emr-vitals.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Patient",
-      "tags": [
-        "capsule",
-        "patient",
-        "vitals",
-        "panel"
-      ],
-      "icon": "HeartPulse",
-      "rating": 4.7,
-      "reviews": 163,
-      "downloads": 1883,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "emr-vitals",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "patient: MR-1042\nshow: va, iop, rx"
-      },
-      "files": {
-        "spec": "capsules/emr-vitals/spec.mdui",
-        "style": "capsules/emr-vitals/style.css"
-      }
-    },
-    {
-      "id": "capsule:emr-visits",
-      "kind": "capsule",
-      "name": "Visit history",
-      "tagline": "Every stored visit of a patient file, newest first.",
-      "description": "Every stored visit of a patient file, newest first — the history spine of the chart. Stored on disk under capsules/emr-visits/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: emr-visits.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Patient",
-      "tags": [
-        "capsule",
-        "patient",
-        "visit",
-        "history"
-      ],
-      "icon": "History",
-      "rating": 4.8,
-      "reviews": 204,
-      "downloads": 1848,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "emr-visits",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": ""
-      },
-      "files": {
-        "style": "capsules/emr-visits/style.css"
-      }
-    },
-    {
-      "id": "capsule:emr-visit",
-      "kind": "capsule",
-      "name": "Visit record",
-      "tagline": "One stored visit — delta/pattern encoded, resolved through its chain.",
-      "description": "One stored visit, delta/pattern encoded and resolved through its chain into a readable record. Stored on disk under capsules/emr-visit/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: emr-visit.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Patient",
-      "tags": [
-        "capsule",
-        "patient",
-        "visit",
-        "record"
-      ],
-      "icon": "FileText",
-      "rating": 4.3,
-      "reviews": 163,
-      "downloads": 3163,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "emr-visit",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "date: 2026-01-01"
-      },
-      "files": {
-        "spec": "capsules/emr-visit/spec.mdui",
-        "style": "capsules/emr-visit/style.css"
-      }
-    },
-    {
-      "id": "capsule:emr-trend",
-      "kind": "capsule",
-      "name": "Trend chart",
-      "tagline": "A field's trend across visits as a sparkline.",
-      "description": "A field's trend across visits drawn as a sparkline — IOP, VA or any tracked value over time. Stored on disk under capsules/emr-trend/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: emr-trend.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Patient",
-      "tags": [
-        "capsule",
-        "patient",
-        "trend",
-        "chart"
-      ],
-      "icon": "LineChart",
-      "rating": 4.7,
-      "reviews": 131,
-      "downloads": 4783,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "emr-trend",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "patient: MR-1042\nfield: iop_od"
-      },
-      "files": {
-        "spec": "capsules/emr-trend/spec.mdui",
-        "style": "capsules/emr-trend/style.css"
-      }
-    },
-    {
-      "id": "capsule:bases-embed",
-      "kind": "capsule",
-      "name": "Database embed",
-      "tagline": "A saved Bases view rendered inside the page.",
-      "description": "A saved Bases view rendered inside the page, with an optional row limit. Stored on disk under capsules/bases-embed/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: bases-embed.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Data",
-      "tags": [
-        "capsule",
-        "data",
-        "database",
-        "embed"
-      ],
-      "icon": "Database",
-      "rating": 4.7,
-      "reviews": 135,
-      "downloads": 2091,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "bases-embed",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "name: Patients\nlimit: 8"
-      },
-      "files": {
-        "spec": "capsules/bases-embed/spec.mdui",
-        "style": "capsules/bases-embed/style.css"
-      }
-    },
-    {
-      "id": "capsule:ui-panel",
-      "kind": "capsule",
-      "name": "Right panel",
-      "tagline": "The panel a page declares for itself — booking form, pipeline, pulse or quick actions doc…",
-      "description": "The right context panel a page declares for itself — a mini pulse, booking form, pipeline or quick actions embedded beside the board. Stored on disk under capsules/ui-panel/ as three editable layers — spec.mdui (structure), style.css (scoped CSS) and logic.mdui (behavior) — and embeddable anywhere with a ui-capsule fence: capsule: ui-panel.",
-      "author": "CaseX Labs",
-      "version": "1.0.0",
-      "category": "Data",
-      "tags": [
-        "capsule",
-        "data",
-        "right",
-        "panel"
-      ],
-      "icon": "PanelRight",
-      "rating": 4.6,
-      "reviews": 130,
-      "downloads": 4450,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "capsuleId": "ui-panel",
-        "layers": "spec.mdui · style.css · logic.mdui",
-        "embed": "ui-capsule",
-        "spec": "title: Panel\n- booking"
-      },
-      "files": {
-        "spec": "capsules/ui-panel/spec.mdui",
-        "style": "capsules/ui-panel/style.css"
-      }
-    },
     {
       "id": "plugin:optomize",
       "kind": "plugin",
@@ -647,12 +25,7 @@
       "category": "Clinical",
       "tags": [
         "plugin",
-        "clinical",
-        "commands",
-        "ribbon",
-        "view",
-        "settings pane",
-        "storage"
+        "clinical"
       ],
       "icon": "ScanEye",
       "rating": 4.9,
@@ -662,12 +35,11 @@
       "verified": true,
       "featured": true,
       "meta": {
-        "pluginId": "optomize",
-        "apis": "Commands, Ribbon, View, Settings pane, Storage"
+        "pluginId": "optomize"
       },
       "files": {
-        "main": "plugins/optomize/main.js",
-        "manifest": "plugins/optomize/manifest.json"
+        "manifest": "plugins/optomize/manifest.json",
+        "main": "plugins/optomize/main.js"
       }
     },
     {
@@ -681,13 +53,7 @@
       "category": "Navigation",
       "tags": [
         "plugin",
-        "navigation",
-        "commands",
-        "ribbon",
-        "view",
-        "settings pane",
-        "css",
-        "storage"
+        "navigation"
       ],
       "icon": "Compass",
       "rating": 4.8,
@@ -697,12 +63,11 @@
       "verified": true,
       "featured": false,
       "meta": {
-        "pluginId": "focuslinks-navigation",
-        "apis": "Commands, Ribbon, View, Settings pane, CSS, Storage"
+        "pluginId": "focuslinks-navigation"
       },
       "files": {
-        "main": "plugins/focuslinks-navigation/main.js",
-        "manifest": "plugins/focuslinks-navigation/manifest.json"
+        "manifest": "plugins/focuslinks-navigation/manifest.json",
+        "main": "plugins/focuslinks-navigation/main.js"
       }
     },
     {
@@ -716,10 +81,7 @@
       "category": "Clinical",
       "tags": [
         "plugin",
-        "clinical",
-        "settings pane",
-        "css",
-        "storage"
+        "clinical"
       ],
       "icon": "ScanEye",
       "rating": 4.9,
@@ -729,12 +91,11 @@
       "verified": true,
       "featured": true,
       "meta": {
-        "pluginId": "essential-diagrams",
-        "apis": "Settings pane, CSS, Storage"
+        "pluginId": "essential-diagrams"
       },
       "files": {
-        "main": "plugins/essential-diagrams/main.js",
-        "manifest": "plugins/essential-diagrams/manifest.json"
+        "manifest": "plugins/essential-diagrams/manifest.json",
+        "main": "plugins/essential-diagrams/main.js"
       }
     },
     {
@@ -748,9 +109,7 @@
       "category": "Navigation",
       "tags": [
         "plugin",
-        "navigation",
-        "right panel",
-        "storage"
+        "navigation"
       ],
       "icon": "Layers",
       "rating": 4.8,
@@ -760,10 +119,152 @@
       "verified": true,
       "featured": true,
       "meta": {
-        "pluginId": "utility-pannel",
-        "apis": "Right panel, Storage"
+        "pluginId": "utility-panel"
       },
-      "files": {}
+      "files": {
+        "manifest": "plugins/utility-panel/manifest.json",
+        "main": "plugins/utility-panel/main.js"
+      }
+    },
+    {
+      "id": "plugin:daily-note",
+      "kind": "plugin",
+      "name": "Daily Notes",
+      "tagline": "Open (or create) today's dated note from the ribbon with a configurable folder.",
+      "description": "Open (or create) today's dated note from the ribbon with a configurable folder.",
+      "author": "FocusCaseX originals",
+      "version": "1.0.1",
+      "category": "Time",
+      "tags": [
+        "plugin",
+        "time"
+      ],
+      "icon": "Calendar",
+      "rating": 4.6,
+      "reviews": 231,
+      "downloads": 12480,
+      "released": "2026-02-11",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "daily-note"
+      },
+      "files": {
+        "manifest": "plugins/daily-note/manifest.json",
+        "main": "plugins/daily-note/main.js"
+      }
+    },
+    {
+      "id": "plugin:word-count-plus",
+      "kind": "plugin",
+      "name": "Word Count Plus",
+      "tagline": "Live statusbar counter tracking words, characters and sentences as you type.",
+      "description": "Live statusbar counter tracking words, characters and sentences as you type.",
+      "author": "FocusCaseX originals",
+      "version": "1.0.0",
+      "category": "Writing",
+      "tags": [
+        "plugin",
+        "writing"
+      ],
+      "icon": "BarChart3",
+      "rating": 4.4,
+      "reviews": 156,
+      "downloads": 9871,
+      "released": "2026-01-24",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "word-count-plus"
+      },
+      "files": {
+        "manifest": "plugins/word-count-plus/manifest.json",
+        "main": "plugins/word-count-plus/main.js"
+      }
+    },
+    {
+      "id": "plugin:random-note",
+      "kind": "plugin",
+      "name": "Random Note",
+      "tagline": "Roll the dice — jump to a uniformly random note from the vault index.",
+      "description": "Roll the dice — jump to a uniformly random note from the vault index.",
+      "author": "FocusCaseX originals",
+      "version": "1.0.0",
+      "category": "Navigation",
+      "tags": [
+        "plugin",
+        "navigation"
+      ],
+      "icon": "Dices",
+      "rating": 4.2,
+      "reviews": 88,
+      "downloads": 5142,
+      "released": "2026-01-24",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "random-note"
+      },
+      "files": {
+        "manifest": "plugins/random-note/manifest.json",
+        "main": "plugins/random-note/main.js"
+      }
+    },
+    {
+      "id": "plugin:note-templates",
+      "kind": "plugin",
+      "name": "Note Templates",
+      "tagline": "Insert a dated checklist template into the active note with one command.",
+      "description": "Insert a dated checklist template into the active note with one command.",
+      "author": "FocusCaseX originals",
+      "version": "1.0.0",
+      "category": "Writing",
+      "tags": [
+        "plugin",
+        "writing"
+      ],
+      "icon": "FileText",
+      "rating": 4.5,
+      "reviews": 102,
+      "downloads": 7326,
+      "released": "2026-01-24",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "note-templates"
+      },
+      "files": {
+        "manifest": "plugins/note-templates/manifest.json",
+        "main": "plugins/note-templates/main.js"
+      }
+    },
+    {
+      "id": "plugin:heading-numbering",
+      "kind": "plugin",
+      "name": "Heading Numbering",
+      "tagline": "Auto-number H2/H3 headings in the reading view with CSS counters.",
+      "description": "Auto-number H2/H3 headings in the reading view with CSS counters.",
+      "author": "FocusCaseX originals",
+      "version": "1.0.0",
+      "category": "Writing",
+      "tags": [
+        "plugin",
+        "writing"
+      ],
+      "icon": "ListTree",
+      "rating": 4.1,
+      "reviews": 64,
+      "downloads": 4207,
+      "released": "2026-01-24",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "heading-numbering"
+      },
+      "files": {
+        "manifest": "plugins/heading-numbering/manifest.json",
+        "main": "plugins/heading-numbering/main.js"
+      }
     },
     {
       "id": "plugin:focus-mode",
@@ -776,9 +277,7 @@
       "category": "Appearance",
       "tags": [
         "plugin",
-        "appearance",
-        "commands",
-        "css"
+        "appearance"
       ],
       "icon": "Moon",
       "rating": 4.6,
@@ -788,12 +287,11 @@
       "verified": true,
       "featured": false,
       "meta": {
-        "pluginId": "focus-mode",
-        "apis": "Commands, CSS"
+        "pluginId": "focus-mode"
       },
       "files": {
-        "main": "plugins/focus-mode/main.js",
-        "manifest": "plugins/focus-mode/manifest.json"
+        "manifest": "plugins/focus-mode/manifest.json",
+        "main": "plugins/focus-mode/main.js"
       }
     },
     {
@@ -807,8 +305,7 @@
       "category": "Navigation",
       "tags": [
         "plugin",
-        "navigation",
-        "view"
+        "navigation"
       ],
       "icon": "Hash",
       "rating": 4.3,
@@ -818,42 +315,693 @@
       "verified": true,
       "featured": false,
       "meta": {
-        "pluginId": "tag-summary",
-        "apis": "View"
+        "pluginId": "tag-summary"
       },
       "files": {
-        "main": "plugins/tag-summary/main.js",
-        "manifest": "plugins/tag-summary/manifest.json"
+        "manifest": "plugins/tag-summary/manifest.json",
+        "main": "plugins/tag-summary/main.js"
+      }
+    },
+    {
+      "id": "plugin:update-v2-notifier",
+      "kind": "plugin",
+      "name": "Update v2 Notifier",
+      "tagline": "Pixel-art announcement banner for the workspace — animated top toast that announces Update v2 with a one-tap core updater.",
+      "description": "The core-announcement plugin of the FocusCaseX Marketplace. Renders a hand-coded pixel-art banner at the top of the workspace — a bouncing pixel mascot, a bitmap-font headline, scanline shimmer and a marching border — announcing the Core v2 update. One tap on the DOWNLOAD UPDATE V2 button runs the core-updater: it checks the marketplace, pulls the core plugins (core-ui and friends) and applies them without an app redeploy. Adds commands, a ribbon rocket and a settings pane with an auto-show toggle and a retro/subtle intensity switch.",
+      "author": "FocusCaseX originals",
+      "version": "2.0.0",
+      "category": "Productivity",
+      "tags": [
+        "plugin",
+        "productivity"
+      ],
+      "icon": "Rocket",
+      "rating": 4.9,
+      "reviews": 231,
+      "downloads": 18432,
+      "released": "2026-11-22",
+      "verified": true,
+      "featured": true,
+      "meta": {
+        "pluginId": "update-v2-notifier",
+        "core": "1"
+      },
+      "files": {
+        "manifest": "plugins/update-v2-notifier/manifest.json",
+        "main": "plugins/update-v2-notifier/main.js"
+      }
+    },
+    {
+      "id": "plugin:backlink-jump",
+      "kind": "plugin",
+      "name": "Backlink Jump",
+      "tagline": "Cycle through notes that link to the active note with a single command.",
+      "description": "Cycle through notes that link to the active note with a single command.",
+      "author": "FocusCaseX originals",
+      "version": "1.0.0",
+      "category": "Navigation",
+      "tags": [
+        "plugin",
+        "navigation"
+      ],
+      "icon": "GitFork",
+      "rating": 4,
+      "reviews": 51,
+      "downloads": 3915,
+      "released": "2026-01-24",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "backlink-jump"
+      },
+      "files": {
+        "manifest": "plugins/backlink-jump/manifest.json",
+        "main": "plugins/backlink-jump/main.js"
+      }
+    },
+    {
+      "id": "plugin:core-ui",
+      "kind": "plugin",
+      "name": "Core UI",
+      "tagline": "The Update v2 payload — core-UI customization via the plugin system: sidebar, panels, tabs and settings chrome with live toggles.",
+      "description": "Core UI means the app's default chrome — the entire settings surface, the sidebar, the left/right panels and the tab strips — becomes customizable through the exact same plugin + CSS system every other extension uses. Pulled by the core-updater when you confirm the Update v2 banner; every toggle applies live over theme tokens and future knobs land here without touching the app itself. Surfaces: CSS, Settings pane, Storage. This is the mandatory core layer's first big payload.",
+      "author": "FocusCaseX originals",
+      "version": "2.0.0",
+      "category": "Appearance",
+      "tags": [
+        "plugin",
+        "appearance",
+        "core",
+        "core-ui",
+        "update v2"
+      ],
+      "icon": "Sparkles",
+      "rating": 4.9,
+      "reviews": 184,
+      "downloads": 9217,
+      "released": "2026-11-22",
+      "verified": true,
+      "featured": true,
+      "meta": {
+        "pluginId": "core-ui",
+        "core": "1"
+      },
+      "files": {
+        "manifest": "plugins/core-ui/manifest.json",
+        "main": "plugins/core-ui/main.js"
+      }
+    },
+    {
+      "id": "capsule:ui-appointment",
+      "kind": "capsule",
+      "name": "Appointment board",
+      "tagline": "The front-desk day book: live stats header (total/done/collected ₹/unpaid/visitors), workflow stepper with counselling, ",
+      "description": "The front-desk day book: live stats header (total/done/collected ₹/unpaid/visitors), workflow stepper with counselling, visitor registration (one-tap register, MR chip), payment chips (cash/card/UPI, paid or not), walk-ins, reschedule/cancel/no-show, day/week/month views — writes straight back into the book table. Slots never lock.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "appointment",
+        "board"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-appointment"
+      },
+      "files": {
+        "spec": "capsules/ui-appointment/spec.mdui",
+        "style": "capsules/ui-appointment/style.css",
+        "logic": "capsules/ui-appointment/logic.mdui"
+      }
+    },
+    {
+      "id": "capsule:ui-patients",
+      "kind": "capsule",
+      "name": "Patient directory",
+      "tagline": "Tap-first directory of every patient file — live stats (total / seen today / recalls overdue / new this month), search +",
+      "description": "Tap-first directory of every patient file — live stats (total / seen today / recalls overdue / new this month), search + group filters + sorts, rows & cards views, one-tap register / book / call, inline identity & notes editing, mobile dock — writes straight back into the vault.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "patient",
+        "directory"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-patients"
+      },
+      "files": {
+        "spec": "capsules/ui-patients/spec.mdui",
+        "style": "capsules/ui-patients/style.css",
+        "logic": "capsules/ui-patients/logic.mdui"
+      }
+    },
+    {
+      "id": "capsule:ui-exam",
+      "kind": "capsule",
+      "name": "Examination workup",
+      "tagline": "The complete optometry workup as one tap-first board that pre-fills from the appointment + chart — both eyes side by sid",
+      "description": "The complete optometry workup as one tap-first board that pre-fills from the appointment + chart — both eyes side by side through the 28-section clinical flow: patient info → past records (every earlier visit's full record) → the full history battery (complaints builder, associated-symptom screen, ocular/systemic/family/birth & development/social/allergy histories, vitals) → vision → objective & subjective refraction (structured AR/RET/K/CCT/PD) → motility, BV function, sensory & pupils → adnexa, tear film, anterior segment, IOP, gonioscopy → posterior segment + special tests (OCT/VF/topo/biometry) → dispensing → plan with medications, procedures, referral, spectacles order, fee and signature. Sections push live quick-fact cards and browsable term lists (clinical library + the ICD-10 illness catalog) to the assist panel in the WORKSPACE RIGHT PANEL — typing a systemic illness opens its ICD-10-coded list there and long symptom batteries render as fully-open wrapped chip rows. Every save writes a real emr-visit block (baseline or ∆ delta follow-up) straight into the patient file, fully modifiable through its style.css.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "examination",
+        "workup"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-exam"
+      },
+      "files": {
+        "spec": "capsules/ui-exam/spec.mdui",
+        "style": "capsules/ui-exam/style.css",
+        "logic": "capsules/ui-exam/logic.mdui"
+      }
+    },
+    {
+      "id": "capsule:ui-clinic",
+      "kind": "capsule",
+      "name": "Clinic overview",
+      "tagline": "Business KPIs over any range plus the clinical-load row.",
+      "description": "Business KPIs over any range plus the clinical-load row.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "clinic",
+        "overview"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-clinic"
+      },
+      "files": {
+        "spec": "capsules/ui-clinic/spec.mdui",
+        "style": "capsules/ui-clinic/style.css"
+      }
+    },
+    {
+      "id": "capsule:ui-flow",
+      "kind": "capsule",
+      "name": "Workflow tracker",
+      "tagline": "Appointment→checkout funnel with per-stage patient lists and one-tap stage advance.",
+      "description": "Appointment→checkout funnel with per-stage patient lists and one-tap stage advance.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "workflow",
+        "tracker"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-flow"
+      },
+      "files": {
+        "style": "capsules/ui-flow/style.css"
+      }
+    },
+    {
+      "id": "capsule:ui-today",
+      "kind": "capsule",
+      "name": "Today's patients",
+      "tagline": "Today's book as triage chips and patient rows.",
+      "description": "Today's book as triage chips and patient rows.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "today's",
+        "patients"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-today"
+      },
+      "files": {
+        "style": "capsules/ui-today/style.css"
+      }
+    },
+    {
+      "id": "capsule:ui-recalls",
+      "kind": "capsule",
+      "name": "Recall board",
+      "tagline": "The overdue follow-up safety board computed from visit advice.",
+      "description": "The overdue follow-up safety board computed from visit advice.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "recall",
+        "board"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-recalls"
+      },
+      "files": {
+        "style": "capsules/ui-recalls/style.css"
+      }
+    },
+    {
+      "id": "capsule:ui-billing",
+      "kind": "capsule",
+      "name": "Billing desk",
+      "tagline": "The front desk's to-bill / dispensing / unbilled worklist.",
+      "description": "The front desk's to-bill / dispensing / unbilled worklist.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "billing",
+        "desk"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-billing"
+      },
+      "files": {
+        "style": "capsules/ui-billing/style.css"
+      }
+    },
+    {
+      "id": "capsule:ui-cohorts",
+      "kind": "capsule",
+      "name": "Diagnosis cohorts",
+      "tagline": "Chronic-care registers built from keyword rules.",
+      "description": "Chronic-care registers built from keyword rules.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "diagnosis",
+        "cohorts"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-cohorts"
+      },
+      "files": {
+        "spec": "capsules/ui-cohorts/spec.mdui",
+        "style": "capsules/ui-cohorts/style.css"
+      }
+    },
+    {
+      "id": "capsule:ui-stats",
+      "kind": "capsule",
+      "name": "Stat tiles",
+      "tagline": "Headline numbers from the EMR index.",
+      "description": "Headline numbers from the EMR index.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "stat",
+        "tiles"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-stats"
+      },
+      "files": {
+        "style": "capsules/ui-stats/style.css"
+      }
+    },
+    {
+      "id": "capsule:ui-actions",
+      "kind": "capsule",
+      "name": "Action buttons",
+      "tagline": "One-tap command buttons — Label | command pairs.",
+      "description": "One-tap command buttons — Label | command pairs.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "action",
+        "buttons"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-actions"
+      },
+      "files": {
+        "spec": "capsules/ui-actions/spec.mdui",
+        "style": "capsules/ui-actions/style.css"
+      }
+    },
+    {
+      "id": "capsule:ui-note-cards",
+      "kind": "capsule",
+      "name": "Note cards",
+      "tagline": "Linked notes rendered as tappable cards.",
+      "description": "Linked notes rendered as tappable cards.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Boards",
+      "tags": [
+        "capsule",
+        "boards",
+        "note",
+        "cards"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-note-cards"
+      },
+      "files": {
+        "spec": "capsules/ui-note-cards/spec.mdui",
+        "style": "capsules/ui-note-cards/style.css"
+      }
+    },
+    {
+      "id": "capsule:emr-patient",
+      "kind": "capsule",
+      "name": "Patient header",
+      "tagline": "Identity and recall status resolved from a patient file.",
+      "description": "Identity and recall status resolved from a patient file.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Patient",
+      "tags": [
+        "capsule",
+        "patient",
+        "patient",
+        "header"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "emr-patient"
+      },
+      "files": {
+        "spec": "capsules/emr-patient/spec.mdui",
+        "style": "capsules/emr-patient/style.css"
+      }
+    },
+    {
+      "id": "capsule:emr-vitals",
+      "kind": "capsule",
+      "name": "Vitals panel",
+      "tagline": "VA / IOP / Rx chips for a patient's latest visit.",
+      "description": "VA / IOP / Rx chips for a patient's latest visit.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Patient",
+      "tags": [
+        "capsule",
+        "patient",
+        "vitals",
+        "panel"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "emr-vitals"
+      },
+      "files": {
+        "spec": "capsules/emr-vitals/spec.mdui",
+        "style": "capsules/emr-vitals/style.css"
+      }
+    },
+    {
+      "id": "capsule:emr-visits",
+      "kind": "capsule",
+      "name": "Visit history",
+      "tagline": "Every stored visit of a patient file, newest first.",
+      "description": "Every stored visit of a patient file, newest first.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Patient",
+      "tags": [
+        "capsule",
+        "patient",
+        "visit",
+        "history"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "emr-visits"
+      },
+      "files": {
+        "style": "capsules/emr-visits/style.css"
+      }
+    },
+    {
+      "id": "capsule:emr-visit",
+      "kind": "capsule",
+      "name": "Visit record",
+      "tagline": "One stored visit — delta/pattern encoded, resolved through its chain.",
+      "description": "One stored visit — delta/pattern encoded, resolved through its chain.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Patient",
+      "tags": [
+        "capsule",
+        "patient",
+        "visit",
+        "record"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "emr-visit"
+      },
+      "files": {
+        "spec": "capsules/emr-visit/spec.mdui",
+        "style": "capsules/emr-visit/style.css"
+      }
+    },
+    {
+      "id": "capsule:emr-trend",
+      "kind": "capsule",
+      "name": "Trend chart",
+      "tagline": "A field's trend across visits as a sparkline.",
+      "description": "A field's trend across visits as a sparkline.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Patient",
+      "tags": [
+        "capsule",
+        "patient",
+        "trend",
+        "chart"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "emr-trend"
+      },
+      "files": {
+        "spec": "capsules/emr-trend/spec.mdui",
+        "style": "capsules/emr-trend/style.css"
+      }
+    },
+    {
+      "id": "capsule:bases-embed",
+      "kind": "capsule",
+      "name": "Database embed",
+      "tagline": "A saved Bases view rendered inside the page.",
+      "description": "A saved Bases view rendered inside the page.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Data",
+      "tags": [
+        "capsule",
+        "data",
+        "database",
+        "embed"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "bases-embed"
+      },
+      "files": {
+        "spec": "capsules/bases-embed/spec.mdui",
+        "style": "capsules/bases-embed/style.css"
+      }
+    },
+    {
+      "id": "capsule:ui-panel",
+      "kind": "capsule",
+      "name": "Right panel",
+      "tagline": "The panel a page declares for itself — booking form, pipeline, pulse or quick actions docked beside the board.",
+      "description": "The panel a page declares for itself — booking form, pipeline, pulse or quick actions docked beside the board.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Patient",
+      "tags": [
+        "capsule",
+        "patient",
+        "right",
+        "panel"
+      ],
+      "icon": "Braces",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "capsuleId": "ui-panel"
+      },
+      "files": {
+        "spec": "capsules/ui-panel/spec.mdui",
+        "style": "capsules/ui-panel/style.css"
       }
     },
     {
       "id": "theme:default-dark",
       "kind": "theme",
       "name": "Default Dark",
-      "tagline": "The native look — pure FocusCaseX dark, zero overrides.",
-      "description": "The built-in appearance of FocusCaseX: dark slate surfaces, quiet borders and the default accent. Applying it clears every theme variable and restores the native look app-wide — a reliable baseline to fall back to.",
+      "tagline": "The native FocusCaseX look — no overrides, engine off.",
+      "description": "The native FocusCaseX look — no overrides, engine off. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
-        "native",
-        "default"
+        "dark",
+        "native"
       ],
       "icon": "Moon",
-      "rating": 4.9,
-      "reviews": 133,
-      "downloads": 2117,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "default-dark",
-        "varsBg": "",
-        "varsAccent": "",
-        "varsBorder": "",
-        "varsPanel": ""
+        "themeId": "default-dark"
       },
       "files": {
         "vars": "themes/default-dark.json"
@@ -863,31 +1011,26 @@
       "id": "theme:paper-light",
       "kind": "theme",
       "name": "Paper Light",
-      "tagline": "Soft paper white with a green-ink accent for long clinic days.",
-      "description": "A calm light restyle: warm paper backgrounds for the app, sidebar and panels, dark warm-gray text and a green-ink accent. One tap remaps fonts, colors and elements across every surface, and it reverts to the native look just as fast.",
+      "tagline": "Bright clinical surfaces with a warm paper undertone.",
+      "description": "Bright clinical surfaces with a warm paper undertone. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
       "tags": [
         "theme",
         "light",
-        "paper",
-        "warm",
-        "reading"
+        "light",
+        "clinical"
       ],
       "icon": "Sun",
-      "rating": 4.8,
-      "reviews": 228,
-      "downloads": 2356,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "paper-light",
-        "varsBg": "#f7f5f0",
-        "varsAccent": "#3a7d5d",
-        "varsBorder": "#dedace",
-        "varsPanel": "#fbfaf6"
+        "themeId": "paper-light"
       },
       "files": {
         "vars": "themes/paper-light.json"
@@ -897,31 +1040,26 @@
       "id": "theme:midnight",
       "kind": "theme",
       "name": "Midnight",
-      "tagline": "Near-black deep space with a cyan glow for late-night sessions.",
-      "description": "The darkest preset: near-black, OLED-friendly backgrounds, muted steel text and a cyan accent that glows against the void. Applies instantly across the entire app — backgrounds, panels, text, borders and accent — and clears back to native in one tap.",
+      "tagline": "Deep-space dark with an electric cyan pulse.",
+      "description": "Deep-space dark with an electric cyan pulse. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
-        "oled",
-        "deep",
-        "night"
+        "dark",
+        "focus"
       ],
-      "icon": "MoonStar",
-      "rating": 4.5,
-      "reviews": 197,
-      "downloads": 4861,
+      "icon": "Moon",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
-      "featured": true,
+      "featured": false,
       "meta": {
-        "themeId": "midnight",
-        "varsBg": "#05070d",
-        "varsAccent": "#22d3ee",
-        "varsBorder": "#16202f",
-        "varsPanel": "#0a0e18"
+        "themeId": "midnight"
       },
       "files": {
         "vars": "themes/midnight.json"
@@ -931,31 +1069,26 @@
       "id": "theme:sepia",
       "kind": "theme",
       "name": "Sepia",
-      "tagline": "Warm sepia paper and terracotta — easy on the eyes all day.",
-      "description": "A warm vintage restyle: sepia paper backgrounds, brown-ink text, a terracotta accent and a slightly rounder corner radius. Restyles the whole app instantly and can be cleared back to the native look at any time.",
+      "tagline": "Warm reading-room tones for long charting sessions.",
+      "description": "Warm reading-room tones for long charting sessions. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
       "tags": [
         "theme",
         "light",
-        "sepia",
-        "warm",
-        "vintage"
+        "light",
+        "warm"
       ],
-      "icon": "Sunset",
-      "rating": 4.5,
-      "reviews": 181,
-      "downloads": 3413,
+      "icon": "Sun",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "sepia",
-        "varsBg": "#f0e6d6",
-        "varsAccent": "#a85a30",
-        "varsBorder": "#d6c7ac",
-        "varsPanel": "#f6efe2"
+        "themeId": "sepia"
       },
       "files": {
         "vars": "themes/sepia.json"
@@ -966,29 +1099,26 @@
       "kind": "theme",
       "name": "Clinical Ice",
       "tagline": "Cool blue-gray scrub surfaces with a steel accent — built for eight-hour shifts.",
-      "description": "Cool blue-gray scrub surfaces with a steel accent — built for eight-hour shifts.",
+      "description": "Cool blue-gray scrub surfaces with a steel accent — built for eight-hour shifts. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
       "tags": [
         "theme",
         "light",
+        "light",
         "clinical",
         "cool"
       ],
-      "icon": "Palette",
-      "rating": 4.6,
-      "reviews": 178,
-      "downloads": 4326,
+      "icon": "Sun",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "clinical-ice",
-        "varsBg": "#eef2f6",
-        "varsAccent": "#3f6e8c",
-        "varsBorder": "#d3dce3",
-        "varsPanel": "#f8fafc"
+        "themeId": "clinical-ice"
       },
       "files": {
         "vars": "themes/clinical-ice.json"
@@ -999,29 +1129,26 @@
       "kind": "theme",
       "name": "Surgical",
       "tagline": "Theater greens — deep green-tinted dark with a mint pulse for on-call focus.",
-      "description": "Theater greens — deep green-tinted dark with a mint pulse for on-call focus.",
+      "description": "Theater greens — deep green-tinted dark with a mint pulse for on-call focus. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
+        "dark",
         "clinical",
         "green"
       ],
-      "icon": "Palette",
-      "rating": 4.3,
-      "reviews": 215,
-      "downloads": 4099,
+      "icon": "Moon",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "surgical",
-        "varsBg": "#0b1410",
-        "varsAccent": "#4fd8a4",
-        "varsBorder": "#1d3329",
-        "varsPanel": "#12211b"
+        "themeId": "surgical"
       },
       "files": {
         "vars": "themes/surgical.json"
@@ -1032,29 +1159,26 @@
       "kind": "theme",
       "name": "Nordic Fjord",
       "tagline": "Misted Scandinavian minimalism — pale cool surfaces, dusty blue-gray accents.",
-      "description": "Misted Scandinavian minimalism — pale cool surfaces, dusty blue-gray accents.",
+      "description": "Misted Scandinavian minimalism — pale cool surfaces, dusty blue-gray accents. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
       "tags": [
         "theme",
         "light",
+        "light",
         "minimal",
         "cool"
       ],
-      "icon": "Palette",
-      "rating": 4.2,
-      "reviews": 62,
-      "downloads": 3474,
+      "icon": "Sun",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "nordic-fjord",
-        "varsBg": "#eff1f0",
-        "varsAccent": "#527186",
-        "varsBorder": "#d5dbd9",
-        "varsPanel": "#f7f8f8"
+        "themeId": "nordic-fjord"
       },
       "files": {
         "vars": "themes/nordic-fjord.json"
@@ -1065,29 +1189,26 @@
       "kind": "theme",
       "name": "Graphite",
       "tagline": "Neutral graphite gray with a restrained steel-teal accent — the quiet workhorse.",
-      "description": "Neutral graphite gray with a restrained steel-teal accent — the quiet workhorse.",
+      "description": "Neutral graphite gray with a restrained steel-teal accent — the quiet workhorse. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
+        "dark",
         "neutral",
         "professional"
       ],
-      "icon": "Palette",
-      "rating": 4.9,
-      "reviews": 117,
-      "downloads": 4913,
+      "icon": "Moon",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "graphite",
-        "varsBg": "#16181a",
-        "varsAccent": "#4d7884",
-        "varsBorder": "#2e3438",
-        "varsPanel": "#1f2326"
+        "themeId": "graphite"
       },
       "files": {
         "vars": "themes/graphite.json"
@@ -1098,29 +1219,26 @@
       "kind": "theme",
       "name": "Ocean Breeze",
       "tagline": "Aqua-tinted light with fresh teal — a sea breeze through the clinic.",
-      "description": "Aqua-tinted light with fresh teal — a sea breeze through the clinic.",
+      "description": "Aqua-tinted light with fresh teal — a sea breeze through the clinic. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
       "tags": [
         "theme",
         "light",
+        "light",
         "teal",
         "fresh"
       ],
-      "icon": "Palette",
-      "rating": 4.7,
-      "reviews": 231,
-      "downloads": 4487,
+      "icon": "Sun",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "ocean-breeze",
-        "varsBg": "#edf6f5",
-        "varsAccent": "#14b8a6",
-        "varsBorder": "#cfe5e1",
-        "varsPanel": "#f7fcfb"
+        "themeId": "ocean-breeze"
       },
       "files": {
         "vars": "themes/ocean-breeze.json"
@@ -1131,29 +1249,26 @@
       "kind": "theme",
       "name": "Forest Rounds",
       "tagline": "Deep pine panels and moss green — a calm walk in the woods between patients.",
-      "description": "Deep pine panels and moss green — a calm walk in the woods between patients.",
+      "description": "Deep pine panels and moss green — a calm walk in the woods between patients. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
+        "dark",
         "nature",
         "calm"
       ],
-      "icon": "Palette",
-      "rating": 4.2,
-      "reviews": 190,
-      "downloads": 3382,
+      "icon": "Moon",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "forest-rounds",
-        "varsBg": "#111a14",
-        "varsAccent": "#96b061",
-        "varsBorder": "#2b3d2f",
-        "varsPanel": "#1a2820"
+        "themeId": "forest-rounds"
       },
       "files": {
         "vars": "themes/forest-rounds.json"
@@ -1164,29 +1279,26 @@
       "kind": "theme",
       "name": "Pastel Soft",
       "tagline": "Lavender and mint pastels with pill buttons — the gentlest chart in the cabinet.",
-      "description": "Lavender and mint pastels with pill buttons — the gentlest chart in the cabinet.",
+      "description": "Lavender and mint pastels with pill buttons — the gentlest chart in the cabinet. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
       "tags": [
         "theme",
         "light",
+        "light",
         "pastel",
         "rounded"
       ],
-      "icon": "Palette",
-      "rating": 4.7,
-      "reviews": 135,
-      "downloads": 4275,
+      "icon": "Sun",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "pastel-soft",
-        "varsBg": "#f5f3fa",
-        "varsAccent": "#7a68b8",
-        "varsBorder": "#ddd8ea",
-        "varsPanel": "#fbfaff"
+        "themeId": "pastel-soft"
       },
       "files": {
         "vars": "themes/pastel-soft.json"
@@ -1197,29 +1309,26 @@
       "kind": "theme",
       "name": "Warm Sunset",
       "tagline": "Dusk-brown surfaces with an amber glow for late-evening charting.",
-      "description": "Dusk-brown surfaces with an amber glow for late-evening charting.",
+      "description": "Dusk-brown surfaces with an amber glow for late-evening charting. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
+        "dark",
         "warm",
         "evening"
       ],
-      "icon": "Palette",
-      "rating": 4.9,
-      "reviews": 249,
-      "downloads": 2625,
+      "icon": "Moon",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "warm-sunset",
-        "varsBg": "#1a1210",
-        "varsAccent": "#f5a524",
-        "varsBorder": "#3a2a20",
-        "varsPanel": "#261a15"
+        "themeId": "warm-sunset"
       },
       "files": {
         "vars": "themes/warm-sunset.json"
@@ -1230,7 +1339,7 @@
       "kind": "theme",
       "name": "Brutalist",
       "tagline": "Raw concrete surfaces, hard offset shadows, square everything.",
-      "description": "Raw concrete surfaces, hard offset shadows, square everything.",
+      "description": "Raw concrete surfaces, hard offset shadows, square everything. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
@@ -1238,21 +1347,18 @@
         "theme",
         "light",
         "statement",
+        "light",
         "sharp"
       ],
-      "icon": "Palette",
-      "rating": 4.3,
-      "reviews": 247,
-      "downloads": 971,
+      "icon": "Sun",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "brutalist",
-        "varsBg": "#e8e6e1",
-        "varsAccent": "#ff3b00",
-        "varsBorder": "#111111",
-        "varsPanel": "#f4f2ee"
+        "themeId": "brutalist"
       },
       "files": {
         "vars": "themes/brutalist.json"
@@ -1263,7 +1369,7 @@
       "kind": "theme",
       "name": "Neubrutalist",
       "tagline": "Playful neo-brutalism — candy surfaces, thick ink borders, punchy accent.",
-      "description": "Playful neo-brutalism — candy surfaces, thick ink borders, punchy accent.",
+      "description": "Playful neo-brutalism — candy surfaces, thick ink borders, punchy accent. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
@@ -1271,21 +1377,18 @@
         "theme",
         "light",
         "statement",
-        "playful"
+        "playful",
+        "light"
       ],
-      "icon": "Palette",
-      "rating": 4.9,
-      "reviews": 273,
-      "downloads": 2417,
+      "icon": "Sun",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "neubrutalist",
-        "varsBg": "#fdf3e7",
-        "varsAccent": "#ff90e8",
-        "varsBorder": "#1a1a1a",
-        "varsPanel": "#fffdf7"
+        "themeId": "neubrutalist"
       },
       "files": {
         "vars": "themes/neubrutalist.json"
@@ -1296,29 +1399,26 @@
       "kind": "theme",
       "name": "Monochrome Ink",
       "tagline": "True black-and-white dark mode — one hue removed, zero noise.",
-      "description": "True black-and-white dark mode — one hue removed, zero noise.",
+      "description": "True black-and-white dark mode — one hue removed, zero noise. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
+        "dark",
         "monochrome",
         "minimal"
       ],
-      "icon": "Palette",
-      "rating": 4.7,
-      "reviews": 191,
-      "downloads": 1779,
+      "icon": "Moon",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "mono-ink",
-        "varsBg": "#0a0a0a",
-        "varsAccent": "#ffffff",
-        "varsBorder": "#2a2a2a",
-        "varsPanel": "#161616"
+        "themeId": "mono-ink"
       },
       "files": {
         "vars": "themes/mono-ink.json"
@@ -1329,29 +1429,26 @@
       "kind": "theme",
       "name": "Monochrome Paper",
       "tagline": "Ink-on-paper light mode — pure grayscale with crisp hairlines.",
-      "description": "Ink-on-paper light mode — pure grayscale with crisp hairlines.",
+      "description": "Ink-on-paper light mode — pure grayscale with crisp hairlines. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
       "tags": [
         "theme",
         "light",
+        "light",
         "monochrome",
         "minimal"
       ],
-      "icon": "Palette",
-      "rating": 4.5,
-      "reviews": 185,
-      "downloads": 2973,
+      "icon": "Sun",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "mono-paper",
-        "varsBg": "#fafafa",
-        "varsAccent": "#141414",
-        "varsBorder": "#e0e0e0",
-        "varsPanel": "#ffffff"
+        "themeId": "mono-paper"
       },
       "files": {
         "vars": "themes/mono-paper.json"
@@ -1362,29 +1459,26 @@
       "kind": "theme",
       "name": "High Contrast",
       "tagline": "Accessibility-first: maximum contrast ink, bold focus rings, big borders.",
-      "description": "Accessibility-first: maximum contrast ink, bold focus rings, big borders.",
+      "description": "Accessibility-first: maximum contrast ink, bold focus rings, big borders. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
+        "dark",
         "accessibility",
         "a11y"
       ],
-      "icon": "Palette",
-      "rating": 4.2,
-      "reviews": 246,
-      "downloads": 2918,
+      "icon": "Moon",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "high-contrast",
-        "varsBg": "#000000",
-        "varsAccent": "#ffd400",
-        "varsBorder": "#8a8a8a",
-        "varsPanel": "#101010"
+        "themeId": "high-contrast"
       },
       "files": {
         "vars": "themes/high-contrast.json"
@@ -1395,29 +1489,26 @@
       "kind": "theme",
       "name": "Terminal",
       "tagline": "Green phosphor CRT console — mono everywhere, square corners, pure signal.",
-      "description": "Green phosphor CRT console — mono everywhere, square corners, pure signal.",
+      "description": "Green phosphor CRT console — mono everywhere, square corners, pure signal. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
+        "dark",
         "retro",
         "mono"
       ],
-      "icon": "Palette",
-      "rating": 4.5,
-      "reviews": 241,
-      "downloads": 1589,
+      "icon": "Moon",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "terminal",
-        "varsBg": "#0a110a",
-        "varsAccent": "#3fe081",
-        "varsBorder": "#1f3d26",
-        "varsPanel": "#101a10"
+        "themeId": "terminal"
       },
       "files": {
         "vars": "themes/terminal.json"
@@ -1428,29 +1519,26 @@
       "kind": "theme",
       "name": "Luxury Noir",
       "tagline": "Black-tie noir — champagne ink and gold leaf, serif headlines behind glass panels.",
-      "description": "Black-tie noir — champagne ink and gold leaf, serif headlines behind glass panels.",
+      "description": "Black-tie noir — champagne ink and gold leaf, serif headlines behind glass panels. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
+        "dark",
         "elegant",
         "serif"
       ],
-      "icon": "Palette",
-      "rating": 4.7,
-      "reviews": 147,
-      "downloads": 4523,
+      "icon": "Moon",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "luxury-noir",
-        "varsBg": "#0d0b08",
-        "varsAccent": "#d4af37",
-        "varsBorder": "#4a3d22",
-        "varsPanel": "#1a160f"
+        "themeId": "luxury-noir"
       },
       "files": {
         "vars": "themes/luxury-noir.json"
@@ -1461,29 +1549,26 @@
       "kind": "theme",
       "name": "Pastel Pop",
       "tagline": "Candy-counter pastels — bubblegum surfaces, pill buttons, not a sharp edge in sight.",
-      "description": "Candy-counter pastels — bubblegum surfaces, pill buttons, not a sharp edge in sight.",
+      "description": "Candy-counter pastels — bubblegum surfaces, pill buttons, not a sharp edge in sight. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
       "tags": [
         "theme",
         "light",
+        "light",
         "pastel",
         "playful"
       ],
-      "icon": "Palette",
-      "rating": 4.2,
-      "reviews": 126,
-      "downloads": 3906,
+      "icon": "Sun",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "pastel-pop",
-        "varsBg": "#fdf1f6",
-        "varsAccent": "#c2367b",
-        "varsBorder": "#ecd7e4",
-        "varsPanel": "#ffffff"
+        "themeId": "pastel-pop"
       },
       "files": {
         "vars": "themes/pastel-pop.json"
@@ -1494,29 +1579,26 @@
       "kind": "theme",
       "name": "Blueprint",
       "tagline": "Drafting-table cyanotype — slate-blue field, cyan linework, uppercase technical labels.",
-      "description": "Drafting-table cyanotype — slate-blue field, cyan linework, uppercase technical labels.",
+      "description": "Drafting-table cyanotype — slate-blue field, cyan linework, uppercase technical labels. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Dark",
       "tags": [
         "theme",
         "dark",
+        "dark",
         "technical",
         "cool"
       ],
-      "icon": "Palette",
-      "rating": 4.4,
-      "reviews": 56,
-      "downloads": 3772,
+      "icon": "Moon",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "blueprint",
-        "varsBg": "#101d2c",
-        "varsAccent": "#4cc9e8",
-        "varsBorder": "#2b4a63",
-        "varsPanel": "#16293a"
+        "themeId": "blueprint"
       },
       "files": {
         "vars": "themes/blueprint.json"
@@ -1526,30 +1608,27 @@
       "id": "theme:stationery",
       "kind": "theme",
       "name": "Stationery",
-      "tagline": "Fine cream paper with sepia-ink accents and a quiet editorial serif — a notebook for char…",
-      "description": "Fine cream paper with sepia-ink accents and a quiet editorial serif — a notebook for charts.",
+      "tagline": "Fine cream paper with sepia-ink accents and a quiet editorial serif — a notebook for charts.",
+      "description": "Fine cream paper with sepia-ink accents and a quiet editorial serif — a notebook for charts. One tap remaps fonts, colors and shapes across every surface, and it reverts to the native look just as fast.",
       "author": "CaseX Labs",
       "version": "1.0.0",
       "category": "Light",
       "tags": [
         "theme",
         "light",
+        "light",
         "serif",
         "minimal"
       ],
-      "icon": "Palette",
-      "rating": 4.7,
-      "reviews": 59,
-      "downloads": 3143,
+      "icon": "Sun",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
-        "themeId": "stationery",
-        "varsBg": "#faf7f1",
-        "varsAccent": "#a14e2c",
-        "varsBorder": "#e0d8c6",
-        "varsPanel": "#fffdf8"
+        "themeId": "stationery"
       },
       "files": {
         "vars": "themes/stationery.json"
@@ -1572,16 +1651,15 @@
         "first visit"
       ],
       "icon": "ClipboardList",
-      "rating": 4.4,
-      "reviews": 40,
-      "downloads": 3924,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
         "templateId": "patient-intake",
-        "defaultFolder": "Clinic/Intake",
-        "bodyPreview": "---\npatient: MR-0000\ntype: intake\n---\n\n## Presenting complaint\n\n-\n\n## Ocular history\n\n-\n\n## Medical history"
+        "defaultFolder": "Clinic/Intake"
       },
       "files": {
         "body": "templates/patient-intake.md"
@@ -1604,16 +1682,15 @@
         "subjective"
       ],
       "icon": "Glasses",
-      "rating": 4.6,
-      "reviews": 86,
-      "downloads": 1966,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
-      "featured": true,
+      "featured": false,
       "meta": {
         "templateId": "refraction-note",
-        "defaultFolder": "Clinic/Refractions",
-        "bodyPreview": "---\npatient: MR-0000\ntype: refraction\n---\n\n## Dry subjective\n\n| | SPH | CYL | AXIS | VA |\n| --- | --- | --- | --- | --- |\n| OD |  |  |  |  |\n| OS |  |  |  |  |\n\n## Final prescription\n"
+        "defaultFolder": "Clinic/Refractions"
       },
       "files": {
         "body": "templates/refraction-note.md"
@@ -1636,16 +1713,15 @@
         "CL"
       ],
       "icon": "CircleDot",
-      "rating": 4.5,
-      "reviews": 241,
-      "downloads": 3481,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
         "templateId": "cl-fitting",
-        "defaultFolder": "Clinic/ContactLens",
-        "bodyPreview": "---\npatient: MR-0000\ntype: cl-fitting\n---\n\n## Keratometry\n\n| | Flat K | Steep K | Axis |\n| --- | --- | --- | --- |\n| OD |  |  |  |\n| OS |  |  |  |\n\n## Trial lens\n"
+        "defaultFolder": "Clinic/ContactLens"
       },
       "files": {
         "body": "templates/cl-fitting.md"
@@ -1669,16 +1745,15 @@
         "OCT"
       ],
       "icon": "Activity",
-      "rating": 4.4,
-      "reviews": 88,
-      "downloads": 1992,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
         "templateId": "glaucoma-workup",
-        "defaultFolder": "Clinic/Glaucoma",
-        "bodyPreview": "---\npatient: MR-0000\ntype: glaucoma\ntarget-iop: 18\n---\n\n## Pressure log\n\n| Date | IOP OD | IOP OS | Drops | Notes |\n| --- | --- | --- | --- | --- |\n|  |  |  |  |  |\n\n## Visual fields\n"
+        "defaultFolder": "Clinic/Glaucoma"
       },
       "files": {
         "body": "templates/glaucoma-workup.md"
@@ -1701,16 +1776,15 @@
         "progression"
       ],
       "icon": "ScanEye",
-      "rating": 4.8,
-      "reviews": 292,
-      "downloads": 2764,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
         "templateId": "visual-field-followup",
-        "defaultFolder": "Clinic/Fields",
-        "bodyPreview": "---\npatient: MR-0000\ntype: fields\n---\n\n## Test parameters\n\n- strategy:\n- fixation losses: /  (acceptable < 20%)\n- false pos / neg:  /\n\n## Indices\n\n| | MD | PSD | VFI |"
+        "defaultFolder": "Clinic/Fields"
       },
       "files": {
         "body": "templates/visual-field-followup.md"
@@ -1733,16 +1807,15 @@
         "lenses"
       ],
       "icon": "ShoppingBag",
-      "rating": 4.5,
-      "reviews": 289,
-      "downloads": 2657,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
         "templateId": "dispensing-order",
-        "defaultFolder": "Clinic/Dispensing",
-        "bodyPreview": "---\npatient: MR-0000\ntype: dispensing\n---\n\n## Frame\n\n- model:\n- colour / size:\n- price:\n\n## Lenses\n\n| | Design | Index | Coating | Price |"
+        "defaultFolder": "Clinic/Dispensing"
       },
       "files": {
         "body": "templates/dispensing-order.md"
@@ -1765,16 +1838,15 @@
         "follow-up"
       ],
       "icon": "Mail",
-      "rating": 4.8,
-      "reviews": 236,
-      "downloads": 3524,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
         "templateId": "recall-letter",
-        "defaultFolder": "Clinic/Letters",
-        "bodyPreview": "---\ntype: recall-letter\n---\n\nDear {{patient.name}},\n\nOur records show your last eye examination was on {{last_visit}}, and your clinician advised a review in {{review_window}}.\n\nPlease call the clinic at {{clinic.phone}} or reply to arrange a convenient time. Bring your current glasses and any eye drops to the visit.\n\nWarm regards,\n{{clinic.name}}\n{{clinic.clinician}}\n"
+        "defaultFolder": "Clinic/Letters"
       },
       "files": {
         "body": "templates/recall-letter.md"
@@ -1797,16 +1869,15 @@
         "team"
       ],
       "icon": "Sunrise",
-      "rating": 4.8,
-      "reviews": 156,
-      "downloads": 3580,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
         "templateId": "daily-huddle",
-        "defaultFolder": "Clinic",
-        "bodyPreview": "---\nfcxui: dashboard\n---\n\n# Daily huddle\n\nThe ten-minute morning meeting, live: the board carries the day's book (advance, reschedule, settle), the funnel shows the queue, recalls name who to call, and the cash desk previews collections. Everything reads and writes the book at `Clinic/Appointment.md`.\n\n```ui-capsule\ncapsule: ui-appointment\n```\n\n```ui-flow\n```"
+        "defaultFolder": "Clinic"
       },
       "files": {
         "body": "templates/daily-huddle.md"
@@ -1830,16 +1901,15 @@
         "walk-ins"
       ],
       "icon": "CalendarDays",
-      "rating": 4.9,
-      "reviews": 277,
-      "downloads": 3929,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
         "templateId": "appointment-book",
-        "defaultFolder": "Clinic",
-        "bodyPreview": "---\nfcxui: dashboard\n---\n\n# Appointment book\n\nA complete front-desk day book: the board below writes straight into the markdown table underneath it — advance bookings through booked → arrived → in-exam → counselling → optics → billing → done, settle cash, card or UPI at the desk, and slot walk-ins into the current time. Create one page per counter, or add a `book: <path>` line inside the board's fence to point it at the clinic's main book instead.\n\n| Time | Date | Patient | MR | Phone | Visit type | With | Reason | Status | Age | Sex | Fee |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n\n```ui-appointment\n```\n"
+        "defaultFolder": "Clinic"
       },
       "files": {
         "body": "templates/appointment-book.md"
@@ -1862,16 +1932,15 @@
         "register"
       ],
       "icon": "Users",
-      "rating": 4.7,
-      "reviews": 95,
-      "downloads": 3467,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
         "templateId": "clinic-cohorts",
-        "defaultFolder": "Clinic",
-        "bodyPreview": "---\ntype: dashboard\n---\n\n# Clinic cohorts\n\n```ui-cohorts\nrules:\n  - Glaucoma|poag, glaucoma, oht, ocular hypertension, suspect\n  - Dry eye|dry eye, dry-eye, DED, evaporative\n  - Myopia control|myopia control, ortho-k, atropine\n  - Diabetic eye|diabetic, retinopathy screening\n```\n"
+        "defaultFolder": "Clinic"
       },
       "files": {
         "body": "templates/clinic-cohorts.md"
@@ -1895,16 +1964,15 @@
         "biometry"
       ],
       "icon": "Stethoscope",
-      "rating": 4.4,
-      "reviews": 68,
-      "downloads": 1556,
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
       "released": "",
       "verified": true,
       "featured": false,
       "meta": {
         "templateId": "preop-cataract",
-        "defaultFolder": "Clinic/Surgical",
-        "bodyPreview": "---\npatient: MR-0000\ntype: cataract-preop\n---\n\n## Biometry\n\n| | AL | K1 | K2 | ACD |\n| --- | --- | --- | --- | --- |\n| OD |  |  |  |  |\n| OS |  |  |  |  |\n\n## IOL plan\n"
+        "defaultFolder": "Clinic/Surgical"
       },
       "files": {
         "body": "templates/preop-cataract.md"
@@ -1914,21 +1982,21 @@
   "snippets": [
     {
       "id": "bigger-headings",
-      "name": "Bigger Headings",
+      "name": "Bigger headings",
       "file": "snippets/bigger-headings.css",
-      "description": ""
+      "description": "Upscales heading sizes across the reading view."
     },
     {
       "id": "compact-sidebar",
-      "name": "Compact Sidebar",
+      "name": "Compact sidebar",
       "file": "snippets/compact-sidebar.css",
-      "description": ""
+      "description": "Tightens sidebar paddings so more tree rows fit on screen."
     },
     {
       "id": "rounded-editor",
-      "name": "Rounded Editor",
+      "name": "Rounded editor",
       "file": "snippets/rounded-editor.css",
-      "description": ""
+      "description": "Soft rounded corners for the editor chrome."
     }
   ]
 }

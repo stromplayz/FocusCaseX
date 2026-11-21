@@ -1,13 +1,7 @@
 {
   "id": "terminal",
   "name": "Terminal",
-  "builtin": true,
-  "description": "Green phosphor CRT console — mono everywhere, square corners, pure signal.",
-  "tags": [
-    "dark",
-    "retro",
-    "mono"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#0a110a",
     "bgSidebar": "#0d150d",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "uppercase",
     "tracking": "wide"
-  }
+  },
+  "description": "Green phosphor CRT console — mono everywhere, square corners, pure signal.",
+  "tags": [
+    "dark",
+    "retro",
+    "mono"
+  ]
 }

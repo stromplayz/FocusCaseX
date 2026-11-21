@@ -1,12 +1,7 @@
 {
   "id": "midnight",
   "name": "Midnight",
-  "builtin": true,
-  "description": "Deep-space dark with an electric cyan pulse.",
-  "tags": [
-    "dark",
-    "focus"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#05070d",
     "bgSidebar": "#070a12",
@@ -28,5 +23,10 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Deep-space dark with an electric cyan pulse.",
+  "tags": [
+    "dark",
+    "focus"
+  ]
 }

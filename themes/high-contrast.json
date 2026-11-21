@@ -1,13 +1,7 @@
 {
   "id": "high-contrast",
   "name": "High Contrast",
-  "builtin": true,
-  "description": "Accessibility-first: maximum contrast ink, bold focus rings, big borders.",
-  "tags": [
-    "dark",
-    "accessibility",
-    "a11y"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#000000",
     "bgSidebar": "#0a0a0a",
@@ -29,5 +23,11 @@
     "headingWeight": "800",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Accessibility-first: maximum contrast ink, bold focus rings, big borders.",
+  "tags": [
+    "dark",
+    "accessibility",
+    "a11y"
+  ]
 }

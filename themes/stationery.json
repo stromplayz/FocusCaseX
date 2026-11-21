@@ -1,13 +1,7 @@
 {
   "id": "stationery",
   "name": "Stationery",
-  "builtin": true,
-  "description": "Fine cream paper with sepia-ink accents and a quiet editorial serif — a notebook for charts.",
-  "tags": [
-    "light",
-    "serif",
-    "minimal"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#faf7f1",
     "bgSidebar": "#f1ece1",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "wide"
-  }
+  },
+  "description": "Fine cream paper with sepia-ink accents and a quiet editorial serif — a notebook for charts.",
+  "tags": [
+    "light",
+    "serif",
+    "minimal"
+  ]
 }

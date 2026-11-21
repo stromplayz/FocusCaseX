@@ -1,13 +1,7 @@
 {
   "id": "blueprint",
   "name": "Blueprint",
-  "builtin": true,
-  "description": "Drafting-table cyanotype — slate-blue field, cyan linework, uppercase technical labels.",
-  "tags": [
-    "dark",
-    "technical",
-    "cool"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#101d2c",
     "bgSidebar": "#132333",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "uppercase",
     "tracking": "wide"
-  }
+  },
+  "description": "Drafting-table cyanotype — slate-blue field, cyan linework, uppercase technical labels.",
+  "tags": [
+    "dark",
+    "technical",
+    "cool"
+  ]
 }

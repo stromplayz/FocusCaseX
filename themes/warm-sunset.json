@@ -1,13 +1,7 @@
 {
   "id": "warm-sunset",
   "name": "Warm Sunset",
-  "builtin": true,
-  "description": "Dusk-brown surfaces with an amber glow for late-evening charting.",
-  "tags": [
-    "dark",
-    "warm",
-    "evening"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#1a1210",
     "bgSidebar": "#221713",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Dusk-brown surfaces with an amber glow for late-evening charting.",
+  "tags": [
+    "dark",
+    "warm",
+    "evening"
+  ]
 }

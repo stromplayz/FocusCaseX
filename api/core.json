@@ -1,28 +1,45 @@
 {
   "schema": "fcx.market.core.v1",
-  "version": "1.0.0",
-  "minAppVersion": "1.14.4",
+  "version": "2.0.0",
+  "updatedAt": "2026-11-22T00:00:00.000Z",
+  "minAppVersion": "1.0.0",
   "flags": {
-    "remoteMarketplace": true,
-    "autoCheckUpdates": true,
-    "showAnnouncements": true
+    "showAnnouncements": true,
+    "coreAutoPull": false,
+    "marketplaceSync": true
   },
   "announcement": {
-    "id": "marketplace-launch-1",
-    "title": "Marketplace is live",
-    "body": "Capsules, plugins, themes and templates now sync from the public FocusCaseX Marketplace — updates land automatically, no app redeploy needed.",
-    "level": "info"
+    "id": "core-v2-2026-11",
+    "title": "Update v2 is live",
+    "body": "Core UI customization lands for everyone: restyle the sidebar, panels, tabs and settings through the same plugin system — pulled straight from the marketplace, no app redeploy needed.",
+    "level": "update",
+    "action": {
+      "label": "DOWNLOAD UPDATE V2",
+      "kind": "core-pull"
+    }
   },
   "featured": {
-    "capsule": "ui-appointment",
-    "theme": "midnight",
-    "plugin": "focus-mode",
-    "template": "refraction-note"
+    "capsule": "capsule:ui-appointment",
+    "plugin": "plugin:core-ui",
+    "theme": "theme:midnight",
+    "template": "template:refraction-note"
   },
   "autoEnableCapsules": [],
   "endpoints": {
     "registry": "api/registry.json",
-    "core": "api/core.json"
+    "core": "api/core.json",
+    "repo": "https://github.com/stromplayz/FocusCaseX-Marketplace"
   },
-  "updatedAt": "2026-11-21T18:36:56.120Z"
+  "corePlugins": [
+    {
+      "id": "core-ui",
+      "version": "2.0.0",
+      "files": {
+        "manifest": "plugins/core-ui/manifest.json",
+        "main": "plugins/core-ui/main.js"
+      },
+      "enable": true
+    }
+  ],
+  "coreCss": []
 }

@@ -1,13 +1,7 @@
 {
   "id": "clinical-ice",
   "name": "Clinical Ice",
-  "builtin": true,
-  "description": "Cool blue-gray scrub surfaces with a steel accent — built for eight-hour shifts.",
-  "tags": [
-    "light",
-    "clinical",
-    "cool"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#eef2f6",
     "bgSidebar": "#e3e9ef",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Cool blue-gray scrub surfaces with a steel accent — built for eight-hour shifts.",
+  "tags": [
+    "light",
+    "clinical",
+    "cool"
+  ]
 }

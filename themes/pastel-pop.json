@@ -1,13 +1,7 @@
 {
   "id": "pastel-pop",
   "name": "Pastel Pop",
-  "builtin": true,
-  "description": "Candy-counter pastels — bubblegum surfaces, pill buttons, not a sharp edge in sight.",
-  "tags": [
-    "light",
-    "pastel",
-    "playful"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#fdf1f6",
     "bgSidebar": "#f5e3ef",
@@ -29,5 +23,11 @@
     "headingWeight": "800",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Candy-counter pastels — bubblegum surfaces, pill buttons, not a sharp edge in sight.",
+  "tags": [
+    "light",
+    "pastel",
+    "playful"
+  ]
 }

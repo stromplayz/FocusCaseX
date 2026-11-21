@@ -1,13 +1,7 @@
 {
   "id": "mono-paper",
   "name": "Monochrome Paper",
-  "builtin": true,
-  "description": "Ink-on-paper light mode — pure grayscale with crisp hairlines.",
-  "tags": [
-    "light",
-    "monochrome",
-    "minimal"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#fafafa",
     "bgSidebar": "#f1f1f1",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Ink-on-paper light mode — pure grayscale with crisp hairlines.",
+  "tags": [
+    "light",
+    "monochrome",
+    "minimal"
+  ]
 }

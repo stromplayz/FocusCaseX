@@ -1,12 +1,7 @@
 {
   "id": "sepia",
   "name": "Sepia",
-  "builtin": true,
-  "description": "Warm reading-room tones for long charting sessions.",
-  "tags": [
-    "light",
-    "warm"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#f0e6d6",
     "bgSidebar": "#e7dcc8",
@@ -28,5 +23,10 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Warm reading-room tones for long charting sessions.",
+  "tags": [
+    "light",
+    "warm"
+  ]
 }

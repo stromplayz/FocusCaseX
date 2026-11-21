@@ -1,13 +1,7 @@
 {
   "id": "pastel-soft",
   "name": "Pastel Soft",
-  "builtin": true,
-  "description": "Lavender and mint pastels with pill buttons — the gentlest chart in the cabinet.",
-  "tags": [
-    "light",
-    "pastel",
-    "rounded"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#f5f3fa",
     "bgSidebar": "#edeaf6",
@@ -29,5 +23,11 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Lavender and mint pastels with pill buttons — the gentlest chart in the cabinet.",
+  "tags": [
+    "light",
+    "pastel",
+    "rounded"
+  ]
 }

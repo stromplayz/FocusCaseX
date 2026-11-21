@@ -1,13 +1,7 @@
 {
   "id": "graphite",
   "name": "Graphite",
-  "builtin": true,
-  "description": "Neutral graphite gray with a restrained steel-teal accent — the quiet workhorse.",
-  "tags": [
-    "dark",
-    "neutral",
-    "professional"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#16181a",
     "bgSidebar": "#1a1d20",
@@ -29,5 +23,11 @@
     "headingWeight": "600",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Neutral graphite gray with a restrained steel-teal accent — the quiet workhorse.",
+  "tags": [
+    "dark",
+    "neutral",
+    "professional"
+  ]
 }

@@ -1,12 +1,7 @@
 {
   "id": "paper-light",
   "name": "Paper Light",
-  "builtin": true,
-  "description": "Bright clinical surfaces with a warm paper undertone.",
-  "tags": [
-    "light",
-    "clinical"
-  ],
+  "builtin": false,
   "vars": {
     "bg": "#f7f5f0",
     "bgSidebar": "#efece4",
@@ -28,5 +23,10 @@
     "headingWeight": "700",
     "headingTransform": "none",
     "tracking": "normal"
-  }
+  },
+  "description": "Bright clinical surfaces with a warm paper undertone.",
+  "tags": [
+    "light",
+    "clinical"
+  ]
 }
