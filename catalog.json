@@ -2124,6 +2124,87 @@
         "manifest": "plugins/quick-actions-v2/manifest.json",
         "main": "plugins/quick-actions-v2/main.js"
       }
+    },
+    {
+      "id": "plugin:core-cmds",
+      "kind": "plugin",
+      "name": "Core Commands",
+      "tagline": "Owns the user commands surface — every live command (built-ins plus each extension's contributions) listed, filterable and one-tap runnable from Settings.",
+      "description": "Owns the user commands surface — every live command (built-ins plus each extension's contributions) listed, filterable and one-tap runnable from Settings.",
+      "author": "FocusCaseX originals",
+      "version": "1.0.0",
+      "category": "Productivity",
+      "tags": [
+        "plugin"
+      ],
+      "icon": "Puzzle",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "core-cmds"
+      },
+      "files": {
+        "manifest": "plugins/core-cmds/manifest.json",
+        "main": "plugins/core-cmds/main.js"
+      }
+    },
+    {
+      "id": "plugin:core-modes",
+      "kind": "plugin",
+      "name": "Core Modes",
+      "tagline": "Owns the mode system — Clinical and Developer modes with their own extension bundles: switching a mode enables that mode's extensions, and snippets stay a developer-mode surface.",
+      "description": "Owns the mode system — Clinical and Developer modes with their own extension bundles: switching a mode enables that mode's extensions, and snippets stay a developer-mode surface.",
+      "author": "FocusCaseX originals",
+      "version": "1.0.0",
+      "category": "Productivity",
+      "tags": [
+        "plugin"
+      ],
+      "icon": "Puzzle",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "core-modes"
+      },
+      "files": {
+        "manifest": "plugins/core-modes/manifest.json",
+        "main": "plugins/core-modes/main.js"
+      }
+    },
+    {
+      "id": "plugin:core-settings",
+      "kind": "plugin",
+      "name": "Core Settings",
+      "tagline": "Owns the settings surface — chrome polish, sticky navigation, tighter rows and the pixel-motion graphics layer (auto-on under the Christmas theme).",
+      "description": "Owns the settings surface — chrome polish, sticky navigation, tighter rows and the pixel-motion graphics layer (auto-on under the Christmas theme).",
+      "author": "FocusCaseX originals",
+      "version": "1.0.0",
+      "category": "Productivity",
+      "tags": [
+        "plugin"
+      ],
+      "icon": "Puzzle",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "core-settings"
+      },
+      "files": {
+        "manifest": "plugins/core-settings/manifest.json",
+        "main": "plugins/core-settings/main.js"
+      }
     }
   ]
 }

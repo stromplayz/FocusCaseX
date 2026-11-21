@@ -1,6 +1,6 @@
 {
   "schema": "fcx.market.core.v1",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "updatedAt": "2026-11-22T00:00:00.000Z",
   "minAppVersion": "1.0.0",
   "flags": {
@@ -9,19 +9,19 @@
     "marketplaceSync": true
   },
   "announcement": {
-    "id": "core-v2-1-2026-11",
-    "title": "Update v2.1 is live",
-    "body": "The quick actions menu is rebuilt — grouped, EMR-comprehensive and customizable, delivered as an auto-enabled core plugin (Quick Actions v2). Confirm once and the core-updater pulls it from the marketplace; no app redeploy needed.",
+    "id": "core-v2-2-2026-11",
+    "title": "Update v2.2 is live",
+    "body": "Plugins are now Extensions, with quick patches, a Modes core (Clinical / Developer bundles), a Commands core and a Settings core \u2014 plus a pixel-motion Christmas theme. Pull once from the marketplace; no app redeploy needed.",
     "level": "update",
     "action": {
-      "label": "DOWNLOAD UPDATE V2.1",
+      "label": "DOWNLOAD UPDATE V2.2",
       "kind": "core-pull"
     }
   },
   "featured": {
     "capsule": "capsule:ui-appointment",
     "plugin": "plugin:quick-actions-v2",
-    "theme": "theme:midnight",
+    "theme": "theme:christmas",
     "template": "template:refraction-note"
   },
   "autoEnableCapsules": [],
@@ -42,7 +42,7 @@
     },
     {
       "id": "update-v2-notifier",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "files": {
         "manifest": "plugins/update-v2-notifier/manifest.json",
         "main": "plugins/update-v2-notifier/main.js"
@@ -57,7 +57,36 @@
         "main": "plugins/quick-actions-v2/main.js"
       },
       "enable": true
+    },
+    {
+      "id": "core-settings",
+      "version": "1.0.0",
+      "files": {
+        "manifest": "plugins/core-settings/manifest.json",
+        "main": "plugins/core-settings/main.js"
+      },
+      "enable": true
+    },
+    {
+      "id": "core-cmds",
+      "version": "1.0.0",
+      "files": {
+        "manifest": "plugins/core-cmds/manifest.json",
+        "main": "plugins/core-cmds/main.js"
+      },
+      "enable": true
+    },
+    {
+      "id": "core-modes",
+      "version": "1.0.0",
+      "files": {
+        "manifest": "plugins/core-modes/manifest.json",
+        "main": "plugins/core-modes/main.js"
+      },
+      "enable": true
     }
   ],
-  "coreCss": ["core/core.css"]
+  "coreCss": [
+    "core/core.css"
+  ]
 }

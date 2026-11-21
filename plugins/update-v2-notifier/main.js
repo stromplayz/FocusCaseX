@@ -1,18 +1,27 @@
 /**
- * FocusCaseX — Update v2 Notifier (core plugin).
+ * FocusCaseX — Update Notifier (core plugin).
  *
  * The marketplace's announcement banner: a hand-coded pixel-art strip at
- * the top of the workspace announcing the Core v2.1 update — the quick
- * actions rework. Everything is drawn with code — a 5×5 bitmap font for
- * the headline, a 12×12 two-frame pixel rocket, scanlines, a marching
- * border and steps() animations. No images, no external fonts, no smooth
- * gradients: pure pixel coding that rides the app's theme tokens.
+ * the top of the workspace announcing the latest marketplace core —
+ * quick patches, Extensions, Modes. Everything is drawn with code — a
+ * 5×5 bitmap font for the headline, a 12×12 two-frame pixel rocket,
+ * scanlines, a marching border and steps() animations. No images, no
+ * external fonts, no smooth gradients: pure pixel coding that rides the
+ * app's theme tokens.
  *
- * The DOWNLOAD UPDATE V2.1 button runs the core-updater (ctx.core.pull):
- * it checks the marketplace core, pulls the core plugins (core-ui and
- * friends), installs them and flips them on — no app redeploy needed.
+ * The DOWNLOAD button runs the core-updater (ctx.core.pull): it checks
+ * the marketplace core and pulls only the core plugins whose version is
+ * actually newer (already-current ones are skipped — an existing
+ * extension is never re-installed) — no app redeploy needed. A
+ * "▲ PATCH READY" status-bar chip stays lit while an update is waiting.
  *
- * Surfaces: banner · commands · ribbon · settings pane · CSS · storage.
+ * Repeat-guard: the banner auto-shows only when the marketplace core is
+ * genuinely newer than the APPLIED core version (fcx.core.applied — the
+ * single source of truth every update surface writes), and only when
+ * THIS announcement hasn't been dismissed. An installed update never
+ * re-announces, no matter which surface applied it.
+ *
+ * Surfaces: banner · commands · ribbon · status bar · settings pane · CSS · storage.
  */
 (function (ctx) {
   "use strict";
@@ -144,9 +153,24 @@
   var frame = 0;
   var hideTimer = null;
   var pullRunning = false;
-
+  /** the announcement id currently known from the marketplace core. */
+  var currentAnnounceId = "";
+  /** pixel headline + version label, refreshed from the remote core check. */
+  var VERSION_LABEL = "2.1";
   var TITLE_ANNOUNCE = "UPDATE V2.1!";
   var TITLE_SUCCESS = "CORE V2.1 LIVE";
+
+  /** "2.2.0" → "2.2" (the pixel font renders major.minor comfortably). */
+  function shortVersion(v) {
+    var m = /^\d+\.\d+/.exec(String(v || ""));
+    return m ? m[0] : "2.1";
+  }
+
+  function retitle(version) {
+    VERSION_LABEL = shortVersion(version);
+    TITLE_ANNOUNCE = "UPDATE V" + VERSION_LABEL + "!";
+    TITLE_SUCCESS = "CORE V" + VERSION_LABEL + " LIVE";
+  }
 
   /* ---------------------------------------------------------------- */
   /* banner DOM                                                        */
@@ -190,7 +214,7 @@
     var title = document.createElement("canvas");
     title.className = "fcx-uv2-title";
     title.setAttribute("role", "img");
-    title.setAttribute("aria-label", "Update v2 is live");
+    title.setAttribute("aria-label", "Core " + VERSION_LABEL + " update is live");
     drawPixelTextScaled(title, TITLE_ANNOUNCE, colors.body);
     var caret = el("span", "fcx-uv2-caret");
     caret.setAttribute("aria-hidden", "true");
@@ -202,16 +226,18 @@
     var sub = el(
       "p",
       "fcx-uv2-sub",
-      "The quick actions menu is rebuilt — EMR-comprehensive, customizable and delivered as an auto-enabled core plugin. Pull Update v2.1 from the FocusCaseX Marketplace.",
+      "Quick patches, Extensions, Modes and more — Core v" +
+        VERSION_LABEL +
+        " is live on the FocusCaseX Marketplace. One tap pulls it; already-current extensions are never re-installed.",
     );
 
     copy.appendChild(headline);
     copy.appendChild(sub);
 
     var actions = el("div", "fcx-uv2-actions");
-    var download = el("button", "fcx-uv2-btn", "DOWNLOAD UPDATE V2.1");
+    var download = el("button", "fcx-uv2-btn", "DOWNLOAD UPDATE V" + VERSION_LABEL);
     download.type = "button";
-    download.setAttribute("aria-label", "Download Update v2.1 from the FocusCaseX Marketplace");
+    download.setAttribute("aria-label", "Download Core v" + VERSION_LABEL + " from the FocusCaseX Marketplace");
     download.addEventListener("click", onDownload);
     var dismiss = el("button", "fcx-uv2-x", "\u00d7");
     dismiss.type = "button";
@@ -246,6 +272,31 @@
   }
 
   /* ---------------------------------------------------------------- */
+  /* status bar — the quick-patch beacon                               */
+
+  var statusItem = null;
+  var statusWanted = false;
+
+  /** Shows a persistent "PATCH READY" chip while a core update waits;
+   *  cleared once the pull lands or the banner is dismissed. */
+  function setPatchStatus(waiting) {
+    statusWanted = waiting === true;
+    if (!statusItem && typeof ctx.addStatusBarItem === "function") {
+      try {
+        statusItem = ctx.addStatusBarItem();
+      } catch {
+        statusItem = null;
+      }
+    }
+    if (!statusItem) return;
+    try {
+      statusItem.setText(statusWanted ? "\u25b2 PATCH READY" : "");
+    } catch {
+      /* status item gone — ignore */
+    }
+  }
+
+  /* ---------------------------------------------------------------- */
   /* actions                                                           */
 
   function onDownload() {
@@ -262,8 +313,11 @@
       .pull(function (progress) {
         var label = "CHECKING…";
         if (progress.phase === "fetch") label = "PULLING " + progress.done + "/" + progress.total;
-        else if (progress.phase === "install") label = "INSTALLING " + progress.done + "/" + progress.total;
-        else if (progress.phase === "apply") label = "APPLYING…";
+        else if (progress.phase === "install") {
+          label = progress.detail && progress.detail.indexOf("already current") !== -1
+            ? "ALREADY CURRENT"
+            : "INSTALLING " + progress.done + "/" + progress.total;
+        } else if (progress.phase === "apply") label = "APPLYING…";
         else if (progress.phase === "done") label = "DONE!";
         btn.textContent = label;
       })
@@ -272,9 +326,10 @@
         if (btn) btn.disabled = false;
         if (result && result.ok) {
           data.pulledVersion = result.version || "";
-          data.dismissedFor = "";
+          data.dismissedFor = currentAnnounceId || TITLE_ANNOUNCE;
           save();
-          successState();
+          setPatchStatus(false);
+          successState(result);
         } else {
           btn.textContent = "RETRY DOWNLOAD";
         }
@@ -288,17 +343,28 @@
       });
   }
 
-  function successState() {
+  function successState(result) {
     if (!root) return;
     var colors = themeColors();
     root.setAttribute("data-state", "success");
     var title = root.querySelector(".fcx-uv2-title");
     if (title) drawPixelTextScaled(title, TITLE_SUCCESS, colors.body);
     var sub = root.querySelector(".fcx-uv2-sub");
-    if (sub) sub.textContent = "Core v2.1 is live — open Quick actions and hit Customize to make it yours.";
+    var pulled = result && (result.installed.length + result.volatile.length) || 0;
+    var skipped = result && result.skipped ? result.skipped.length : 0;
+    if (sub) {
+      sub.textContent =
+        pulled > 0
+          ? "Core v" + VERSION_LABEL + " is live — " + pulled + " pulled, " + skipped + " already current. Quick patches land the same way."
+          : "Core v" + VERSION_LABEL + " applied — every core extension was already current, nothing re-installed.";
+    }
     var btn = root.querySelector(".fcx-uv2-btn");
     if (btn) btn.remove();
-    ctx.showToast("Core v2.1 pulled from the FocusCaseX Marketplace.");
+    ctx.showToast(
+      pulled > 0
+        ? "Core v" + VERSION_LABEL + " pulled from the FocusCaseX Marketplace."
+        : "Core v" + VERSION_LABEL + " — everything was already current.",
+    );
     if (hideTimer) clearTimeout(hideTimer);
     hideTimer = setTimeout(function () {
       hideBanner();
@@ -306,8 +372,9 @@
   }
 
   function onDismiss() {
-    data.dismissedFor = TITLE_ANNOUNCE;
+    data.dismissedFor = currentAnnounceId || TITLE_ANNOUNCE;
     save();
+    setPatchStatus(false);
     hideBanner();
   }
 
@@ -394,13 +461,13 @@
     ".fcx-uv2-settings-version{margin:0 0 .75rem;font-family:var(--font-mono,monospace);font-size:.6875rem;color:var(--muted-foreground);}",
     ".fcx-uv2-settings-row{display:flex;align-items:center;gap:.5rem;margin:0 0 .5rem;font-size:.8125rem;}",
     ".fcx-uv2-settings-row select{border:1px solid var(--border);border-radius:0;background:var(--card);color:var(--card-foreground);padding:.25rem .375rem;font-size:.75rem;}",
-    ".fcx-uv2-settings-actions{display:flex;gap:.5rem;margin-top:.75rem;}",
+    ".fcx-uv2-settings-actions{display:flex;gap:.5rem;margin-top:.75rem;flex-wrap:wrap;}",
   ].join("\n");
   if (typeof ctx.registerCss === "function") ctx.registerCss(CSS);
 
   ctx.registerCommand({
     id: "show-banner",
-    title: "Show the Update v2.1 banner",
+    title: "Show the update banner",
     icon: "Rocket",
     run: function () {
       data.dismissedFor = "";
@@ -433,7 +500,7 @@
     },
   });
 
-  ctx.addRibbonIcon("Rocket", "Update v2.1 — marketplace core", function () {
+  ctx.addRibbonIcon("Rocket", "Marketplace updates — core + quick patches", function () {
     data.dismissedFor = "";
     save();
     show();
@@ -442,11 +509,11 @@
   ctx.addSettingsPane(function (container) {
     container.replaceChildren();
 
-    var head = el("p", "fcx-uv2-settings-head", "Update v2 Notifier");
+    var head = el("p", "fcx-uv2-settings-head", "Update Notifier");
     var hint = el(
       "p",
       "fcx-uv2-settings-hint",
-      "The pixel-art announcement banner of the FocusCaseX Marketplace core (v2.1 — quick actions rework).",
+      "The pixel-art announcement banner of the FocusCaseX Marketplace core — quick patches for Extensions land through here.",
     );
     container.appendChild(head);
     container.appendChild(hint);
@@ -521,12 +588,31 @@
       if (typeof saved.pulledVersion === "string") data.pulledVersion = saved.pulledVersion;
       if (typeof saved.dismissedFor === "string") data.dismissedFor = saved.dismissedFor;
     }
-    /* auto-show policy: show when the user hasn't dismissed this title
-       and hasn't pulled the v2 core yet — once v2 is applied the banner
-       stays quiet unless the ribbon or a command re-opens it. */
-    if (data.autoShow && data.dismissedFor !== TITLE_ANNOUNCE && !data.pulledVersion) {
-      show();
+
+    /* Auto-show policy — the applied core version is the single source of
+       truth. A pull can land through ANY surface (this banner, Settings
+       › About, a core plugin), so the banner only auto-shows when the
+       marketplace core is genuinely NEWER than the applied one, and the
+       user hasn't dismissed THIS announcement. This kills the bug where
+       the banner kept re-announcing an update that was already installed. */
+    if (!ctx.core || typeof ctx.core.check !== "function") {
+      /* legacy fallback: builds without the core bridge */
+      if (data.autoShow && data.dismissedFor !== TITLE_ANNOUNCE && !data.pulledVersion) show();
+      return;
     }
+    void ctx.core
+      .check()
+      .then(function (check) {
+        if (!check) return; /* offline — stay quiet on boot, never nag */
+        retitle(check.remoteVersion);
+        var remoteAnnounce = check.core && check.core.announcement ? check.core.announcement : null;
+        currentAnnounceId = (remoteAnnounce && remoteAnnounce.id) || TITLE_ANNOUNCE;
+        if (check.hasUpdate) setPatchStatus(true);
+        if (check.hasUpdate && data.autoShow && data.dismissedFor !== currentAnnounceId) show();
+      })
+      .catch(function () {
+        /* marketplace unreachable — quiet boot */
+      });
   });
 
   ctx.onunload = function () {
