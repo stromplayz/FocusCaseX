@@ -1,17 +1,17 @@
 {
   "schema": "fcx.market.registry.v1",
-  "generatedAt": "2026-11-21T19:19:12.362Z",
+  "generatedAt": "2026-11-21T19:21:47.632Z",
   "coreVersion": "2.0.0",
   "app": {
     "name": "FocusCaseX",
     "repo": "stromplayz/FocusCaseX"
   },
   "counts": {
-    "plugin": 14,
+    "plugin": 18,
     "capsule": 19,
     "theme": 22,
     "template": 11,
-    "all": 66
+    "all": 70
   },
   "items": [
     {
@@ -1976,6 +1976,114 @@
       },
       "files": {
         "body": "templates/preop-cataract.md"
+      }
+    },
+    {
+      "id": "plugin:daily-spark",
+      "kind": "plugin",
+      "name": "Daily Spark",
+      "tagline": "Greets the vault with a hello toast.",
+      "description": "Greets the vault with a hello toast.",
+      "author": "you",
+      "version": "1.0.0",
+      "category": "Productivity",
+      "tags": [
+        "plugin"
+      ],
+      "icon": "Puzzle",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "daily-spark"
+      },
+      "files": {
+        "manifest": "plugins/daily-spark/manifest.json",
+        "main": "plugins/daily-spark/main.js"
+      }
+    },
+    {
+      "id": "plugin:focuscasex-sbl",
+      "kind": "plugin",
+      "name": "FocusCaseX SBL",
+      "tagline": "Sidebar-Left clinical layout — replaces Files/Bases/EMR clutter with a Clinic navigator (Dashboard, Appointments, Patients, Exams, Prescriptions, Reports) and live Booked/Done/Patients/Revenue stats. Dashboard pages render a full clinical UI: range-aware KPIs + revenue chart, an appointment→checkout workflow tracker and Today's patients with scrollable tabs. Ships its own CSS.",
+      "description": "Sidebar-Left clinical layout — replaces Files/Bases/EMR clutter with a Clinic navigator (Dashboard, Appointments, Patients, Exams, Prescriptions, Reports) and live Booked/Done/Patients/Revenue stats. Dashboard pages render a full clinical UI: range-aware KPIs + revenue chart, an appointment→checkout workflow tracker and Today's patients with scrollable tabs. Ships its own CSS.",
+      "author": "FocusCaseX originals",
+      "version": "1.1.0",
+      "category": "Productivity",
+      "tags": [
+        "plugin"
+      ],
+      "icon": "Puzzle",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "focuscasex-sbl"
+      },
+      "files": {
+        "manifest": "plugins/focuscasex-sbl/manifest.json",
+        "main": "plugins/focuscasex-sbl/main.js"
+      }
+    },
+    {
+      "id": "plugin:pomodoro",
+      "kind": "plugin",
+      "name": "Pomodoro Timer",
+      "tagline": "A 25-minute focus countdown in the statusbar with start, stop and reset commands.",
+      "description": "A 25-minute focus countdown in the statusbar with start, stop and reset commands.",
+      "author": "FocusCaseX originals",
+      "version": "1.0.0",
+      "category": "Productivity",
+      "tags": [
+        "plugin"
+      ],
+      "icon": "Puzzle",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "pomodoro"
+      },
+      "files": {
+        "manifest": "plugins/pomodoro/manifest.json",
+        "main": "plugins/pomodoro/main.js"
+      }
+    },
+    {
+      "id": "plugin:utility-panel",
+      "kind": "plugin",
+      "name": "Utility Panel",
+      "tagline": "A clinical utility dock for the right panel — spherical equivalent, toric transposition, age from DOB, IOP with CCT correction, Snellen conversions, vertex power, presbyopia adds, keratometry, Prentice's rule, Rx summary and quick reference cards.",
+      "description": "A clinical utility dock for the right panel — spherical equivalent, toric transposition, age from DOB, IOP with CCT correction, Snellen conversions, vertex power, presbyopia adds, keratometry, Prentice's rule, Rx summary and quick reference cards.",
+      "author": "FocusCaseX originals",
+      "version": "1.0.0",
+      "category": "Productivity",
+      "tags": [
+        "plugin"
+      ],
+      "icon": "Puzzle",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "utility-panel"
+      },
+      "files": {
+        "manifest": "plugins/utility-panel/manifest.json",
+        "main": "plugins/utility-panel/main.js"
       }
     }
   ],
