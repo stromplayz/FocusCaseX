@@ -19,4 +19,7 @@ jobs:
           node scripts/build-registry.mjs
           node -e "JSON.parse(require('fs').readFileSync('api/core.json','utf8')); JSON.parse(require('fs').readFileSync('catalog.json','utf8')); console.log('JSON OK')"
       - name: Ensure registry is committed fresh
-        run: git diff --exit-code api/registry.json || (echo "::error::api/registry.json is stale — run scripts/build-registry.mjs and commit"; exit 1)
+        run: |
+          # ignore the generatedAt timestamp line — it re-stamps on every rebuild
+          git diff --exit-code -I'"generatedAt"' -- api/registry.json \
+            || (echo "::error::api/registry.json is stale — run scripts/build-registry.mjs and commit"; exit 1)
