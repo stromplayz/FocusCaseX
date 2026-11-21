@@ -2,13 +2,13 @@
  * FocusCaseX — Update v2 Notifier (core plugin).
  *
  * The marketplace's announcement banner: a hand-coded pixel-art strip at
- * the top of the workspace announcing the Core v2 update. Everything is
- * drawn with code — a 5×5 bitmap font for the headline, a 12×12 two-frame
- * pixel rocket, scanlines, a marching border and steps() animations. No
- * images, no external fonts, no smooth gradients: pure pixel coding that
- * rides the app's theme tokens.
+ * the top of the workspace announcing the Core v2.1 update — the quick
+ * actions rework. Everything is drawn with code — a 5×5 bitmap font for
+ * the headline, a 12×12 two-frame pixel rocket, scanlines, a marching
+ * border and steps() animations. No images, no external fonts, no smooth
+ * gradients: pure pixel coding that rides the app's theme tokens.
  *
- * The DOWNLOAD UPDATE V2 button runs the core-updater (ctx.core.pull):
+ * The DOWNLOAD UPDATE V2.1 button runs the core-updater (ctx.core.pull):
  * it checks the marketplace core, pulls the core plugins (core-ui and
  * friends), installs them and flips them on — no app redeploy needed.
  *
@@ -41,6 +41,8 @@
     Y: ["X...X", "X...X", ".XXX.", "..X..", "..X.."],
     "!": ["..X..", "..X..", "..X..", ".....", "..X.."],
     "2": [".XXX.", "X...X", "..XX.", ".X...", "XXXXX"],
+    "1": ["..X..", ".XX..", "..X..", "..X..", "XXXXX"],
+    ".": [".....", ".....", ".....", ".....", "..X.."],
     "0": [".XXX.", "X..XX", "X.X.X", "XX..X", ".XXX."],
     " ": [".....", ".....", ".....", ".....", "....."],
   };
@@ -143,8 +145,8 @@
   var hideTimer = null;
   var pullRunning = false;
 
-  var TITLE_ANNOUNCE = "UPDATE V2!";
-  var TITLE_SUCCESS = "CORE V2 ACTIVE";
+  var TITLE_ANNOUNCE = "UPDATE V2.1!";
+  var TITLE_SUCCESS = "CORE V2.1 LIVE";
 
   /* ---------------------------------------------------------------- */
   /* banner DOM                                                        */
@@ -200,16 +202,16 @@
     var sub = el(
       "p",
       "fcx-uv2-sub",
-      "Core-ui customization, marketplace sync and the core-updater land with v2 — pull it straight from the FocusCaseX Marketplace.",
+      "The quick actions menu is rebuilt — EMR-comprehensive, customizable and delivered as an auto-enabled core plugin. Pull Update v2.1 from the FocusCaseX Marketplace.",
     );
 
     copy.appendChild(headline);
     copy.appendChild(sub);
 
     var actions = el("div", "fcx-uv2-actions");
-    var download = el("button", "fcx-uv2-btn", "DOWNLOAD UPDATE V2");
+    var download = el("button", "fcx-uv2-btn", "DOWNLOAD UPDATE V2.1");
     download.type = "button";
-    download.setAttribute("aria-label", "Download Update v2 from the FocusCaseX Marketplace");
+    download.setAttribute("aria-label", "Download Update v2.1 from the FocusCaseX Marketplace");
     download.addEventListener("click", onDownload);
     var dismiss = el("button", "fcx-uv2-x", "\u00d7");
     dismiss.type = "button";
@@ -293,10 +295,10 @@
     var title = root.querySelector(".fcx-uv2-title");
     if (title) drawPixelTextScaled(title, TITLE_SUCCESS, colors.body);
     var sub = root.querySelector(".fcx-uv2-sub");
-    if (sub) sub.textContent = "Core-ui customization is live — find it in Settings under Core UI (v2).";
+    if (sub) sub.textContent = "Core v2.1 is live — open Quick actions and hit Customize to make it yours.";
     var btn = root.querySelector(".fcx-uv2-btn");
     if (btn) btn.remove();
-    ctx.showToast("Core v2 pulled from the FocusCaseX Marketplace.");
+    ctx.showToast("Core v2.1 pulled from the FocusCaseX Marketplace.");
     if (hideTimer) clearTimeout(hideTimer);
     hideTimer = setTimeout(function () {
       hideBanner();
@@ -398,7 +400,7 @@
 
   ctx.registerCommand({
     id: "show-banner",
-    title: "Show the Update v2 banner",
+    title: "Show the Update v2.1 banner",
     icon: "Rocket",
     run: function () {
       data.dismissedFor = "";
@@ -431,7 +433,7 @@
     },
   });
 
-  ctx.addRibbonIcon("Rocket", "Update v2 — marketplace core", function () {
+  ctx.addRibbonIcon("Rocket", "Update v2.1 — marketplace core", function () {
     data.dismissedFor = "";
     save();
     show();
@@ -444,7 +446,7 @@
     var hint = el(
       "p",
       "fcx-uv2-settings-hint",
-      "The pixel-art announcement banner of the FocusCaseX Marketplace core.",
+      "The pixel-art announcement banner of the FocusCaseX Marketplace core (v2.1 — quick actions rework).",
     );
     container.appendChild(head);
     container.appendChild(hint);

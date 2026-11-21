@@ -1,0 +1,10 @@
+{
+  "id": "update-v2-notifier",
+  "name": "Update v2 Notifier",
+  "version": "2.1.0",
+  "minAppVersion": "1.0.0",
+  "description": "Pixel-art announcement banner for the workspace — animated top toast that announces Update v2.1 (the quick actions rework) with a one-tap core updater.",
+  "author": "FocusCaseX originals",
+  "isSample": true,
+  "core": true
+}

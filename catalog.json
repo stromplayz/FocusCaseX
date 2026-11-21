@@ -2096,6 +2096,34 @@
         "manifest": "plugins/utility-panel/manifest.json",
         "main": "plugins/utility-panel/main.js"
       }
+    },
+    {
+      "id": "plugin:quick-actions-v2",
+      "kind": "plugin",
+      "name": "Quick Actions v2",
+      "tagline": "The Update v2.1 payload — completes the quick actions launcher with the clinical EMR set (examination, recalls, billing) through ctx.registerQuickAction. Auto-enabled with the core.",
+      "description": "The Update v2.1 payload — completes the quick actions launcher with the clinical EMR set (examination, recalls, billing) through ctx.registerQuickAction. Auto-enabled with the core.",
+      "author": "FocusCaseX Marketplace",
+      "version": "2.1.0",
+      "category": "Productivity",
+      "tags": [
+        "plugin"
+      ],
+      "icon": "Puzzle",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "quick-actions-v2",
+        "core": "1"
+      },
+      "files": {
+        "manifest": "plugins/quick-actions-v2/manifest.json",
+        "main": "plugins/quick-actions-v2/main.js"
+      }
     }
   ]
 }

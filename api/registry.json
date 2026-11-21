@@ -1,17 +1,17 @@
 {
   "schema": "fcx.market.registry.v1",
-  "generatedAt": "2026-11-21T19:21:47.632Z",
-  "coreVersion": "2.0.0",
+  "generatedAt": "2026-11-21T19:54:44.124Z",
+  "coreVersion": "2.1.0",
   "app": {
     "name": "FocusCaseX",
     "repo": "stromplayz/FocusCaseX"
   },
   "counts": {
-    "plugin": 18,
+    "plugin": 19,
     "capsule": 19,
     "theme": 22,
     "template": 11,
-    "all": 70
+    "all": 71
   },
   "items": [
     {
@@ -2084,6 +2084,34 @@
       "files": {
         "manifest": "plugins/utility-panel/manifest.json",
         "main": "plugins/utility-panel/main.js"
+      }
+    },
+    {
+      "id": "plugin:quick-actions-v2",
+      "kind": "plugin",
+      "name": "Quick Actions v2",
+      "tagline": "The Update v2.1 payload — completes the quick actions launcher with the clinical EMR set (examination, recalls, billing) through ctx.registerQuickAction. Auto-enabled with the core.",
+      "description": "The Update v2.1 payload — completes the quick actions launcher with the clinical EMR set (examination, recalls, billing) through ctx.registerQuickAction. Auto-enabled with the core.",
+      "author": "FocusCaseX Marketplace",
+      "version": "2.1.0",
+      "category": "Productivity",
+      "tags": [
+        "plugin"
+      ],
+      "icon": "Puzzle",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "pluginId": "quick-actions-v2",
+        "core": "1"
+      },
+      "files": {
+        "manifest": "plugins/quick-actions-v2/manifest.json",
+        "main": "plugins/quick-actions-v2/main.js"
       }
     }
   ],
