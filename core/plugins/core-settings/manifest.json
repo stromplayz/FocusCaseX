@@ -1,7 +1,7 @@
 {
   "id": "core-settings",
   "name": "Core Settings",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "minAppVersion": "1.0.0",
   "description": "Owns the settings surface - chrome polish, sticky navigation, tighter rows and the app-wide pixel-motion graphics layer (snowfall canvas + string lights, auto-on under the Christmas theme).",
   "author": "FocusCaseX originals",

@@ -119,29 +119,46 @@
   function startSnow() {
     stopSnow();
     if (typeof window === "undefined") return;
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      /* still paint one static frame — motion freezes, the look stays */
-      buildFlakes();
-      drawFlakes();
-      return;
-    }
+    /* guard against a re-run without unload: stop any snow instance this
+       plugin started before (double canvases were stacking flakes) */
+    try {
+      var stale = document.getElementById(SNOW_ID);
+      if (stale && stale.parentNode) stale.parentNode.removeChild(stale);
+      if (typeof window.__fcxSnowStop === "function") window.__fcxSnowStop();
+    } catch (ignored) { }
+    var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    /* the canvas exists in BOTH branches — the reduced-motion "one static
+       frame" used to draw before the canvas existed (nothing painted) */
     snowCanvas = document.createElement("canvas");
     snowCanvas.id = SNOW_ID;
     snowCanvas.setAttribute("aria-hidden", "true");
+    /* background layer: BELOW every panel/banner/chrome (the flakes fell
+       ON TOP of the workspace chrome at the old z-index) but above the
+       app background, so snow shows wherever the UI is transparent */
     snowCanvas.style.cssText =
-      "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:35;image-rendering:pixelated;";
+      "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1;image-rendering:pixelated;";
     document.body.appendChild(snowCanvas);
     resizeSnow();
     buildFlakes();
     drawFlakes();
+    if (reduced) {
+      /* motion freezes, the look stays — one static frame */
+      window.__fcxSnowStop = stopSnow;
+      return;
+    }
     /* quantized steps: ~11 fps — pixel motion, near-zero CPU */
     snowTimer = setInterval(stepFlakes, 90);
+    window.__fcxSnowStop = stopSnow;
   }
 
   function resizeSnow() {
     if (!snowCanvas) return;
-    snowCanvas.width = window.innerWidth;
-    snowCanvas.height = window.innerHeight;
+    /* device-pixel aware: crisp square flakes on HiDPI phone screens */
+    var dpr = window.devicePixelRatio || 1;
+    snowCanvas.width = Math.max(1, Math.round(window.innerWidth * dpr));
+    snowCanvas.height = Math.max(1, Math.round(window.innerHeight * dpr));
+    var c = snowCanvas.getContext("2d");
+    if (c) c.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   function stopSnow() {
@@ -150,6 +167,11 @@
     if (snowCanvas && snowCanvas.parentNode) snowCanvas.parentNode.removeChild(snowCanvas);
     snowCanvas = null;
     flakes = [];
+    try {
+      if (typeof window !== "undefined" && window.__fcxSnowStop === stopSnow) {
+        delete window.__fcxSnowStop;
+      }
+    } catch (ignored) { }
   }
 
   function onResize() {
@@ -308,6 +330,73 @@
     pairRow.appendChild(pair);
     pairRow.appendChild(el("span", null, " Always pair pixel motion with the Christmas theme"));
     container.appendChild(pairRow);
+
+    /* ---- extension permissions — the clinic stays in control ---- */
+    var permsHead = el("p", "fcx-cs-head", "Extension permissions");
+    permsHead.style.marginTop = "1rem";
+    container.appendChild(permsHead);
+    var permsHint = el(
+      "p",
+      "fcx-cs-hint",
+      "Folders and access each extension was granted. Revoking takes effect immediately — the extension will simply ask again the next time it needs access.",
+    );
+    container.appendChild(permsHint);
+
+    var PERMS_KEY = "fcx.plugin-perms.v1";
+    var renderPerms = function () {
+      var listNode = el("div", "fcx-cs-perms");
+      var grants = {};
+      try {
+        grants = JSON.parse(window.localStorage.getItem(PERMS_KEY) || "{}") || {};
+      } catch (ignored) {
+        grants = {};
+      }
+      var ids = Object.keys(grants);
+      if (ids.length === 0) {
+        listNode.appendChild(el("p", "fcx-cs-hint", "No extensions have been granted folder or network access yet."));
+        container.appendChild(listNode);
+        return;
+      }
+      for (var g = 0; g < ids.length; g++) {
+        (function (id) {
+          var grant = grants[id] || {};
+          var rowNode = el("div", "fcx-cs-perm-row");
+          var labelNode = el("span", "fcx-cs-perm-name", id);
+          var folders = Array.isArray(grant.folders) ? grant.folders : [];
+          var detail = folders.length > 0
+            ? folders.map(function (f) { return f + "/"; }).join(", ")
+            : "network only";
+          if (grant.fetch === true && folders.length > 0) detail += " + network";
+          var detailNode = el("span", "fcx-cs-perm-detail", detail);
+          var revoke = el("button", "fcx-cs-perm-revoke", "Revoke");
+          revoke.type = "button";
+          revoke.addEventListener("click", function () {
+            try {
+              var next = JSON.parse(window.localStorage.getItem(PERMS_KEY) || "{}") || {};
+              delete next[id];
+              window.localStorage.setItem(PERMS_KEY, JSON.stringify(next));
+              try {
+                window.dispatchEvent(new CustomEvent("fcx:perm-changed", { detail: { pluginId: id } }));
+              } catch (ignored) { }
+              ctx.showToast("Access revoked for " + id);
+              refreshPane();
+            } catch (ignored) { }
+          });
+          rowNode.appendChild(labelNode);
+          rowNode.appendChild(detailNode);
+          rowNode.appendChild(revoke);
+          listNode.appendChild(rowNode);
+        })(ids[g]);
+      }
+      container.appendChild(listNode);
+    };
+    var refreshPane = function () {
+      // repaint the permissions list in place after a revoke
+      var existing = container.querySelector(".fcx-cs-perms");
+      if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+      renderPerms();
+    };
+    renderPerms();
   });
 
   /* ---------------------------------------------------------------- */
