@@ -1,9 +1,0 @@
-{
-  "id": "daily-note",
-  "name": "Daily Notes",
-  "version": "1.0.1",
-  "minAppVersion": "1.0.0",
-  "description": "Adds a ribbon calendar and a command that opens (or creates) today's daily note inside a configurable folder.",
-  "author": "FocusCaseX originals",
-  "isSample": true
-}

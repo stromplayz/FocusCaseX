@@ -57,10 +57,10 @@
       "id": "plugin:focuslinks-navigation",
       "kind": "plugin",
       "name": "Focuslinks Navigation",
-      "tagline": "Pure clinical navigation in the left sidebar — a grouped Clinic navigator (Front desk · Clinical · Insights). Each page docks its own right-panel tools.",
-      "description": "Pure clinical navigation in the left sidebar — a grouped Clinic navigator (Front desk · Clinical · Insights). Each page docks its own right-panel tools.",
+      "tagline": "Owns the LEFT sidebar with a pure clinical navigator (Appointments, Examination, Recalls, Billing, Patients, Prescriptions, Reports, Cohorts) — v1.1.0 adds the sidebar-ownership guard: when FocusCaseX SBL (the hosted Clinic sidebar) is active, Focuslinks stands down so the workspace never stacks two navigators. Ships its own CSS.",
+      "description": "Owns the LEFT sidebar with a pure clinical navigator (Appointments, Examination, Recalls, Billing, Patients, Prescriptions, Reports, Cohorts) — v1.1.0 adds the sidebar-ownership guard: when FocusCaseX SBL (the hosted Clinic sidebar) is active, Focuslinks stands down so the workspace never stacks two navigators. Ships its own CSS.",
       "author": "FocusCaseX originals",
-      "version": "1.5.0",
+      "version": "1.1.0",
       "category": "Navigation",
       "tags": [
         "plugin",
@@ -107,62 +107,6 @@
       "files": {
         "manifest": "plugins/essential-diagrams/manifest.json",
         "main": "plugins/essential-diagrams/main.js"
-      }
-    },
-    {
-      "id": "plugin:utility-pannel",
-      "kind": "plugin",
-      "name": "UtilityPannel",
-      "tagline": "Adopts the right panel each page writes for itself — a ```ui-panel block inside any clinical page docks its booking form, pipeline, pulse or actions in the right context panel exactly as declared.",
-      "description": "UtilityPannel owns the right context panel — and nothing else. It adds no tools and no pages of its own: when a clinical page carries a ```ui-panel block, UtilityPannel adopts that block and docks exactly what the page wrote (a booking form, the day's pipeline, today's pulse, quick action buttons) into the right panel while the page is open. No fence, no panel — the adaptive patient/book/pulse context takes back over. The panel's code always stays in the page that wrote it: with Developer mode on, a Panel elements dock appears at the foot of that page where every value and element line of the block is visible and editable in place, so the panel stays customizable without end.",
-      "author": "FocusCaseX originals",
-      "version": "1.0.0",
-      "category": "Navigation",
-      "tags": [
-        "plugin",
-        "navigation"
-      ],
-      "icon": "Layers",
-      "rating": 4.8,
-      "reviews": 96,
-      "downloads": 11204,
-      "released": "2026-03-20",
-      "verified": true,
-      "featured": true,
-      "meta": {
-        "pluginId": "utility-panel"
-      },
-      "files": {
-        "manifest": "plugins/utility-panel/manifest.json",
-        "main": "plugins/utility-panel/main.js"
-      }
-    },
-    {
-      "id": "plugin:daily-note",
-      "kind": "plugin",
-      "name": "Daily Notes",
-      "tagline": "Adds a ribbon calendar and a command that opens (or creates) today's daily note inside a configurable folder.",
-      "description": "Adds a ribbon calendar and a command that opens (or creates) today's daily note inside a configurable folder.",
-      "author": "FocusCaseX originals",
-      "version": "1.0.1",
-      "category": "Time",
-      "tags": [
-        "plugin",
-        "time"
-      ],
-      "icon": "Calendar",
-      "rating": 4.6,
-      "reviews": 231,
-      "downloads": 12480,
-      "released": "2026-02-11",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "pluginId": "daily-note"
-      },
-      "files": {
-        "manifest": "plugins/daily-note/manifest.json",
-        "main": "plugins/daily-note/main.js"
       }
     },
     {
@@ -275,34 +219,6 @@
       "files": {
         "manifest": "plugins/heading-numbering/manifest.json",
         "main": "plugins/heading-numbering/main.js"
-      }
-    },
-    {
-      "id": "plugin:focus-mode",
-      "kind": "plugin",
-      "name": "Focus Mode",
-      "tagline": "Toggles a distraction-free mode that slides the vault sidebar and metadata panel out of the way.",
-      "description": "Toggles a distraction-free mode that slides the vault sidebar and metadata panel out of the way.",
-      "author": "FocusCaseX originals",
-      "version": "1.0.0",
-      "category": "Appearance",
-      "tags": [
-        "plugin",
-        "appearance"
-      ],
-      "icon": "Moon",
-      "rating": 4.6,
-      "reviews": 189,
-      "downloads": 11233,
-      "released": "2026-02-28",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "pluginId": "focus-mode"
-      },
-      "files": {
-        "manifest": "plugins/focus-mode/manifest.json",
-        "main": "plugins/focus-mode/main.js"
       }
     },
     {
@@ -2041,33 +1957,6 @@
       "files": {
         "manifest": "plugins/focuscasex-sbl/manifest.json",
         "main": "plugins/focuscasex-sbl/main.js"
-      }
-    },
-    {
-      "id": "plugin:pomodoro",
-      "kind": "plugin",
-      "name": "Pomodoro Timer",
-      "tagline": "A 25-minute focus countdown in the statusbar with start, stop and reset commands.",
-      "description": "A 25-minute focus countdown in the statusbar with start, stop and reset commands.",
-      "author": "FocusCaseX originals",
-      "version": "1.0.0",
-      "category": "Productivity",
-      "tags": [
-        "plugin"
-      ],
-      "icon": "Puzzle",
-      "rating": null,
-      "reviews": 0,
-      "downloads": 0,
-      "released": "",
-      "verified": true,
-      "featured": false,
-      "meta": {
-        "pluginId": "pomodoro"
-      },
-      "files": {
-        "manifest": "plugins/pomodoro/manifest.json",
-        "main": "plugins/pomodoro/main.js"
       }
     },
     {

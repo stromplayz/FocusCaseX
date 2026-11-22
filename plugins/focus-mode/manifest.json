@@ -1,9 +1,0 @@
-{
-  "id": "focus-mode",
-  "name": "Focus Mode",
-  "version": "1.0.0",
-  "minAppVersion": "1.0.0",
-  "description": "Toggles a distraction-free mode that slides the vault sidebar and metadata panel out of the way.",
-  "author": "FocusCaseX originals",
-  "isSample": true
-}

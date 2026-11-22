@@ -1,9 +1,0 @@
-{
-  "id": "pomodoro",
-  "name": "Pomodoro Timer",
-  "version": "1.0.0",
-  "minAppVersion": "1.0.0",
-  "description": "A 25-minute focus countdown in the statusbar with start, stop and reset commands.",
-  "author": "FocusCaseX originals",
-  "isSample": true
-}

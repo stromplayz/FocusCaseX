@@ -28,6 +28,30 @@
 (function (ctx) {
   "use strict";
 
+  /* ==================== sidebar-ownership guard (v22) ====================
+   * FocusCaseX SBL — the Clinic sidebar the hosted site runs — and
+   * Focuslinks Navigation both own the LEFT sidebar. When SBL is active
+   * this plugin stands down completely (no nav rows, no CSS, no seeding)
+   * so the workspace never stacks two navigators. Disable SBL in
+   * Settings › Extensions to hand the sidebar back to Focuslinks. */
+  var htmlEl = typeof document !== "undefined" ? document.documentElement : null;
+  function sblOwnsSidebar() {
+    try { return !!htmlEl && htmlEl.getAttribute("data-fcx-sbl") === "on"; }
+    catch (e) { return false; }
+  }
+  function standDown() {
+    try {
+      if (htmlEl) {
+        htmlEl.removeAttribute("data-fcx-links");
+        htmlEl.removeAttribute("data-fcx-links-core");
+      }
+      if (typeof ctx.showToast === "function") {
+        ctx.showToast("FocusCaseX SBL owns the sidebar. Disable it in Settings › Extensions to switch to Focuslinks Navigation.");
+      }
+    } catch (e) { /* non-fatal */ }
+  }
+  if (sblOwnsSidebar()) { standDown(); return; }
+
   /* ============================== settings ============================== */
 
   var cfg = { hideCore: true, seeded: false, contentVersion: 0 };
@@ -39,6 +63,7 @@
         if (d.seeded === true) cfg.seeded = true;
         if (typeof d.contentVersion === "number") cfg.contentVersion = d.contentVersion;
       }
+      if (sblOwnsSidebar()) { standDown(); return; } // SBL won — stay inert
       applyAttrs();
       refreshInstances();
     })
@@ -380,6 +405,7 @@
   /* html flags so the CSS can react to settings and unload cleanly */
   function applyAttrs() {
     try {
+      if (sblOwnsSidebar()) { clearAttrs(); return; } // SBL owns the sidebar
       var root = document.documentElement;
       root.setAttribute("data-fcx-links", "on");
       if (cfg.hideCore) root.setAttribute("data-fcx-links-core", "hide");
@@ -585,6 +611,7 @@
     /* remount into the same host (StrictMode-style double effects):
        drop the previous tree first so trees never pile up */
     while (host.firstChild) host.removeChild(host.firstChild);
+    if (sblOwnsSidebar()) return; // SBL owns the sidebar — mount nothing
 
     var inst = { el: null, navEls: {} };
     var el = h(
@@ -835,21 +862,23 @@
 
   /* ================================ boot ================================ */
 
-  applyAttrs();
-  void ensurePages()
-    .then(function () {
-      return refreshStockPages();
-    })
-    .then(function (refreshed) {
-      cfg.seeded = true;
-      persist();
-      if (refreshed > 0) {
-        ctx.showToast(
-          "Focuslinks: refreshed " + refreshed + " stock page" + (refreshed === 1 ? "" : "s") + " with the current clinical dashboard",
-        );
-      }
-      refreshInstances();
-    });
+  if (sblOwnsSidebar()) { standDown(); } else {
+    applyAttrs();
+    void ensurePages()
+      .then(function () {
+        return refreshStockPages();
+      })
+      .then(function (refreshed) {
+        cfg.seeded = true;
+        persist();
+        if (refreshed > 0) {
+          ctx.showToast(
+            "Focuslinks: refreshed " + refreshed + " stock page" + (refreshed === 1 ? "" : "s") + " with the current clinical dashboard",
+          );
+        }
+        refreshInstances();
+      });
+  }
 
   ctx.onunload = function () {
     clearAttrs();
