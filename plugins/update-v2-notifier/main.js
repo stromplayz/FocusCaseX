@@ -309,8 +309,11 @@
     pullRunning = true;
     btn.disabled = true;
     btn.textContent = "CHECKING…";
+    /* silent: this banner renders its own success state — the pull must
+       not ALSO toast, or one tap stacks two confirmations */
     ctx.core
-      .pull(function (progress) {
+      .pull(
+        function (progress) {
         var label = "CHECKING…";
         if (progress.phase === "fetch") label = "PULLING " + progress.done + "/" + progress.total;
         else if (progress.phase === "install") {
@@ -320,7 +323,9 @@
         } else if (progress.phase === "apply") label = "APPLYING…";
         else if (progress.phase === "done") label = "DONE!";
         btn.textContent = label;
-      })
+        },
+        { silent: true },
+      )
       .then(function (result) {
         pullRunning = false;
         if (btn) btn.disabled = false;
