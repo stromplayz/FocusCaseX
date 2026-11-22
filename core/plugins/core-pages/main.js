@@ -111,11 +111,14 @@
      callback — the list re-renders itself by keeping a reference to the
      container element and re-reading ctx.fs on demand. */
   var listContainer = null;
+  var toolbarNode = null;
 
   function paintList() {
     if (!listContainer) return;
     var box = listContainer;
     box.replaceChildren();
+    /* the toolbar is part of the repaint — replaceChildren() wipes it */
+    if (toolbarNode) box.appendChild(toolbarNode);
     box.appendChild(el("div", "fcx-pages-head", "Pages — real .md files in pages/"));
     void ctx.fs.list(FOLDER).then(function (items) {
       if (!listContainer || listContainer !== box) return;
@@ -164,11 +167,13 @@
           void createPage(title);
         });
         toolbar.appendChild(newBtn);
+        toolbarNode = toolbar;
         box.appendChild(toolbar);
         paintList();
       },
       destroy: function () {
         listContainer = null;
+        toolbarNode = null;
       },
     }),
   );
