@@ -1,7 +1,7 @@
 {
   "schema": "fcx.market.registry.v1",
-  "generatedAt": "2026-11-22T15:59:59.790Z",
-  "coreVersion": "2.2.0",
+  "generatedAt": "2026-11-22T16:00:21.744Z",
+  "coreVersion": "2.2.1",
   "app": {
     "name": "FocusCaseX",
     "repo": "stromplayz/FocusCaseX"
