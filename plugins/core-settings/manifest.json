@@ -1,9 +1,9 @@
 {
   "id": "core-settings",
   "name": "Core Settings",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "minAppVersion": "1.0.0",
-  "description": "Owns the settings surface - chrome polish, sticky navigation, tighter rows and the app-wide pixel-motion graphics layer (snowfall canvas + string lights, auto-on under the Christmas theme).",
+  "description": "Owns the settings surface - chrome polish, sticky navigation and tighter rows. The seasonal snowfall layer was retired in v2.2.3.",
   "author": "FocusCaseX originals",
   "isSample": false,
   "core": true

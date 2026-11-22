@@ -1,6 +1,6 @@
 {
   "schema": "fcx.market.core.v1",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "updatedAt": "2026-11-22T16:00:00.000Z",
   "minAppVersion": "1.0.0",
   "flags": {
@@ -9,12 +9,12 @@
     "marketplaceSync": true
   },
   "announcement": {
-    "id": "core-v2-4-2026-11",
-    "title": "Official news: v2.4 is live",
-    "body": "Extension permissions (folder access you approve per extension), Core Pages — concrete pages saved as real markdown files — offline-proof login, the snowfall fix and the v2.4 Android app with Official News and device presence. Pull once; no app redeploy needed.",
+    "id": "core-v2-5-2026-11",
+    "title": "Official news: v2.5 is live",
+    "body": "The seasonal snowfall layer is retired (clinics asked — the workspace stays calm now), the update banner no longer re-announces what your build already ships, patient registration writes report the exact folder error instead of a vague refusal, and devices on the clinic network show their model name before sign-in. Pull once; no app redeploy needed.",
     "level": "update",
     "action": {
-      "label": "DOWNLOAD UPDATE V2.4",
+      "label": "DOWNLOAD UPDATE V2.5",
       "kind": "core-pull"
     }
   },
@@ -60,7 +60,7 @@
     },
     {
       "id": "core-settings",
-      "version": "2.2.2",
+      "version": "2.2.3",
       "files": {
         "manifest": "plugins/core-settings/manifest.json",
         "main": "plugins/core-settings/main.js"

@@ -44,6 +44,18 @@ const counts = {};
 for (const item of present) counts[item.kind] = (counts[item.kind] ?? 0) + 1;
 counts.all = present.length;
 
+/* the app-release database — every FocusCaseXDroid release with its
+   version code, bundled core and changelog (releases.json at the repo
+   root). Surfaced here so clients and the clinic can see exactly what
+   shipped, when, and what changed. */
+let releases = null;
+try {
+  const raw = JSON.parse(readFileSync(join(ROOT, "releases.json"), "utf8"));
+  releases = Array.isArray(raw.releases) ? raw.releases : null;
+} catch {
+  releases = null;
+}
+
 const registry = {
   schema: "fcx.market.registry.v1",
   generatedAt: new Date().toISOString(),
@@ -51,6 +63,12 @@ const registry = {
   app: {
     name: "FocusCaseX",
     repo: "stromplayz/FocusCaseX",
+    ...(releases
+      ? {
+          latestRelease: releases[0]?.version ?? null,
+          releases,
+        }
+      : {}),
   },
   counts,
   items: present,
