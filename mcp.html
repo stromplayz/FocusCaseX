@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCP &amp; Automation — connect AI agents to FocusCaseX</title>
+<meta name="description" content="FocusCaseX hosts its own MCP server. Connect Claude, Cursor or any MCP agent to read clinic notes, search the EMR and draft pages — only after the clinic owner approves the connection.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  /* mcp.html page glue — layout only. */
+  .mcp-sec { padding: 58px 0; }
+  .mcp-sec h2 { margin-bottom: 6px; }
+  .mcp-lede { color: var(--ink-2); max-width: 660px; line-height: 1.65; margin-top: 10px; }
+  .conn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 30px; }
+  .conn-card { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--paper); }
+  .conn-head { display: flex; align-items: center; gap: 10px; padding: 15px 18px; border-bottom: 1px solid var(--line); }
+  .conn-head svg { color: var(--blue); }
+  .conn-head b { font-family: var(--font-display); font-size: 14.5px; }
+  .conn-head .conn-where { margin-left: auto; font-size: 11px; color: var(--ink-3); }
+  .conn-card .fence { border: 0; border-radius: 0; }
+  .recipe { border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; background: var(--paper); }
+  .recipe h3 { display: flex; align-items: center; gap: 9px; font-size: 15.5px; }
+  .recipe h3 svg { color: var(--blue); }
+  .recipe .r-tools { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0; }
+  .recipe p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+  .recipe .r-prompt {
+    margin-top: 12px; font-size: 12.8px; color: var(--ink);
+    background: var(--bg-soft); border: 1px dashed var(--line-2);
+    border-radius: 9px; padding: 10px 13px; font-style: italic;
+  }
+  .endpoint-row {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: 12px; padding: 14px 16px; margin-top: 18px;
+  }
+  .endpoint-row code { font-family: var(--font-mono); font-size: 12.5px; color: var(--ink); }
+  .endpoint-row .ep-tag {
+    font-family: var(--font-display); font-size: 10.5px; font-weight: 600; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--blue); background: var(--blue-soft);
+    padding: 3px 9px; border-radius: 999px; white-space: nowrap;
+  }
+  @media (max-width: 640px) { .mcp-sec { padding: 40px 0; } }
+</style>
+</head>
+<body>
+<header id="site-header"></header>
+<main>
+
+  <!-- HERO (black) -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-inner" style="grid-template-columns: 1fr; gap: 0; padding: 72px 0 66px;">
+        <div style="max-width: 780px;">
+          <div class="kicker">MCP &amp; Automation</div>
+          <h1>Connect your AI agents to FocusCaseX.<br><span class="hl">With permission, not luck.</span></h1>
+          <p class="lede" style="margin-top: 18px;">FocusCaseX hosts its own MCP server. Any MCP-compatible agent — Claude Code, Cursor, a custom automation — can read your clinic notes, search the EMR and draft new pages. Nothing moves until you approve the connection and hand the agent a token you issued.</p>
+          <div class="hero-cta">
+            <a class="btn primary" href="#connect" style="min-height:48px;">Connect an agent</a>
+            <a class="btn dark-ghost" href="#tools" style="min-height:48px;">See the tools</a>
+          </div>
+          <div class="endpoint-row" style="background: var(--dark-2); border-color: var(--dark-line);">
+            <span class="ep-tag" style="background: rgba(5,51,255,.2); color: var(--blue-bright);">Endpoint</span>
+            <code style="color:#e8eaf6;">https://focuscasex.vercel.app/api/mcp/server</code>
+            <span style="font-size:11.5px;color:#7c8296;">or, on your device: <code style="color:#e8eaf6;">http://&lt;device-ip&gt;:8080/api/mcp/server</code></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT IT IS + SECURITY -->
+  <section class="mcp-sec">
+    <div class="wrap">
+      <div class="kicker">Why this exists</div>
+      <h2>A clinic is busy. Let the agent do the running around.</h2>
+      <p class="mcp-lede">Model Context Protocol (MCP) is an open standard that lets AI agents talk to real software. With MCP switched on, your agent can answer "what's on the book this morning", pull a patient's visit history into a letter, or draft a recall page — working directly against your workspace instead of you copy-pasting into a chat window.</p>
+      <div class="band-grid" style="margin-top: 30px;">
+        <div class="t-item">
+          <span data-icon="ShieldCheck"></span>
+          <div>
+            <b>Approval first, always</b>
+            <span>An agent that connects without a token gets one answer: <i>authorization required</i> — and a pending request appears in your app. You approve it, or you don't. There is no other way in.</span>
+          </div>
+        </div>
+        <div class="t-item">
+          <span data-icon="Workflow"></span>
+          <div>
+            <b>Scoped, read-mostly tools</b>
+            <span>Agents can list, read, search and create notes, and browse the marketplace. No edits in place, no deletes, no settings — and every tool is documented right here.</span>
+          </div>
+        </div>
+        <div class="t-item">
+          <span data-icon="ScrollText"></span>
+          <div>
+            <b>Logged and revocable</b>
+            <span>Every call — time, agent, tool, result — lands in the log. One tap revokes a token and the agent is out on its next request.</span>
+          </div>
+        </div>
+        <div class="t-item">
+          <span data-icon="WifiOff"></span>
+          <div>
+            <b>Your network, your data</b>
+            <span>On-device MCP speaks only over your own LAN. On the web workspace, traffic flows between you and your agent — FocusCaseX never ships your records anywhere else.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROVAL FLOW (black band) -->
+  <section class="band">
+    <div class="wrap section">
+      <div class="kicker">How a connection is approved</div>
+      <h2>Three steps. The clinic owner holds every key.</h2>
+      <div class="flow">
+        <div class="flow-step">
+          <h3>The agent asks</h3>
+          <p>Any MCP client that connects without a valid token receives <b>authorization required</b> — and FocusCaseX records a pending request showing who asked.</p>
+        </div>
+        <div class="flow-step">
+          <h3>You approve in the app</h3>
+          <p>Open <b>Settings → MCP &amp; Automation</b>, review the pending request, tap Approve. FocusCaseX issues a personal access token <span style="font-family:var(--font-mono);color:var(--blue-bright);">fcxmcp_…</span> for that agent.</p>
+        </div>
+        <div class="flow-step">
+          <h3>The agent connects</h3>
+          <p>Paste the token into the agent's configuration (below). From then on every call is authenticated, logged, and revocable in the same screen.</p>
+        </div>
+      </div>
+      <div class="hero-cta" style="margin-top: 36px;">
+        <a class="btn blue-on-dark" href="#connect">Get the connection configs</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONNECT GUIDES -->
+  <section class="mcp-sec" id="connect" style="scroll-margin-top: 76px;">
+    <div class="wrap">
+      <div class="kicker">Connect</div>
+      <h2>Pick your agent. Paste two lines.</h2>
+      <p class="mcp-lede">Create your token first: open FocusCaseX → <b>Settings → MCP &amp; Automation</b> → <b>Create token</b>, and name it after the agent ("Claude Code", "Front-desk assistant"…). Then use one of these:</p>
+
+      <div class="conn-grid">
+        <div class="conn-card">
+          <div class="conn-head"><span data-icon="Terminal" data-icon-size="16"></span><b>Claude Code</b><span class="conn-where">terminal</span></div>
+          <div class="fence"><span class="cx-cmd">claude mcp add</span> --transport http focuscasex \
+  https://focuscasex.vercel.app/api/mcp/server \
+  --header <span class="cx-str">"Authorization: Bearer fcxmcp_YOUR_TOKEN"</span></div>
+        </div>
+        <div class="conn-card">
+          <div class="conn-head"><span data-icon="LayoutGrid" data-icon-size="16"></span><b>Cursor</b><span class="conn-where">~/.cursor/mcp.json</span></div>
+          <div class="fence">{
+  <span class="cx-str">"mcpServers"</span>: {
+    <span class="cx-str">"focuscasex"</span>: {
+      <span class="cx-str">"url"</span>: "https://focuscasex.vercel.app/api/mcp/server",
+      <span class="cx-str">"headers"</span>: {
+        <span class="cx-str">"Authorization"</span>: "Bearer fcxmcp_YOUR_TOKEN"
+      }
+    }
+  }
+}</div>
+        </div>
+        <div class="conn-card">
+          <div class="conn-head"><span data-icon="MonitorSmartphone" data-icon-size="16"></span><b>Any MCP client</b><span class="conn-where">HTTP transport</span></div>
+          <div class="fence"><span class="cx-cmd">POST</span> /api/mcp/server
+<span class="cx-cmd">Authorization:</span> Bearer fcxmcp_YOUR_TOKEN
+<span class="cx-cmd">Content-Type:</span> application/json
+
+{"jsonrpc":"2.0","id":1,
+ "method":"tools/list"}</div>
+        </div>
+      </div>
+
+      <div class="endpoint-row">
+        <span class="ep-tag">On-device</span>
+        <code>http://&lt;device-ip&gt;:8080/api/mcp/server</code>
+        <span class="muted small">The app on your phone or tablet serves MCP over your own Wi-Fi — the exact address is shown under Settings → MCP &amp; Automation.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS TABLE (black band) -->
+  <section class="band" id="tools" style="scroll-margin-top: 76px;">
+    <div class="wrap section">
+      <div class="kicker">Reference</div>
+      <h2>Every tool an agent gets. That's the whole list.</h2>
+      <div class="tools-table-wrap">
+        <table class="tools-table">
+          <thead><tr><th>Tool</th><th>Arguments</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td class="t-name">fcx_status</td><td class="t-args">—</td><td>A snapshot of the workspace: app version, note count, folders, server time. The agent's "where am I" call.</td></tr>
+            <tr><td class="t-name">fcx_list_notes</td><td class="t-args">folder?, limit?</td><td>List clinic notes with path, title and last-updated — optionally scoped to one folder like <span style="font-family:var(--font-mono);">Clinic/Recalls</span>.</td></tr>
+            <tr><td class="t-name">fcx_search_notes</td><td class="t-args">query, limit?</td><td>Full-text search across the EMR — the same search the app itself uses.</td></tr>
+            <tr><td class="t-name">fcx_get_note</td><td class="t-args">path</td><td>Read one note in full — frontmatter and body included.</td></tr>
+            <tr><td class="t-name">fcx_create_note</td><td class="t-args">path, title?, content</td><td>Create a new note (never overwrites — an existing path returns a clear error). The agent's way to file a draft where you'll find it.</td></tr>
+            <tr><td class="t-name">fcx_list_market</td><td class="t-args">kind?</td><td>Browse the marketplace catalog — extensions, capsules, themes, templates — so agents can suggest add-ons for a task.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECIPES -->
+  <section class="mcp-sec">
+    <div class="wrap">
+      <div class="kicker">Automation recipes</div>
+      <h2>Three things worth wiring up on day one.</h2>
+      <div class="conn-grid">
+        <div class="recipe">
+          <h3><span data-icon="Sun" data-icon-size="16"></span>Morning brief</h3>
+          <div class="r-tools">
+            <span class="kindchip">fcx_status</span><span class="kindchip">fcx_list_notes</span><span class="kindchip">fcx_search_notes</span>
+          </div>
+          <p>The agent reads today's book and recalls, then posts a two-minute summary of the day: who's due, who's overdue, what's unbilled.</p>
+          <div class="r-prompt">"Read my Clinic/Appointments and Clinic/Recalls pages and give me a morning brief — first patient, recalls due, anything unpaid."</div>
+        </div>
+        <div class="recipe">
+          <h3><span data-icon="FileText" data-icon-size="16"></span>Draft a visit summary</h3>
+          <div class="r-tools">
+            <span class="kindchip">fcx_get_note</span><span class="kindchip">fcx_create_note</span>
+          </div>
+          <p>The agent pulls a patient's visit notes, writes a clean summary letter in your format, and files it under Drafts — you review and send, nothing goes out unread.</p>
+          <div class="r-prompt">"Get the visit history for Arun Kumar and draft a follow-up letter into Clinic/Drafts/Arun — discharge summary, plain language."</div>
+        </div>
+        <div class="recipe">
+          <h3><span data-icon="Package" data-icon-size="16"></span>Marketplace sweep</h3>
+          <div class="r-tools">
+            <span class="kindchip">fcx_list_market</span>
+          </div>
+          <p>Ask the agent what your workflow is missing — it reads the catalog and suggests the exact capsules or extensions that fit, with install codes.</p>
+          <div class="r-prompt">"Search the marketplace for things that help with recalls and billing — suggest three, with their install codes."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="mcp-sec" style="padding-top: 0;">
+    <div class="wrap-narrow">
+      <div class="kicker">Questions</div>
+      <h2 style="margin-bottom: 18px;">Good to know</h2>
+      <div class="faq">
+        <details>
+          <summary>Is my patient data sent to some cloud AI?<span data-icon="Plus"></span></summary>
+          <div class="faq-a">No. MCP connects <i>your</i> agent to <i>your</i> workspace over your own connection. Whatever the agent does with what it reads is governed by the AI service you chose and its terms — FocusCaseX itself never forwards your records anywhere.</div>
+        </details>
+        <details>
+          <summary>Can an agent change or delete my records?<span data-icon="Plus"></span></summary>
+          <div class="faq-a">No. The tool list is deliberately read-mostly: list, read, search, and create-only notes. There is no edit-in-place, no delete, and no access to settings or billing actions. Create never overwrites an existing note.</div>
+        </details>
+        <details>
+          <summary>What happens if an agent connects without approval?<span data-icon="Plus"></span></summary>
+          <div class="faq-a">It gets a single "authorization required" response, and a pending request appears under Settings → MCP &amp; Automation showing who asked. If you don't recognize it, tap Deny — and it stays locked out.</div>
+        </details>
+        <details>
+          <summary>How do I switch MCP off?<span data-icon="Plus"></span></summary>
+          <div class="faq-a">Revoke the token. The agent is out on its next request — no restarts, no settings changes. On a device you can also simply stop the host server.</div>
+        </details>
+        <details>
+          <summary>Which agents can connect?<span data-icon="Plus"></span></summary>
+          <div class="faq-a">Anything that speaks MCP over HTTP: Claude Code, Cursor, custom scripts, scheduling automations, in-clinic kiosk assistants. If it can POST JSON-RPC with a header, it can connect — once you approve it.</div>
+        </details>
+      </div>
+      <div class="cta-band" style="margin-top: 54px;">
+        <div style="flex:1;min-width:260px;">
+          <h2>Set it up in two minutes.</h2>
+          <p>Open FocusCaseX → Settings → MCP &amp; Automation → Create token. Then connect your agent with a config above.</p>
+        </div>
+        <button class="btn blue-on-dark" type="button" data-copy="Settings → MCP &amp; Automation → Create token"><span data-icon="Copy" data-icon-size="15"></span><span>Copy the setup path</span></button>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer id="site-footer"></footer>
+<script src="assets/icons.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  (function () {
+    document.querySelectorAll("[data-icon]").forEach(function (el) {
+      var size = parseInt(el.getAttribute("data-icon-size") || "16", 10);
+      el.outerHTML = FCX.icon(el.getAttribute("data-icon"), size);
+    });
+    FCX.ready({ active: "mcp" }).then(function () {
+      FCX.wireCopyButtons(document);
+      FCX.wireDeepLinks(document);
+    });
+  })();
+</script>
+</body>
+</html>

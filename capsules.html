@@ -4,103 +4,65 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Capsules — FocusCaseX Marketplace</title>
-<meta name="description" content="Free capsules for FocusCaseX — ready-made sections like appointment boards, patient panels and visit history that you drop into any clinic page with one tap.">
+<meta name="description" content="Browse 19 free FocusCaseX capsules — appointment boards, patient registers, visit histories and EMR blocks that render right inside your clinic pages. See a live sample board before you install.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="icon.svg">
 <link rel="stylesheet" href="assets/styles.css">
+<style>
+  .feat { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 26px; align-items: center; }
+  @media (max-width: 860px) { .feat { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
 <header id="site-header"></header>
 <main>
+  <div class="wrap">
+    <section class="page-head">
+      <div class="kicker">Capsules</div>
+      <h1>Capsules</h1>
+      <p class="lede">Ready-made sections for your pages — boards, registers and record blocks that render right where you paste them.</p>
+      <p class="explain">19 capsules · paste a two-line block into any page · the section renders with your live records</p>
+    </section>
 
-  <div class="wrap page-head">
-    <p class="kicker" style="color:var(--k-capsule)">Capsules</p>
-    <h1>Capsules</h1>
-    <p class="lede">Ready-made sections for your pages.</p>
-    <p class="explain">A <strong>capsule</strong> is a ready-made section — like an appointment board or a patient's visit history — that you drop into any clinic page with <strong>one tap</strong>.</p>
-  </div>
-
-  <section class="section" id="spotlight">
-    <div class="wrap">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:48px;align-items:center;">
-        <div>
-          <p class="kicker">See one running</p>
-          <h2>The appointment board</h2>
-          <p class="muted" style="margin-top:14px;max-width:48ch">Bookings, walk-ins, exam and billing flow across one board — this is a sample with demo data; the real one reads your own appointments.</p>
-          <a class="btn small" style="margin-top:22px" id="spotlight-link" href="item.html?id=capsule:ui-appointment">Open Appointment board</a>
+    <section class="section-tight">
+      <div class="preview-shell">
+        <div class="feat">
+          <div id="feat-stage"></div>
+          <div>
+            <div class="kicker" style="color: var(--k-capsule);">Live sample board</div>
+            <h3 style="font-size:19px;">The front-desk day book, running.</h3>
+            <p style="margin-top:10px;color:var(--ink-2);font-size:13.8px;line-height:1.6;">This is the Appointment board capsule with sample data — stats header, patient rows, payment and stage chips. Install it, paste its block, and your version reads your real appointments.</p>
+            <a class="btn small primary" href="item.html?id=capsule:ui-appointment" style="margin-top:14px;">Open the Appointment board</a>
+          </div>
         </div>
-        <div id="spotlight-demo"></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" id="browse">
-    <div class="wrap">
-      <div class="tabs-row">
-        <div class="tabs" id="tabs" aria-label="Capsule categories"></div>
-      </div>
-      <div id="grid"></div>
-      <p class="skip-note" style="margin-top:20px">Capsules are embedded with a two-line block — every capsule's detail page shows its block, ready to copy.</p>
-    </div>
-  </section>
-
+    <section class="section-tight">
+      <div id="capsule-grid"></div>
+      <p class="skip-note" style="margin-top: 26px;">Capsules are stored on your device after install and render offline, like every page in FocusCaseX.</p>
+    </section>
+  </div>
 </main>
 <footer id="site-footer"></footer>
 <script src="assets/icons.js"></script>
 <script src="assets/app.js"></script>
 <script>
-  FCX.ready({ active: "capsule" }).then(function () {
-    var APPOINTMENT_ID = "capsule:ui-appointment";
-    var tabsEl = document.getElementById("tabs");
-    var gridEl = document.getElementById("grid");
+  document.querySelectorAll("[data-icon]").forEach((el) => {
+    el.outerHTML = FCX.icon(el.getAttribute("data-icon"), Number(el.getAttribute("data-icon-size")) || 16);
+  });
 
-    /* Spotlight — defensive: hide the whole section if the appointment
-       board capsule is not in the catalog. */
-    var appt = FCX.byId(APPOINTMENT_ID);
-    var spot = document.getElementById("spotlight");
-    if (!appt) {
-      spot.classList.add("hidden");
-    } else {
-      document.getElementById("spotlight-demo").innerHTML = FCX.demoBoardHtml();
-      document.getElementById("spotlight-link").href = FCX.itemUrl(appt.id);
-    }
+  FCX.ready({ active: "capsule" }).then(() => {
+    /* --- featured live sample --- */
+    document.getElementById("feat-stage").innerHTML = FCX.demoForCapsule("ui-appointment");
 
-    /* Capsule pool + category tabs ("All" first, then categories by size). */
-    var caps = FCX.items.filter(function (it) { return it.kind === "capsule"; });
-    var counts = {};
-    caps.forEach(function (it) {
-      var c = it.category || "Other";
-      counts[c] = (counts[c] || 0) + 1;
-    });
-    var cats = Object.keys(counts).sort(function (a, b) {
-      return counts[b] - counts[a] || a.localeCompare(b);
-    });
-    var tabs = [{ id: "all", label: "All", count: caps.length }].concat(
-      cats.map(function (c) { return { id: c, label: c, count: counts[c] }; })
-    );
-
-    function currentCat() {
-      var c = FCX.getParam("cat");
-      return (c && cats.indexOf(c) !== -1) ? c : "all";
-    }
-
-    function renderList() {
-      var cat = currentCat();
-      var list = cat === "all"
-        ? caps.slice()
-        : caps.filter(function (it) { return (it.category || "Other") === cat; });
-      gridEl.innerHTML = FCX.renderGrid(FCX.SORTS.recommended(list), { cap: 12, copyEmbed: true });
-      FCX.wireGrid(gridEl);
-    }
-
-    FCX.renderTabs(tabsEl, tabs, currentCat(), function (id) {
-      FCX.setParam("cat", id === "all" ? "" : id);
-      renderList();
-    });
-
-    renderList();
+    /* --- grid --- */
+    const capsules = FCX.recommendOrder(FCX.items.filter((it) => it.kind === "capsule"));
+    const host = document.getElementById("capsule-grid");
+    host.innerHTML = FCX.renderGrid(capsules, { cap: 12, copyEmbed: true });
+    FCX.wireGrid(host);
   });
 </script>
 </body>

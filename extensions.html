@@ -4,106 +4,67 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Extensions — FocusCaseX Marketplace</title>
-<meta name="description" content="Browse 19 free extensions for FocusCaseX — productivity, navigation, writing, clinical and appearance tools, installed from inside the app. Reviewed and published by CaseX Labs.">
+<meta name="description" content="Browse 19 free FocusCaseX extensions — optometry EMR tools, diagrams, alarms and workflow boosters that switch on the moment you install them.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="icon.svg">
 <link rel="stylesheet" href="assets/styles.css">
+<style>
+  .feat { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 26px; align-items: center; }
+  @media (max-width: 860px) { .feat { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
 <header id="site-header"></header>
 <main>
   <div class="wrap">
-    <div class="page-head">
-      <p class="kicker" style="color:var(--k-extension)">Extensions</p>
+    <section class="page-head">
+      <div class="kicker">Extensions</div>
       <h1>Extensions</h1>
-      <p class="lede">Small tools that add features — schedules, shortcuts, summaries and more, straight into your workspace.</p>
-      <p class="explain" id="head-explain">19 extensions · reviewed by CaseX Labs · install from inside the app</p>
-    </div>
+      <p class="lede">Small tools that add features — a new button in your toolbar, a panel beside your notes, a workflow that was missing.</p>
+      <p class="explain">19 extensions · switch on the moment you install · built and reviewed by CaseX Labs</p>
+    </section>
 
-    <div class="tabs-row">
-      <div class="tabs" id="cat-tabs" aria-label="Extension categories"></div>
-    </div>
+    <section class="section-tight">
+      <div class="preview-shell">
+        <div class="feat">
+          <div id="feat-stage"></div>
+          <div>
+            <div class="kicker">Live mock-up</div>
+            <h3 style="font-size:19px;">What an extension looks like in place.</h3>
+            <p style="margin-top:10px;color:var(--ink-2);font-size:13.8px;line-height:1.6;">This mock-up shows Optomize — the optometry EMR suite — as it lands in your workspace: a toolbar action, the surfaces it writes to, everything on-device. Every extension page shows its own mock like this.</p>
+            <a class="btn small primary" href="item.html?id=plugin:optomize" style="margin-top:14px;">Open Optomize</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <div id="grid-wrap"></div>
-
-    <p class="skip-note" style="margin-top:26px">Extensions are installed from Settings → Marketplace inside FocusCaseX. <a href="install.html">See the install guide</a>.</p>
+    <section class="section-tight">
+      <div id="plugin-grid"></div>
+      <p class="skip-note" style="margin-top: 26px;">Extensions run entirely on your device after install — no accounts, no cloud, no cost.</p>
+    </section>
   </div>
 </main>
 <footer id="site-footer"></footer>
 <script src="assets/icons.js"></script>
 <script src="assets/app.js"></script>
 <script>
-  // Extensions browse page: category tabs (live counts from the catalog),
-  // 12-card capped grid, shareable ?cat= state. Kind: plugin.
+  document.querySelectorAll("[data-icon]").forEach((el) => {
+    el.outerHTML = FCX.icon(el.getAttribute("data-icon"), Number(el.getAttribute("data-icon-size")) || 16);
+  });
+
   FCX.ready({ active: "plugin" }).then(() => {
-    const plugins = FCX.items.filter((it) => it.kind === "plugin");
+    /* --- featured live mock --- */
+    const feat = FCX.byId("plugin:optomize");
+    document.getElementById("feat-stage").innerHTML =
+      FCX.extensionPreviewHtml(feat || { name: "Optomize", icon: "ScanEye" });
 
-    // Head explainer, recomputed so it always matches the catalog.
-    document.getElementById("head-explain").textContent =
-      plugins.length + " extensions · reviewed by CaseX Labs · install from inside the app";
-
-    // Tabs: All + every category present among extension items, live counts,
-    // ordered most-first (ties alphabetical).
-    const counts = new Map();
-    plugins.forEach((it) => {
-      const c = it.category || "Other";
-      counts.set(c, (counts.get(c) || 0) + 1);
-    });
-    const tabs = [{ id: "all", label: "All", count: plugins.length }].concat(
-      Array.from(counts.entries())
-        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-        .map(([label, n]) => ({ id: label, label: label, count: n }))
-    );
-
-    const tabsEl = document.getElementById("cat-tabs");
-    const gridWrap = document.getElementById("grid-wrap");
-
-    function currentCat() {
-      const raw = FCX.getParam("cat");
-      if (!raw) return "all";
-      const hit = tabs.find((t) => t.id.toLowerCase() === String(raw).toLowerCase());
-      return hit ? hit.id : "all";
-    }
-
-    function rememberCat(id) {
-      try {
-        FCX.setParam("cat", id === "all" ? "" : id);
-      } catch (e) {
-        /* history updates can be blocked on file:// — filtering still works */
-      }
-    }
-
-    // Canonicalize a valid but oddly-cased ?cat= so shared links stay clean.
-    (function syncParam() {
-      const raw = FCX.getParam("cat");
-      const cur = currentCat();
-      if (raw && cur !== raw) rememberCat(cur);
-    })();
-
-    function render() {
-      const cat = currentCat();
-      const items = FCX.SORTS.recommended(
-        cat === "all"
-          ? plugins.slice()
-          : plugins.filter((it) => (it.category || "Other") === cat)
-      );
-      if (!items.length) {
-        gridWrap.innerHTML =
-          '<p class="explain">No add-on matches that. Try a shorter word, or tap a category below.</p>';
-        return;
-      }
-      gridWrap.innerHTML = FCX.renderGrid(items, { cap: 12 });
-      FCX.wireGrid(gridWrap);
-    }
-
-    FCX.renderTabs(tabsEl, tabs, currentCat(), (id) => {
-      rememberCat(id);
-      render();
-    });
-
-    render();
+    /* --- grid --- */
+    const plugins = FCX.recommendOrder(FCX.items.filter((it) => it.kind === "plugin"));
+    const host = document.getElementById("plugin-grid");
+    host.innerHTML = FCX.renderGrid(plugins, { cap: 12 });
+    FCX.wireGrid(host);
   });
 </script>
 </body>

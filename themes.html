@@ -4,22 +4,44 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Themes — FocusCaseX Marketplace</title>
-<meta name="description" content="Browse 22 free FocusCaseX themes — dark and light looks that restyle the whole workspace. Preview swatches, one tap in Settings → Appearance, no download.">
+<meta name="description" content="Browse 22 free FocusCaseX themes — dark and light looks that restyle the whole workspace. Preview every one live with its real colors, one tap in Settings → Appearance, no download.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="icon.svg">
 <link rel="stylesheet" href="assets/styles.css">
+<style>
+  .feat { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 26px; align-items: center; }
+  @media (max-width: 860px) { .feat { grid-template-columns: 1fr; } }
+</style>
 </head>
 <body>
 <header id="site-header"></header>
 <main>
   <div class="wrap">
     <section class="page-head">
-      <div class="kicker" style="color: var(--k-theme);">Themes</div>
+      <div class="kicker">Themes</div>
       <h1>Themes</h1>
       <p class="lede">A new look for the whole workspace — backgrounds, panels, text and accent remap in one tap.</p>
       <p class="explain">22 themes · applies instantly in <strong>Settings → Appearance</strong> · clears back to the native look any time</p>
+    </section>
+
+    <section class="section-tight">
+      <div class="preview-shell">
+        <div class="feat">
+          <div>
+            <div class="seg" style="margin-bottom:14px;" id="feat-seg"></div>
+            <div id="feat-stage"></div>
+            <div class="preview-note"><span data-icon="Eye" data-icon-size="14"></span><span>Real theme variables — switch one on below and this is exactly what you'll see.</span></div>
+          </div>
+          <div>
+            <div class="kicker">Try the look right here</div>
+            <h3 style="font-size:19px;">Painted with the real thing.</h3>
+            <p style="margin-top:10px;color:var(--ink-2);font-size:13.8px;line-height:1.6;">Every theme card below carries its real swatches. Pick a tone, tap a theme, and the preview restyles on the spot — no install needed to decide.</p>
+            <a class="btn small primary" href="item.html?id=theme:midnight" style="margin-top:14px;">Open Midnight</a>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="section-tight">
@@ -39,6 +61,10 @@
 <script src="assets/icons.js"></script>
 <script src="assets/app.js"></script>
 <script>
+  document.querySelectorAll("[data-icon]").forEach((el) => {
+    el.outerHTML = FCX.icon(el.getAttribute("data-icon"), Number(el.getAttribute("data-icon-size")) || 16);
+  });
+
   FCX.ready({ active: "theme" }).then(() => {
     const themes = FCX.items.filter((it) => it.kind === "theme");
     const byTone = {
@@ -47,12 +73,35 @@
     };
     const counts = { dark: byTone.dark.length, light: byTone.light.length };
 
+    /* --- featured live preview: rotate real themes --- */
+    const FEAT = ["blueprint", "midnight", "paper-light", "terminal"];
+    const segEl = document.getElementById("feat-seg");
+    const stageEl = document.getElementById("feat-stage");
+    segEl.innerHTML = FEAT.map((id, i) => {
+      const it = FCX.byId("theme:" + id);
+      return '<button type="button" data-theme="' + id + '"' + (i === 0 ? ' class="on"' : '') + '>' + FCX.esc(it ? it.name : id) + '</button>';
+    }).join("");
+    function paintFeat(id) {
+      FCX.fetchThemeVars(FCX.byId("theme:" + id)).then((v) => {
+        stageEl.innerHTML = FCX.themePreviewHtml(v) +
+          '<div class="preview-note" style="margin-top:12px;">' + FCX.swatchesHtml(v) + '<span style="margin-left:6px;">bg · panel · text · accent · border</span></div>';
+      });
+    }
+    paintFeat(FEAT[0]);
+    segEl.querySelectorAll("[data-theme]").forEach((b) => {
+      b.addEventListener("click", () => {
+        segEl.querySelectorAll("[data-theme]").forEach((x) => x.classList.remove("on"));
+        b.classList.add("on");
+        paintFeat(b.getAttribute("data-theme"));
+      });
+    });
+
+    /* --- tone filter + grid --- */
     const seg = document.getElementById("tone-seg");
     const host = document.getElementById("theme-grid");
     const note = document.getElementById("tone-count");
     note.textContent = counts.dark + " dark · " + counts.light + " light";
 
-    // Default tone: ?v= override, else the visitor's own color scheme.
     const fromUrl = (FCX.getParam("v") || "").toLowerCase();
     let tone = (fromUrl === "dark" || fromUrl === "light")
       ? fromUrl

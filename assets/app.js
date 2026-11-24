@@ -1,8 +1,10 @@
 /**
- * FocusCaseX Marketplace — core runtime (vanilla JS, no dependencies).
+ * FocusCaseX Marketplace — core runtime (vanilla JS, no dependencies). v4.
  * Shared by every page: catalog loading, chrome injection (topbar/footer),
  * canonical card renderer, kind tabs, show-all expander, global search
- * overlay, theme swatches, mini markdown renderer, demo boards, clipboard.
+ * overlay, theme previews painted with real theme variables, capsule demo
+ * boards, extension mock previews, markdown renderer, clipboard, install
+ * codes, fcx:// deep-link install with fallback panel.
  *
  * Exposes window.FCX. Pages load:
  *   <script src="assets/icons.js"></script>
@@ -14,7 +16,8 @@
 
   const ICONS = window.FCX_ICONS || {};
   const CATALOG_URL = "catalog.json";
-  const CACHE_KEY = "fcx.market.catalog.v3";
+  const CACHE_KEY = "fcx.market.catalog.v4";
+  const APP_LINK = "https://focuscasex.vercel.app";
 
   /* ----------------------------- small utils ----------------------------- */
 
@@ -211,11 +214,157 @@
     return recommendOrder(sameCat).concat(recommendOrder(rest)).slice(0, n || 3);
   }
 
+  /* --------------------------- install codes ------------------------------
+   * Every add-on carries a short deterministic code (FCX-XXXXXX) derived
+   * from its id — the same algorithm runs inside the app, so a code pasted
+   * or typed into the in-app Marketplace resolves to this exact item.
+   * Not secret, just a convenient handle. */
+
+  const CODE_ALPHABET = "23456789ABCDEFGHJKMNPQRSTUVWXYZ"; // no 0/O/1/I/L
+
+  function fnv1a(str) {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 0x01000193);
+    }
+    return h >>> 0;
+  }
+
+  function installCode(id) {
+    let h = fnv1a(String(id || ""));
+    let out = "";
+    for (let i = 0; i < 6; i++) {
+      out += CODE_ALPHABET[h % CODE_ALPHABET.length];
+      h = Math.floor(h / CODE_ALPHABET.length) + (h >>> 16);
+    }
+    return "FCX-" + out;
+  }
+
+  /** Accepts: a code (FCX-XXXXXX / XXXXXX), a raw item id, an item.html or
+   * fcx://install link, or any text containing one of those. */
+  function resolveCode(text) {
+    const raw = String(text || "").trim();
+    if (!raw || !ITEMS.length) return null;
+    let m = raw.match(/(?:id=|%22id%22[:% 3]+)([\w:-]+)/i);
+    const fcx = raw.match(/fcx:\/\/install\?id=([\w:%-]+)/i);
+    const candidateId = fcx ? decodeURIComponent(fcx[1]) : (m ? decodeURIComponent(m[1]) : null);
+    if (candidateId && BY_ID[candidateId]) return BY_ID[candidateId];
+    let norm = raw.toUpperCase().replace(/[^0-9A-Z]/g, "");
+    if (norm.startsWith("FCX")) norm = norm.slice(3);
+    if (norm.length === 6) {
+      const hit = ITEMS.find((it) => installCode(it.id) === "FCX-" + norm);
+      if (hit) return hit;
+    }
+    // last resort: a bare id typed directly
+    const bare = raw.replace(/^fcx:\/\/install\?id=/i, "");
+    return BY_ID[bare] || null;
+  }
+
+  /* ------------------------- deep-link install ----------------------------
+   * "Install in the app" buttons open fcx://install?id=… — on Android with
+   * FocusCaseX installed the browser hands the link straight to the app,
+   * which shows the confirmation dialog. If nothing opens (no app), a
+   * fallback panel appears with the install code instead. */
+
+  function deepLinkUrl(id) {
+    return `fcx://install?id=${encodeURIComponent(id)}`;
+  }
+
+  let fallbackEl = null;
+
+  function showAppFallback(it) {
+    if (fallbackEl) return;
+    fallbackEl = document.createElement("div");
+    fallbackEl.className = "ov open";
+    fallbackEl.setAttribute("role", "dialog");
+    fallbackEl.innerHTML = `
+<div class="ov-backdrop" data-fx-close></div>
+<div class="ov-panel" style="max-width:440px;">
+  <div style="padding:22px 22px 8px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="width:38px;height:38px;border-radius:10px;background:var(--blue-soft);color:var(--blue);display:flex;align-items:center;justify-content:center;">${icon("MonitorSmartphone", 19)}</span>
+      <div><b style="font-family:var(--font-display);font-size:15.5px;">Open this in FocusCaseX</b>
+      <div style="font-size:12px;color:var(--ink-3);">On the device that has the app installed</div></div>
+    </div>
+    <p style="margin-top:14px;font-size:13px;color:var(--ink-2);line-height:1.55;">
+      The install button hands <b>${esc(it.name)}</b> to the FocusCaseX app on this device, where you confirm the install.
+      If the app isn't on this device, type the code below in the app instead —
+      <b>Settings → Marketplace → Install by code</b>.
+    </p>
+  </div>
+  <div style="padding:10px 22px 6px;">
+    <div class="code-row" style="margin-top:2px;">
+      <span class="code-token">${esc(installCode(it.id))}</span>
+      <button class="chip" type="button" data-copy="${esc(installCode(it.id))}">${icon("Copy", 13)}<span>Copy code</span></button>
+    </div>
+    <div style="display:flex;gap:9px;margin:14px 0 6px;">
+      <a class="btn small primary" href="${esc(itemUrl(it.id))}">View item page</a>
+      <button class="btn small" type="button" data-fx-close>Close</button>
+    </div>
+  </div>
+</div>`;
+    document.body.appendChild(fallbackEl);
+    wireCopyButtons(fallbackEl);
+    fallbackEl.querySelectorAll("[data-fx-close]").forEach((el) =>
+      el.addEventListener("click", () => { fallbackEl.remove(); fallbackEl = null; }));
+  }
+
+  function openInApp(it) {
+    if (!it) return;
+    let switched = false;
+    const onHide = () => { switched = true; };
+    document.addEventListener("visibilitychange", onHide, { once: true });
+    window.addEventListener("pagehide", onHide, { once: true });
+    window.addEventListener("blur", onHide, { once: true });
+    try { location.href = deepLinkUrl(it.id); } catch (e) { /* blocked — fallback covers it */ }
+    setTimeout(() => {
+      document.removeEventListener("visibilitychange", onHide);
+      window.removeEventListener("pagehide", onHide);
+      window.removeEventListener("blur", onHide);
+      if (!switched && !document.hidden) showAppFallback(it);
+    }, 1900);
+  }
+
+  /** Wire [data-open-app="<item id>"] buttons and [data-code-form] boxes. */
+  function wireDeepLinks(root) {
+    (root || document).querySelectorAll("[data-open-app]").forEach((btn) => {
+      if (btn.__fxDeep) return;
+      btn.__fxDeep = true;
+      btn.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        const it = BY_ID[btn.getAttribute("data-open-app")];
+        if (it) openInApp(it);
+      });
+    });
+    (root || document).querySelectorAll("[data-code-form]").forEach((form) => {
+      if (form.__fxCode) return;
+      form.__fxCode = true;
+      const input = form.querySelector("[data-code-input]");
+      const msg = form.parentElement.querySelector(".code-msg");
+      form.addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        const it = resolveCode(input ? input.value : "");
+        if (it) {
+          if (msg) { msg.classList.remove("err"); msg.textContent = "Opening " + it.name + "…"; }
+          location.href = itemUrl(it.id);
+        } else {
+          if (msg) {
+            msg.classList.add("err");
+            msg.textContent = "No add-on matches that code — check the letters, or browse the catalog below.";
+          } else {
+            openSearch();
+          }
+        }
+      });
+    });
+  }
+
   /* --------------------------- shared renderers --------------------------- */
 
   function tileStyle(kind) {
     const k = KINDS[kind] || {};
-    return `--card-c:${k.c || "var(--ink)"};--card-soft:${k.soft || "var(--border)"};`;
+    return `--card-c:${k.c || "var(--blue)"};--card-soft:${k.soft || "var(--blue-soft)"};`;
   }
 
   function shield() {
@@ -231,7 +380,6 @@
 
   function cardHtml(it, opts) {
     opts = opts || {};
-    const k = KINDS[it.kind];
     const copyBtn = opts.copyEmbed && it.kind === "capsule"
       ? `<button class="card-copy" data-copy-embed="${esc(it.meta.capsuleId || it.id)}" title="Copy embed block" aria-label="Copy embed block">${icon("Copy", 14)}</button>`
       : "";
@@ -360,6 +508,10 @@
     const v = vars;
     const ink = v.text || "#111";
     const soft = (c, a) => c + Math.round(a * 255).toString(16).padStart(2, "0");
+    const panel = v.bgSidebar || v.bgPanel || v.bg || "#eee";
+    const chips = v.accent && v.accentForeground
+      ? `background:${esc(v.accent)};color:${esc(v.accentForeground)};`
+      : `background:${esc(v.accent || "#888")};color:${esc(v.bg || "#fff")};`;
     return `
 <div class="theme-preview" style="background:${esc(v.bg || "#fff")};">
   <div class="tp-bar" style="border-bottom:1px solid ${esc(v.border || "#ddd")};">
@@ -372,7 +524,7 @@
     <span style="width:84px;height:9px;border-radius:5px;background:${soft(ink, .10)}"></span>
   </div>
   <div class="tp-body">
-    <div class="tp-side" style="background:${esc(v.bgPanel || v.bg || "#eee")};border-right:1px solid ${esc(v.border || "#ddd")};">
+    <div class="tp-side" style="background:${esc(panel)};border-right:1px solid ${esc(v.border || "#ddd")};">
       <i style="background:${esc(v.accent || "#888")};opacity:.9;"></i>
       <i style="background:${soft(ink, .16)};width:85%"></i>
       <i style="background:${soft(ink, .12)};width:70%"></i>
@@ -385,7 +537,7 @@
       <i style="background:${soft(ink, .10)};width:64%"></i>
       <i style="background:${soft(ink, .10)};width:74%"></i>
       <div class="tp-chiprow">
-        <span style="background:${esc(v.accent || "#888")};color:${esc(v.bg || "#fff")};">6/6</span>
+        <span style="${chips}">6/6</span>
         <span style="background:${soft(ink, .10)};color:${esc(ink)};">IOP 16</span>
         <span style="background:${soft(ink, .08)};color:${esc(ink)};">Δ notes</span>
       </div>
@@ -394,10 +546,15 @@
 </div>`;
   }
 
-  /* -------------------------- capsule demo board -------------------------- */
+  /* -------------------------- capsule demo boards --------------------------
+   * One live sample board per capsule family, so a visitor sees the real
+   * layout before installing. Static sample data, clearly captioned. */
+
+  function demoTag(bg, fg, t) {
+    return `<span class="db-tag" style="background:${bg};color:${fg};">${t}</span>`;
+  }
 
   function demoBoardHtml(caption) {
-    const tag = (bg, fg, t) => `<span class="db-tag" style="background:${bg};color:${fg};">${t}</span>`;
     return `
 <div class="demo-board">
   <div class="db-stats">
@@ -406,11 +563,73 @@
     <span class="db-stat"><b>₹18,400</b><span>Collected</span></span>
     <span class="db-stat"><b>3</b><span>Unpaid</span></span>
   </div>
-  <div class="db-row"><span class="db-time">9:00</span><span class="db-name">Arun Kumar</span>${tag("var(--k-capsule-soft)", "var(--k-capsule)", "Done")}</div>
-  <div class="db-row"><span class="db-time">9:30</span><span class="db-name">Meera Joseph</span>${tag("var(--accent-soft)", "var(--accent)", "In exam")}</div>
-  <div class="db-row"><span class="db-time">10:00</span><span class="db-name">Rahim Shaikh</span>${tag("var(--k-extension-soft)", "var(--k-extension)", "Optics")}</div>
-  <div class="db-row"><span class="db-time">10:30</span><span class="db-name">Divya Nair</span>${tag("var(--k-theme-soft)", "var(--k-theme)", "Billing")}</div>
+  <div class="db-row"><span class="db-time">9:00</span><span class="db-name">Arun Kumar</span>${demoTag("var(--k-capsule-soft)", "var(--k-capsule)", "Done")}</div>
+  <div class="db-row"><span class="db-time">9:30</span><span class="db-name">Meera Joseph</span>${demoTag("var(--k-extension-soft)", "var(--k-extension)", "In exam")}</div>
+  <div class="db-row"><span class="db-time">10:00</span><span class="db-name">Rahim Shaikh</span>${demoTag("var(--k-template-soft)", "var(--k-template)", "Optics")}</div>
+  <div class="db-row"><span class="db-time">10:30</span><span class="db-name">Divya Nair</span>${demoTag("var(--k-theme-soft)", "var(--k-theme)", "Billing")}</div>
   <div class="db-caption">${esc(caption || "Sample data — the real board reads your own appointments.")}</div>
+</div>`;
+  }
+
+  function demoStatsHtml(caption) {
+    return `
+<div class="demo-board">
+  <div class="db-stats">
+    <span class="db-stat"><b>214</b><span>Patients</span></span>
+    <span class="db-stat"><b>32</b><span>Visits today</span></span>
+    <span class="db-stat"><b>₹48,200</b><span>Month billing</span></span>
+    <span class="db-stat"><b>91%</b><span>Recalls booked</span></span>
+  </div>
+  <div class="db-row"><span class="db-time">KPI</span><span class="db-name">New patients · this month</span><span class="db-tag" style="background:var(--blue-soft);color:var(--blue);">+38</span></div>
+  <div class="db-row"><span class="db-time">KPI</span><span class="db-name">Follow-ups due this week</span><span class="db-tag" style="background:var(--k-capsule-soft);color:var(--k-capsule);">27</span></div>
+  <div class="db-row"><span class="db-time">KPI</span><span class="db-name">Optics conversion</span><span class="db-tag" style="background:var(--k-template-soft);color:var(--k-template);">62%</span></div>
+  <div class="db-caption">${esc(caption || "Sample data — the real page computes these from your EMR.")}</div>
+</div>`;
+  }
+
+  function demoQueueHtml(caption, title) {
+    return `
+<div class="demo-board">
+  <div class="db-stats">
+    <span class="db-stat"><b>${title || "12"}</b><span>${(caption || "").indexOf("recall") > -1 ? "Overdue" : "To bill"}</span></span>
+    <span class="db-stat"><b>5</b><span>${(caption || "").indexOf("recall") > -1 ? "Booked today" : "Dispensing"}</span></span>
+    <span class="db-stat"><b>₹9,850</b><span>Collected today</span></span>
+  </div>
+  <div class="db-row"><span class="db-time">MR-104</span><span class="db-name">Arun Kumar</span>${demoTag("var(--k-capsule-soft)", "var(--k-capsule)", "Paid · UPI")}</div>
+  <div class="db-row"><span class="db-time">MR-129</span><span class="db-name">Meera Joseph</span>${demoTag("var(--k-theme-soft)", "var(--k-theme)", "Cash due")}</div>
+  <div class="db-row"><span class="db-time">MR-133</span><span class="db-name">Rahim Shaikh</span>${demoTag("var(--k-extension-soft)", "var(--k-extension)", "Card")}</div>
+  <div class="db-caption">${esc(caption || "Sample data — the real queue reads your billing table.")}</div>
+</div>`;
+  }
+
+  /** Pick the right live sample for a capsule id. */
+  function demoForCapsule(capsuleId) {
+    const id = String(capsuleId || "").replace(/^capsule:/, "");
+    if (id === "ui-clinic" || id === "ui-stats") return demoStatsHtml();
+    if (id === "ui-billing") return demoQueueHtml("Sample data — the real queue reads your billing table.");
+    if (id === "ui-recalls") return demoQueueHtml("Sample data — the real board reads visit advice.", "9");
+    return demoBoardHtml();
+  }
+
+  /* --------------------------- extension mock preview ---------------------- */
+
+  /** A small mock of what an extension adds to the workspace — a toolbar
+   * action, rows it touches and a sample panel. Static, clearly labelled. */
+  function extensionPreviewHtml(it) {
+    const name = esc(cleanCopy(it.name));
+    const rows = [
+      { ic: "Zap", n: name + " action", v: "toolbar" },
+      { ic: "FileText", n: "Writes into your pages", v: "markdown" },
+      { ic: "ShieldCheck", n: "Runs on-device", v: "offline" },
+    ];
+    return `
+<div class="ext-preview">
+  <div class="ext-toolbar">
+    <span class="et-btn">${icon(it.icon || "Puzzle", 13)}${name}</span>
+    <span class="et-quiet">appears in your toolbar after install</span>
+  </div>
+  ${rows.map((r) => `<div class="ext-line"><span class="el-ic">${icon(r.ic, 14)}</span><span class="el-name">${r.n}</span><span class="el-val">${r.v}</span></div>`).join("")}
+  <div class="ext-panel">${icon("Info", 13)}<span>Sample mock-up — the real surface renders inside your workspace with your data.</span></div>
 </div>`;
   }
 
@@ -479,6 +698,32 @@
 </div>`;
   }
 
+  /** The full install card used on item pages: deep-link button, install
+   * code, in-app steps. Wire with FCX.wireDeepLinks(container). */
+  function installCardHtml(it) {
+    const code = installCode(it.id);
+    return `
+<div class="install">
+  <h3>${icon("Download", 16)} Install in FocusCaseX</h3>
+  <div style="margin-top:14px;">
+    <button class="btn primary" type="button" data-open-app="${esc(it.id)}" style="width:100%;">
+      ${icon("MonitorSmartphone", 16)}<span>Install — open the app</span>
+    </button>
+    <div class="preview-note" style="margin-top:9px;">${icon("Info", 13)}<span>Opens FocusCaseX on this device and asks you to confirm the install there.</span></div>
+  </div>
+  <div class="code-row">
+    <span class="code-token" title="Install code — type this inside the app">${esc(code)}</span>
+    <button class="chip" type="button" data-copy="${esc(code)}">${icon("Copy", 13)}<span>Copy code</span></button>
+  </div>
+  <ol class="steps" style="margin-top:16px;">
+    <li><span>Open <strong>FocusCaseX</strong> → <strong>Settings</strong> → <strong>Marketplace</strong>.</span></li>
+    <li><span>Search for <strong>${esc(it.name)}</strong> — or type the code above under <strong>Install by code</strong>.</span></li>
+    <li><span>Tap <strong>Install</strong> — it appears in your workspace right away.</span></li>
+  </ol>
+  <div class="after">Free · works offline after install · remove any time under Settings.</div>
+</div>`;
+  }
+
   /* ------------------------------ URL helpers ----------------------------- */
 
   function itemUrl(id) {
@@ -496,21 +741,22 @@
     const footer = document.getElementById("site-footer");
     const brand = `<a class="brand" href="index.html">${icon("Stethoscope", 20)}<span>FocusCaseX <span class="brand-market">Marketplace</span></span></a>`;
     if (header) {
-      const nav = KIND_ORDER.map((k) => {
-        const kk = KINDS[k];
-        return `<a href="${kk.page}" class="${activeKind === k ? "on" : ""}">${esc(kk.label)}</a>`;
-      }).join("");
+      const nav =
+        KIND_ORDER.map((k) => {
+          const kk = KINDS[k];
+          return `<a href="${kk.page}" class="${activeKind === k ? "on" : ""}">${esc(kk.label)}</a>`;
+        }).join("") +
+        `<a href="mcp.html" class="${activeKind === "mcp" ? "on" : ""}">MCP &amp; Automation</a>`;
       header.innerHTML = `
 <div class="top"><div class="top-inner">
   ${brand}
   <nav class="nav">${nav}</nav>
   <div class="top-actions">
-    <button class="search-btn" id="topbar-search" type="button" aria-label="Search the catalog">${icon("Search", 14)}<span>Search</span><kbd>/</kbd></button>
-    <a class="btn small primary" href="install.html" style="display:none" id="topbar-install">Install guide</a>
+    <button class="search-btn" id="topbar-search" type="button" aria-label="Search the catalog">${icon("Search", 14)}<span class="top-label">Search</span><kbd>/</kbd></button>
+    <a class="btn small primary" href="install.html" id="topbar-install">${icon("Download", 14)}<span class="top-label">Install guide</span></a>
   </div>
 </div></div>`;
       header.querySelector("#topbar-search").addEventListener("click", openSearch);
-      header.querySelector("#topbar-install").style.display = "";
     }
     if (footer) {
       const count = ITEMS.length;
@@ -523,9 +769,10 @@
   </div>
   <div class="foot-links">
     <a href="install.html">Install guide</a>
+    <a href="mcp.html">MCP &amp; Automation</a>
     <a href="api.html">For developers</a>
     <a href="https://github.com/stromplayz/FocusCaseX-Marketplace" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://focuscasex.vercel.app" target="_blank" rel="noopener">FocusCaseX app</a>
+    <a href="${APP_LINK}" target="_blank" rel="noopener">FocusCaseX app</a>
   </div>
 </div></div>`;
     }
@@ -585,6 +832,9 @@
     searchResults = hits;
     searchSel = 0;
     if (!hits.length) {
+      // a code typed into search should still resolve
+      const byCode = resolveCode(q);
+      if (byCode) { location.href = itemUrl(byCode.id); return; }
       listEl.innerHTML = `<div class="search-empty">No add-on matches that. Try a shorter word — or browse a category below.
         <div class="tasks">
           <a class="task" href="extensions.html">Extensions ${icon("ArrowRight", 14)}</a>
@@ -680,7 +930,7 @@
     });
   }
 
-  /* ------------------------------- boot ----------------------------------- */
+  /* ------------------------------ boot ----------------------------------- */
 
   async function ready(opts) {
     opts = opts || {};
@@ -688,6 +938,7 @@
     injectChrome(opts.active || null);
     if (opts.search !== false) buildOverlay();
     wireCopyButtons(document);
+    wireDeepLinks(document);
     return FCX;
   }
 
@@ -697,13 +948,16 @@
     byId: (id) => BY_ID[id] || null,
     KINDS, KIND_ORDER,
     recommendOrder, azOrder, newestOrder, SORTS,
-    related, itemUrl, embedFence,
+    related, itemUrl, embedFence, APP_LINK,
     cardHtml, renderGrid, wireGrid, wireCopyButtons, hydrateSwatches, metaRow, tileStyle,
     renderTabs, getParam, setParam,
     fetchThemeVars, swatchesHtml, themePreviewHtml,
-    demoBoardHtml, renderMd, fetchTemplateBody, installSteps,
+    demoBoardHtml, demoStatsHtml, demoQueueHtml, demoForCapsule,
+    extensionPreviewHtml, renderMd, fetchTemplateBody,
+    installSteps, installCardHtml,
+    installCode, resolveCode, deepLinkUrl, openInApp, wireDeepLinks, showAppFallback,
     openSearch, closeSearch,
-    version: 3,
+    version: 4,
   };
   window.FCX = FCX;
 })();

@@ -4,28 +4,40 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How to install — FocusCaseX Marketplace</title>
-<meta name="description" content="Every add-on in the FocusCaseX Marketplace installs with one tap inside the app: open Settings → Marketplace, search, tap Install. Free, works offline after install, remove any time.">
+<meta name="description" content="Install any FocusCaseX add-on three ways: search inside the app, type its install code, or tap Install on this site and let the browser hand it to the app. Free, offline after install, remove any time.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="icon.svg">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  /* Page-local layout only — composes with the design system, restyles nothing. */
+  /* Page-local layout only — composes with the design system. */
   .kind { margin-top: 48px; }
   .kind:first-child { margin-top: 34px; }
   .kind-head { display: flex; align-items: flex-start; gap: 14px; }
   .kind-head .tile {
     width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
-    background: var(--card-soft, var(--border)); color: var(--card-c, var(--ink));
+    background: var(--card-soft, var(--blue-soft)); color: var(--card-c, var(--blue));
   }
   .kind-head .tile svg { width: 20px; height: 20px; }
   .kind-head h2 { font-size: 22px; }
   .kind-one { font-size: 13.5px; color: var(--muted); margin-top: 3px; }
   .kind-feel { margin-top: 14px; max-width: 640px; }
   .kind .steps { margin-top: 14px; }
-  .kind .steps li::before { background: var(--card-c, var(--accent)); }
+  .ways { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 26px; }
+  .way {
+    border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--paper); padding: 22px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .way .way-num {
+    font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: .12em;
+    color: var(--blue);
+  }
+  .way h3 { font-size: 17px; }
+  .way p { font-size: 13.3px; color: var(--ink-2); line-height: 1.6; }
+  .way .steps { margin-top: 4px; }
+  #browser { scroll-margin-top: 76px; }
 </style>
 </head>
 <body>
@@ -34,21 +46,50 @@
   <div class="wrap-narrow">
 
     <section class="page-head">
-      <div class="kicker" style="color: var(--accent);">Install guide</div>
+      <div class="kicker">Install guide</div>
       <h1>How to install</h1>
-      <p class="lede">Installing takes one tap — this is the whole process.</p>
-      <p class="explain">Everything installs from inside FocusCaseX. This page just shows you around.</p>
+      <p class="lede">Three ways in — all free, all one tap.</p>
+      <p class="explain">Everything lives inside FocusCaseX. This page shows you the doors.</p>
     </section>
 
     <section class="section-tight">
-      <div class="install">
-        <h3><span data-icon="Download"></span>Install any add-on</h3>
-        <ol class="steps">
-          <li><span>Open <strong>FocusCaseX</strong> → <strong>Settings</strong> → <strong>Marketplace</strong>.</span></li>
-          <li><span>Search for what you need — try the name, or browse by <strong>Extensions</strong>, <strong>Capsules</strong>, <strong>Themes</strong> or <strong>Templates</strong>.</span></li>
-          <li><span>Tap <strong>Install</strong>. It appears in your workspace right away.</span></li>
-        </ol>
-        <div class="after">Free · works offline after install · remove any time.</div>
+      <div class="ways">
+        <div class="way">
+          <span class="way-num">WAY 1 — IN THE APP</span>
+          <h3>Search the Marketplace</h3>
+          <p>The full catalog ships inside the app. Open it, find it, tap Install.</p>
+          <ol class="steps">
+            <li><span>Open <strong>FocusCaseX</strong> → <strong>Settings</strong> → <strong>Marketplace</strong>.</span></li>
+            <li><span>Search, or browse <strong>Extensions</strong>, <strong>Capsules</strong>, <strong>Themes</strong>, <strong>Templates</strong>.</span></li>
+            <li><span>Tap <strong>Install</strong> — it appears in your workspace right away.</span></li>
+          </ol>
+        </div>
+        <div class="way">
+          <span class="way-num">WAY 2 — BY CODE</span>
+          <h3>Type the install code</h3>
+          <p>Every add-on carries a short code (each item page shows it). Type it in the app and the item opens with its confirm dialog.</p>
+          <ol class="steps">
+            <li><span>Copy the code from any item page here — it looks like <strong>FCX-XXXXXX</strong>.</span></li>
+            <li><span>In the app: <strong>Settings → Marketplace → Install by code</strong>.</span></li>
+            <li><span>Type or paste it, confirm the item, tap <strong>Install</strong>.</span></li>
+          </ol>
+          <form class="code-input" data-code-form style="margin-top: 6px;">
+            <input data-code-input type="text" placeholder="FCX-XXXXXX" aria-label="Install code" autocomplete="off" spellcheck="false">
+            <button class="btn primary small" type="submit" style="min-height:44px;">Open</button>
+          </form>
+          <div class="code-msg">Works with any code from the catalog — try one from an item page.</div>
+        </div>
+        <div class="way" id="browser">
+          <span class="way-num">WAY 3 — FROM THIS SITE</span>
+          <h3>Tap Install, confirm in the app</h3>
+          <p>On any item page, the install button hands the add-on straight to the FocusCaseX app on this device — the app asks you to confirm, then installs it. Nothing to download.</p>
+          <ol class="steps">
+            <li><span>Open an item page and tap <strong>Install — open the app</strong>.</span></li>
+            <li><span>Your browser opens FocusCaseX and shows the item with a <strong>confirm dialog</strong>.</span></li>
+            <li><span>Tap <strong>Install</strong> there — done. (Needs FocusCaseX installed on this device.)</span></li>
+          </ol>
+          <p style="font-size:12px;color:var(--ink-3);margin-top:6px;">If the app isn't on the device, a fallback panel shows the install code instead — type it in the app later (Way 2).</p>
+        </div>
       </div>
     </section>
 
@@ -71,7 +112,7 @@
         </details>
         <details>
           <summary>Do I need this website to install anything?<span data-icon="Plus"></span></summary>
-          <div class="faq-a">No — the full catalog is inside the app under Marketplace. This site is for browsing ahead of time and sharing links with your team.</div>
+          <div class="faq-a">No — the full catalog is inside the app under Marketplace. This site is for browsing ahead of time, previewing items live, and sharing links with your team.</div>
         </details>
         <details>
           <summary>Will it work offline, like the rest of FocusCaseX?<span data-icon="Plus"></span></summary>
@@ -86,8 +127,12 @@
           <div class="faq-a">Extensions add features, capsules are ready-made page sections, themes change the look, and templates are pre-written clinical notes and forms.</div>
         </details>
         <details>
-          <summary>What if an add-on doesn't suit my clinic?<span data-icon="Plus"></span></summary>
-          <div class="faq-a">Remove it in one tap under Settings → Marketplace. Installing or removing never touches your patient records.</div>
+          <summary>The browser button didn't open the app — now what?<span data-icon="Plus"></span></summary>
+          <div class="faq-a">The app may not be installed on that device, or the browser blocked the hand-off. The fallback panel gives you the install code — type it under Settings → Marketplace → Install by code, or just search for the item by name.</div>
+        </details>
+        <details>
+          <summary>Can my AI assistant install add-ons for me?<span data-icon="Plus"></span></summary>
+          <div class="faq-a">It can find them for you — connect your agent through <a href="mcp.html" style="color:var(--blue);font-weight:500;">MCP &amp; Automation</a> and ask it to sweep the marketplace. The install itself stays a one-tap human decision.</div>
         </details>
       </div>
     </section>
@@ -186,6 +231,7 @@
   FCX.ready({ active: null }).then(() => {
     hydrateIcons();
     renderKinds();
+    FCX.wireDeepLinks(document);
   }).catch(() => {
     // The guide itself needs no catalog data — only the chrome does.
     hydrateIcons();
