@@ -607,7 +607,7 @@
     const id = String(capsuleId || "").replace(/^capsule:/, "");
     if (id === "ui-clinic" || id === "ui-stats") return demoStatsHtml();
     if (id === "ui-billing") return demoQueueHtml("Sample data — the real queue reads your billing table.");
-    if (id === "ui-recalls") return demoQueueHtml("Sample data — the real board reads visit advice.", "9");
+    if (id === "ui-recalls") return demoQueueHtml("Sample data — the real recall board reads visit advice.", "9");
     return demoBoardHtml();
   }
 
