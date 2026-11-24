@@ -1,14 +1,16 @@
 /**
- * FocusCaseX Marketplace — core runtime (vanilla JS, no dependencies). v4.
+ * FocusCaseX — core runtime (vanilla JS, no dependencies). v5 "site".
+ * The public site is FocusCaseX; the marketplace is a section of it.
  * Shared by every page: catalog loading, chrome injection (topbar/footer),
  * canonical card renderer, kind tabs, show-all expander, global search
- * overlay, theme previews painted with real theme variables, capsule demo
- * boards, extension mock previews, markdown renderer, clipboard, install
- * codes, fcx:// deep-link install with fallback panel.
+ * overlay, theme previews painted with real theme variables, per-capsule
+ * live demo boards, per-extension functional previews, markdown renderer,
+ * clipboard, install codes, fcx:// deep-link install with fallback panel.
  *
  * Exposes window.FCX. Pages load:
  *   <script src="assets/icons.js"></script>
  *   <script src="assets/app.js"></script>
+ *   [optional] <script src="assets/demos.js"></script>  ← per-item demos
  * and start with FCX.ready().then(...)
  */
 (function () {
@@ -117,22 +119,22 @@
   const KINDS = {
     plugin: {
       id: "plugin", label: "Extensions", one: "Small tools that add features",
-      page: "extensions.html", icon: "Puzzle",
+      page: "/marketplace/extensions/", icon: "Puzzle",
       c: "var(--k-extension)", soft: "var(--k-extension-soft)",
     },
     capsule: {
       id: "capsule", label: "Capsules", one: "Ready-made sections for your pages",
-      page: "capsules.html", icon: "Braces",
+      page: "/marketplace/capsules/", icon: "Braces",
       c: "var(--k-capsule)", soft: "var(--k-capsule-soft)",
     },
     theme: {
       id: "theme", label: "Themes", one: "A new look for the whole workspace",
-      page: "themes.html", icon: "Palette",
+      page: "/marketplace/themes/", icon: "Palette",
       c: "var(--k-theme)", soft: "var(--k-theme-soft)",
     },
     template: {
       id: "template", label: "Templates", one: "Pre-written clinical notes and forms",
-      page: "templates.html", icon: "FileText",
+      page: "/marketplace/templates/", icon: "FileText",
       c: "var(--k-template)", soft: "var(--k-template-soft)",
     },
   };
@@ -602,20 +604,29 @@
 </div>`;
   }
 
-  /** Pick the right live sample for a capsule id. */
+  /** Pick the right live sample for a capsule id.
+   *  v5: full per-capsule demos live in assets/demos.js (FCX_CAPSULE_DEMOS,
+   *  keyed by capsule id); this falls back by family when that file is not
+   *  loaded or a capsule has no bespoke demo yet. */
   function demoForCapsule(capsuleId) {
     const id = String(capsuleId || "").replace(/^capsule:/, "");
+    const custom = window.FCX_CAPSULE_DEMOS && window.FCX_CAPSULE_DEMOS[id];
+    if (custom) return custom;
     if (id === "ui-clinic" || id === "ui-stats") return demoStatsHtml();
     if (id === "ui-billing") return demoQueueHtml("Sample data — the real queue reads your billing table.");
     if (id === "ui-recalls") return demoQueueHtml("Sample data — the real recall board reads visit advice.", "9");
     return demoBoardHtml();
   }
 
-  /* --------------------------- extension mock preview ---------------------- */
+  /* ------------------------- extension live previews ---------------------- */
 
-  /** A small mock of what an extension adds to the workspace — a toolbar
-   * action, rows it touches and a sample panel. Static, clearly labelled. */
+  /** Extensions do different jobs — a tagline mock cannot show that. v5
+   *  keeps a per-extension functional preview in assets/demos.js
+   *  (FCX_EXT_DEMOS, keyed by item id, e.g. "plugin:optomize"). This is the
+   *  honest generic fallback: what appears in your workspace, plainly. */
   function extensionPreviewHtml(it) {
+    const custom = window.FCX_EXT_DEMOS && window.FCX_EXT_DEMOS[it.id];
+    if (custom) return custom(it);
     const name = esc(cleanCopy(it.name));
     const rows = [
       { ic: "Zap", n: name + " action", v: "toolbar" },
@@ -727,7 +738,7 @@
   /* ------------------------------ URL helpers ----------------------------- */
 
   function itemUrl(id) {
-    return `item.html?id=${encodeURIComponent(id)}`;
+    return `/marketplace/item/?id=${encodeURIComponent(id)}`;
   }
   function embedFence(capsuleId) {
     const id = String(capsuleId || "").replace(/^capsule:/, "");
@@ -736,24 +747,26 @@
 
   /* ------------------------------ chrome ---------------------------------- */
 
-  function injectChrome(activeKind) {
+  function injectChrome(activeSection) {
     const header = document.getElementById("site-header");
     const footer = document.getElementById("site-footer");
-    const brand = `<a class="brand" href="index.html">${icon("Stethoscope", 20)}<span>FocusCaseX <span class="brand-market">Marketplace</span></span></a>`;
+    const onMarket = activeSection === "marketplace" || KINDS[activeSection];
+    const brand = `<a class="brand" href="/">${icon("Stethoscope", 20)}<span>FocusCaseX${onMarket ? ` <span class="brand-market">Marketplace</span>` : ""}</span></a>`;
     if (header) {
+      const navLink = (href, label, id) =>
+        `<a href="${href}" class="${activeSection === id ? "on" : ""}">${label}</a>`;
       const nav =
-        KIND_ORDER.map((k) => {
-          const kk = KINDS[k];
-          return `<a href="${kk.page}" class="${activeKind === k ? "on" : ""}">${esc(kk.label)}</a>`;
-        }).join("") +
-        `<a href="mcp.html" class="${activeKind === "mcp" ? "on" : ""}">MCP &amp; Automation</a>`;
+        navLink("/", "Overview", "home") +
+        navLink("/marketplace/", "Marketplace", "marketplace") +
+        navLink("/pricing/", "Pricing", "pricing") +
+        navLink("/mcp/", "MCP &amp; Automation", "mcp");
       header.innerHTML = `
 <div class="top"><div class="top-inner">
   ${brand}
   <nav class="nav">${nav}</nav>
   <div class="top-actions">
     <button class="search-btn" id="topbar-search" type="button" aria-label="Search the catalog">${icon("Search", 14)}<span class="top-label">Search</span><kbd>/</kbd></button>
-    <a class="btn small primary" href="install.html" id="topbar-install">${icon("Download", 14)}<span class="top-label">Install guide</span></a>
+    <a class="btn small primary" href="/install/" id="topbar-install">${icon("Download", 14)}<span class="top-label">Install guide</span></a>
   </div>
 </div></div>`;
       header.querySelector("#topbar-search").addEventListener("click", openSearch);
@@ -764,14 +777,17 @@
       footer.innerHTML = `
 <div class="foot"><div class="wrap foot-inner">
   <div>
-    <div class="foot-brand">${icon("Stethoscope", 17)} FocusCaseX Marketplace</div>
+    <div class="foot-brand">${icon("Stethoscope", 17)} FocusCaseX</div>
     <div class="foot-status">Catalog updated ${esc(when)} · ${count} add-ons · maintained by CaseX Labs</div>
   </div>
   <div class="foot-links">
-    <a href="install.html">Install guide</a>
-    <a href="mcp.html">MCP &amp; Automation</a>
-    <a href="api.html">For developers</a>
-    <a href="https://github.com/stromplayz/FocusCaseX-Marketplace" target="_blank" rel="noopener">GitHub</a>
+    <a href="/">Overview</a>
+    <a href="/marketplace/">Marketplace</a>
+    <a href="/pricing/">Pricing</a>
+    <a href="/mcp/">MCP &amp; Automation</a>
+    <a href="/install/">Install guide</a>
+    <a href="/api/">For developers</a>
+    <a href="https://github.com/stromplayz/FocusCaseX" target="_blank" rel="noopener">GitHub</a>
     <a href="${APP_LINK}" target="_blank" rel="noopener">FocusCaseX app</a>
   </div>
 </div></div>`;
@@ -821,9 +837,9 @@
     if (!query) {
       listEl.innerHTML = `<div class="search-empty">Start typing to search ${ITEMS.length} add-ons — or jump straight in:
         <div class="tasks">
-          <a class="task" href="capsules.html">Track my appointments ${icon("ArrowRight", 14)}</a>
-          <a class="task" href="templates.html">Write notes faster ${icon("ArrowRight", 14)}</a>
-          <a class="task" href="themes.html">Change the look ${icon("ArrowRight", 14)}</a>
+          <a class="task" href="/marketplace/capsules/">Track my appointments ${icon("ArrowRight", 14)}</a>
+          <a class="task" href="/marketplace/templates/">Write notes faster ${icon("ArrowRight", 14)}</a>
+          <a class="task" href="/marketplace/themes/">Change the look ${icon("ArrowRight", 14)}</a>
         </div></div>`;
       searchResults = [];
       return;
@@ -837,10 +853,10 @@
       if (byCode) { location.href = itemUrl(byCode.id); return; }
       listEl.innerHTML = `<div class="search-empty">No add-on matches that. Try a shorter word — or browse a category below.
         <div class="tasks">
-          <a class="task" href="extensions.html">Extensions ${icon("ArrowRight", 14)}</a>
-          <a class="task" href="capsules.html">Capsules ${icon("ArrowRight", 14)}</a>
-          <a class="task" href="themes.html">Themes ${icon("ArrowRight", 14)}</a>
-          <a class="task" href="templates.html">Templates ${icon("ArrowRight", 14)}</a>
+          <a class="task" href="/marketplace/extensions/">Extensions ${icon("ArrowRight", 14)}</a>
+          <a class="task" href="/marketplace/capsules/">Capsules ${icon("ArrowRight", 14)}</a>
+          <a class="task" href="/marketplace/themes/">Themes ${icon("ArrowRight", 14)}</a>
+          <a class="task" href="/marketplace/templates/">Templates ${icon("ArrowRight", 14)}</a>
         </div></div>`;
       return;
     }
@@ -957,7 +973,7 @@
     installSteps, installCardHtml,
     installCode, resolveCode, deepLinkUrl, openInApp, wireDeepLinks, showAppFallback,
     openSearch, closeSearch,
-    version: 4,
+    version: 5,
   };
   window.FCX = FCX;
 })();

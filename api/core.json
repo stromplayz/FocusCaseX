@@ -28,7 +28,7 @@
   "endpoints": {
     "registry": "api/registry.json",
     "core": "api/core.json",
-    "repo": "https://github.com/stromplayz/FocusCaseX-Marketplace"
+    "repo": "https://github.com/stromplayz/FocusCaseX"
   },
   "corePlugins": [
     {

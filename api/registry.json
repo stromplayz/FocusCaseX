@@ -1,6 +1,6 @@
 {
   "schema": "fcx.market.registry.v1",
-  "generatedAt": "2026-11-22T22:02:09.534Z",
+  "generatedAt": "2026-11-24T18:42:58.477Z",
   "coreVersion": "2.2.4",
   "app": {
     "name": "FocusCaseX",

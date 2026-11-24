@@ -1,7 +1,7 @@
 {
   "marketplace": {
     "name": "FocusCaseX Marketplace",
-    "repo": "stromplayz/FocusCaseX-Marketplace",
+    "repo": "stromplayz/FocusCaseX",
     "schema": "fcx.market.catalog.v1"
   },
   "snippets": [

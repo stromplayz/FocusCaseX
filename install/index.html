@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<base href="/FocusCaseX/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How to install — FocusCaseX Marketplace</title>
 <meta name="description" content="Install any FocusCaseX add-on three ways: search inside the app, type its install code, or tap Install on this site and let the browser hand it to the app. Free, offline after install, remove any time.">
@@ -132,7 +133,7 @@
         </details>
         <details>
           <summary>Can my AI assistant install add-ons for me?<span data-icon="Plus"></span></summary>
-          <div class="faq-a">It can find them for you — connect your agent through <a href="mcp.html" style="color:var(--blue);font-weight:500;">MCP &amp; Automation</a> and ask it to sweep the marketplace. The install itself stays a one-tap human decision.</div>
+          <div class="faq-a">It can find them for you — connect your agent through <a href="/mcp/" style="color:var(--blue);font-weight:500;">MCP &amp; Automation</a> and ask it to sweep the marketplace. The install itself stays a one-tap human decision.</div>
         </details>
       </div>
     </section>
@@ -141,6 +142,8 @@
 </main>
 <footer id="site-footer"></footer>
 <script src="assets/icons.js"></script>
+<script src="assets/demos-capsules.js"></script>
+<script src="assets/demos-extensions.js"></script>
 <script src="assets/app.js"></script>
 <script>
   function hydrateIcons() {
@@ -209,7 +212,7 @@
         `<a href="${FCX.KINDS[k].page}">${FCX.esc(FCX.KINDS[k].label)}</a>`).join("");
       header.innerHTML = `
 <div class="top"><div class="top-inner">
-  <a class="brand" href="index.html">${FCX.icon("Stethoscope", 20)}<span>FocusCaseX <span class="brand-market">Marketplace</span></span></a>
+  <a class="brand" href="/marketplace/">${FCX.icon("Stethoscope", 20)}<span>FocusCaseX <span class="brand-market">Marketplace</span></span></a>
   <nav class="nav">${nav}</nav>
 </div></div>`;
     }
@@ -221,14 +224,14 @@
     <div class="foot-status">Free add-ons for FocusCaseX · maintained by CaseX Labs</div>
   </div>
   <div class="foot-links">
-    <a href="install.html">Install guide</a>
-    <a href="index.html">Home</a>
+    <a href="/install/">Install guide</a>
+    <a href="/marketplace/">Home</a>
   </div>
 </div></div>`;
     }
   }
 
-  FCX.ready({ active: null }).then(() => {
+  FCX.ready({ active: "marketplace" }).then(() => {
     hydrateIcons();
     renderKinds();
     FCX.wireDeepLinks(document);

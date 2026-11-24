@@ -4,7 +4,7 @@
   "app": {
     "name": "FocusCaseXDroid",
     "repo": "stromplayz/FocusCaseX",
-    "catalogUrl": "https://stromplayz.github.io/FocusCaseX-Marketplace/catalog.json"
+    "catalogUrl": "https://stromplayz.github.io/FocusCaseX/catalog.json"
   },
   "releases": [
     {

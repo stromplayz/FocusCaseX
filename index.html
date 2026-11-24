@@ -2,202 +2,325 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<base href="/FocusCaseX/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FocusCaseX Marketplace — free add-ons for your clinic workspace</title>
-<meta name="description" content="71 free add-ons for FocusCaseX — appointment boards, refraction notes, themes and more. Preview every one live on this site, then install it in one tap.">
+<title>FocusCaseX — the offline-first EMR workspace for eye care</title>
+<meta name="description" content="FocusCaseX is a fast, offline-first EMR workspace for optometry practices — register patients, run refraction exams, manage optics and billing, set recalls. Pages are plain markdown, capsules are building blocks, everything lives on your device. Works with no internet; share the workspace over LAN with your team.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="icon.svg">
 <link rel="stylesheet" href="assets/styles.css">
+<style>
+  /* Landing glue — layout only. Everything visual reuses styles.css v4 "Electric". */
+
+  /* Hero (white) */
+  .home-hero { padding: 84px 0 68px; }
+  .home-hero h1 {
+    font-size: clamp(36px, 5.2vw, 62px);
+    letter-spacing: -0.03em;
+    max-width: 860px;
+  }
+  .home-hero h1 .hl { color: var(--blue); }
+  .home-hero .lede { margin-top: 20px; max-width: 680px; }
+  .home-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+  .stat-row {
+    display: flex; align-items: center; flex-wrap: wrap;
+    margin-top: 36px; max-width: 580px;
+    border-top: 1px solid var(--line);
+  }
+  .stat-row .stat {
+    padding: 14px 24px 0 0; margin-right: 24px;
+    border-right: 1px solid var(--line);
+    font-size: 12.5px; color: var(--ink-3); letter-spacing: .01em;
+  }
+  .stat-row .stat:last-child { border-right: 0; margin-right: 0; }
+  .stat-row b {
+    font-family: var(--font-display); font-size: 19px;
+    color: var(--ink); letter-spacing: -.02em; margin-right: 5px;
+  }
+
+  /* Cinematic banner */
+  .banner-sec { padding: 0 0 34px; }
+  .banner-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+  .banner-shell {
+    border: 1px solid var(--line-2);
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--bg-soft);
+    box-shadow: var(--shadow-2);
+    aspect-ratio: 1600 / 640;
+  }
+  .banner-shell video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .banner-cap { display: flex; justify-content: center; margin-top: 16px; }
+  .banner-cap span {
+    font-family: var(--font-mono); font-size: 12px; color: var(--ink-2);
+    background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: 999px; padding: 7px 15px;
+    letter-spacing: .02em;
+  }
+
+  /* Sections */
+  .home-sec { padding: 96px 0; }
+  .home-sec h2 { font-size: clamp(26px, 3.4vw, 38px); }
+  .sec-lede { margin-top: 14px; color: var(--ink-2); max-width: 640px; line-height: 1.6; font-size: 15.5px; }
+
+  /* Demo band (soft bg, ruled top/bottom) */
+  .demo-band {
+    background: var(--bg-soft);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .demo-grid {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px; margin-top: 36px;
+  }
+  .demo-card { margin: 0; }
+  .demo-frame {
+    border: 1px solid var(--line); border-radius: 14px;
+    overflow: hidden; background: var(--paper);
+    box-shadow: var(--shadow-1);
+    aspect-ratio: 16 / 9;
+  }
+  .demo-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .demo-card figcaption { margin-top: 14px; padding: 0 2px; }
+  .demo-card b {
+    display: block; font-family: var(--font-display);
+    font-size: 16px; letter-spacing: -.01em;
+  }
+  .demo-card figcaption span { display: block; margin-top: 3px; font-size: 13px; color: var(--ink-2); }
+
+  /* Marketplace teaser */
+  .kind-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .k-count {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--blue-deep); background: var(--blue-soft);
+    border: 1px solid var(--blue-line);
+    border-radius: 999px; padding: 2px 8px;
+  }
+  .feat-line { margin-top: 20px; font-size: 13px; color: var(--ink-3); }
+  .feat-line b { color: var(--ink-2); font-weight: 500; }
+
+  /* MCP band */
+  .mcp-flex {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 44px; flex-wrap: wrap;
+  }
+  .mcp-flex .lede { margin-top: 16px; max-width: 640px; }
+  .mcp-side { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+  .band .chip { background: rgba(255,255,255,.05); border-color: var(--dark-line); color: #c6cadb; }
+  .band .chip:hover { background: rgba(255,255,255,.09); border-color: rgba(124,155,255,.55); color: #fff; }
+  .band .chip svg { color: var(--blue-bright); }
+
+  /* Pricing teaser */
+  .pricing-flex {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 30px; flex-wrap: wrap;
+  }
+  .pricing-flex .lede { margin-top: 14px; }
+
+  .cta-sec { padding: 0 0 96px; }
+  .cta-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+  /* Responsive */
+  @media (max-width: 860px) {
+    .home-hero { padding: 56px 0 52px; }
+    .home-sec { padding: 64px 0; }
+    .cta-sec { padding: 0 0 64px; }
+    .banner-shell { border-radius: 14px; }
+    .demo-grid { grid-template-columns: 1fr; gap: 24px; }
+    .mcp-flex, .pricing-flex { gap: 26px; }
+  }
+  @media (max-width: 520px) {
+    .home-sec { padding: 52px 0; }
+    .home-cta { flex-direction: column; align-items: stretch; }
+    .stat-row .stat { padding-right: 15px; margin-right: 15px; }
+    .stat-row b { font-size: 17px; }
+    .cta-actions { flex-direction: column; align-items: stretch; }
+  }
+</style>
 </head>
 <body>
 <header id="site-header"></header>
 <main>
 
-  <!-- 1. HERO — black band, electric blue headline, live theme preview -->
-  <section class="hero">
+  <!-- 1. HERO (white) -->
+  <section class="home-hero">
     <div class="wrap">
-      <div class="hero-inner">
-        <div>
-          <div class="kicker">Free · built for eye clinics · works offline</div>
-          <h1>See every add-on <span class="hl">live</span>.<br>Install it in one tap.</h1>
-          <p class="lede">71 free extensions, capsules, themes and templates for FocusCaseX. Every one is previewed right here on this page — with its real colors and real layout — before it ever touches your workspace.</p>
-          <div class="hero-cta">
-            <a class="btn primary" href="#kinds" style="min-height:48px;">Browse the catalog</a>
-            <a class="btn dark-ghost" href="mcp.html" style="min-height:48px;">Connect AI agents</a>
-            <button class="btn dark-ghost" id="hero-search" type="button" aria-label="Search the catalog" style="min-height:48px;">
-              <span data-icon="Search" data-icon-size="15"></span>
-              <span>Search</span>
-            </button>
+      <div class="kicker">Offline-first EMR workspace · built for eye care</div>
+      <h1>The workspace your clinic runs on — <span class="hl">records, refraction, recalls, optics.</span></h1>
+      <p class="lede">FocusCaseX is a fast, offline-first EMR workspace for optometry practices. Register patients, run refraction exams, manage optics, dispensing and billing, set recalls. Pages are plain markdown, capsules are building blocks, and everything lives on your device — share the workspace over LAN with your team.</p>
+      <div class="home-cta">
+        <a class="btn primary" href="/marketplace/">Browse the marketplace <span data-icon="ArrowRight" data-icon-size="15"></span></a>
+        <a class="btn ghost" href="/pricing/">See pricing</a>
+        <a class="btn ghost" href="/mcp/">Connect AI agents</a>
+      </div>
+      <div class="stat-row">
+        <span class="stat"><b id="stat-total">–</b> add-ons</span>
+        <span class="stat"><b id="stat-kinds">4</b> kinds</span>
+        <span class="stat"><b>100%</b> free</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. CINEMATIC BANNER -->
+  <section class="banner-sec">
+    <div class="banner-wrap">
+      <div class="banner-shell">
+        <video autoplay muted loop playsinline poster="assets/motion/hero-banner.jpg" aria-label="FocusCaseX brand banner — the clinic workspace in motion">
+          <source src="assets/motion/hero-banner.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="banner-cap"><span>FocusCaseX in motion — your clinic, one workspace</span></div>
+    </div>
+  </section>
+
+  <!-- 3. WHAT IT IS -->
+  <section class="home-sec" style="padding-top: 64px;">
+    <div class="wrap">
+      <div class="kicker">What it is</div>
+      <h2>Everything in FocusCaseX starts from three ideas.</h2>
+      <div class="entries" style="margin-top: 30px;">
+        <div class="entry">
+          <span class="tile"><span data-icon="FileText" data-icon-size="19"></span></span>
+          <h3>Pages are markdown</h3>
+          <p>Every clinical page is a plain markdown file — readable, printable, yours. No opaque database, no lock-in.</p>
+        </div>
+        <div class="entry">
+          <span class="tile"><span data-icon="Braces" data-icon-size="19"></span></span>
+          <h3>Capsules are building blocks</h3>
+          <p>Paste a two-line block and a live board renders — appointments, vitals, recalls. Drop them into any page.</p>
+        </div>
+        <div class="entry">
+          <span class="tile"><span data-icon="WifiOff" data-icon-size="19"></span></span>
+          <h3>Offline-first, always</h3>
+          <p>Runs with no internet, on your device. Share the workspace over LAN so your staff sees the same clinic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SEE IT BEING USED (soft band) -->
+  <section class="home-sec demo-band">
+    <div class="wrap">
+      <div class="kicker">90-second demos</div>
+      <h2>Watch it work — no signup, no sound, just the app.</h2>
+      <p class="sec-lede">Four short muted loops recorded from the app. Sample clinic data throughout — the real boards read your own records.</p>
+      <div class="demo-grid">
+        <figure class="demo-card">
+          <div class="demo-frame">
+            <video autoplay muted loop playsinline poster="assets/motion/demo-register.jpg" aria-label="Demo — registering a patient">
+              <source src="assets/motion/demo-register.mp4" type="video/mp4">
+            </video>
           </div>
-          <div class="hero-stats">
-            <div><b>71</b><span>add-ons</span></div>
-            <div><b>4</b><span>kinds</span></div>
-            <div><b>100%</b><span>free</span></div>
-            <div><b>0</b><span>setup steps</span></div>
+          <figcaption><b>Register a patient</b><span>Name in, MR generated, visit queued.</span></figcaption>
+        </figure>
+        <figure class="demo-card">
+          <div class="demo-frame">
+            <video autoplay muted loop playsinline poster="assets/motion/demo-install.jpg" aria-label="Demo — installing an add-on">
+              <source src="assets/motion/demo-install.mp4" type="video/mp4">
+            </video>
           </div>
-        </div>
-        <div class="hero-preview">
-          <div class="device">
-            <div class="device-head">
-              <span></span><span></span><span></span>
-              <span class="device-label" id="hero-theme-label">focuscasex / workspace</span>
-            </div>
-            <div id="hero-device"></div>
+          <figcaption><b>Install an add-on</b><span>Preview it live on the site, tap install, confirm in the app.</span></figcaption>
+        </figure>
+        <figure class="demo-card">
+          <div class="demo-frame">
+            <video autoplay muted loop playsinline poster="assets/motion/demo-capsule.jpg" aria-label="Demo — building a page with capsules">
+              <source src="assets/motion/demo-capsule.mp4" type="video/mp4">
+            </video>
           </div>
-          <div class="hero-dots" id="hero-dots" role="tablist" aria-label="Preview a theme"></div>
-          <div class="hero-caption">Live preview — <b id="hero-theme-name">Blueprint</b></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 2. TASK ROW -->
-  <section class="section" style="padding-bottom: 0;">
-    <div class="wrap">
-      <div class="kicker">Start with what your clinic does most</div>
-      <div class="tasks">
-        <a class="task" href="capsules.html"><span data-icon="CalendarDays" data-icon-size="15"></span>Track my appointments</a>
-        <a class="task" href="item.html?id=capsule:ui-appointment"><span data-icon="Receipt" data-icon-size="15"></span>Run the front-desk day</a>
-        <a class="task" href="templates.html"><span data-icon="BookOpen" data-icon-size="15"></span>Write clinical notes faster</a>
-        <a class="task" href="item.html?id=capsule:ui-recalls"><span data-icon="BellRing" data-icon-size="15"></span>Never miss a follow-up</a>
-        <a class="task" href="themes.html"><span data-icon="Palette" data-icon-size="15"></span>Change how it looks</a>
-        <a class="task" href="extensions.html"><span data-icon="Puzzle" data-icon-size="15"></span>Add new features</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. KIND ENTRY CARDS -->
-  <section class="section" id="kinds" style="scroll-margin-top:76px;">
-    <div class="wrap">
-      <div class="kicker">Browse the catalog</div>
-      <div class="entries" id="entries"></div>
-    </div>
-  </section>
-
-  <!-- 4. LIVE PREVIEW SHOWCASE -->
-  <section class="section" style="background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
-    <div class="wrap">
-      <div class="intro">
-        <div>
-          <div class="kicker">Live preview</div>
-          <h2>See it before you install it.</h2>
-        </div>
-        <div class="tabs" id="showcase-tabs"></div>
-      </div>
-      <div id="showcase-stage"></div>
-    </div>
-  </section>
-
-  <!-- 5. STAFF PICKS -->
-  <section class="section">
-    <div class="wrap">
-      <div class="intro">
-        <div>
-          <div class="kicker">Staff picks</div>
-          <h2>Hand-picked by the CaseX team.</h2>
-        </div>
-      </div>
-      <div class="grid" id="picks-grid"></div>
-    </div>
-  </section>
-
-  <!-- 6. CODE + DEEP LINK BAND -->
-  <section class="section" style="padding-top: 0;">
-    <div class="wrap">
-      <div class="entries" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-        <div class="entry" style="gap: 12px;">
-          <span class="tile"><span data-icon="KeyRound" data-icon-size="19"></span></span>
-          <h3>Have a code?</h3>
-          <p>Every add-on carries a short code. Type it here to jump straight to it — or type it inside the app under <b>Settings → Marketplace → Install by code</b>.</p>
-          <form class="code-input" data-code-form style="margin-top: 4px;">
-            <input data-code-input type="text" placeholder="FCX-XXXXXX" aria-label="Install code" autocomplete="off" spellcheck="false">
-            <button class="btn primary small" type="submit" style="min-height:44px;">Open</button>
-          </form>
-          <div class="code-msg">Try it — open any item page to see its code.</div>
-        </div>
-        <div class="entry" style="gap: 12px;">
-          <span class="tile"><span data-icon="MonitorSmartphone" data-icon-size="19"></span></span>
-          <h3>Install straight from your browser</h3>
-          <p>Tap <b>Install</b> on any item page and your browser hands it to the FocusCaseX app on this device — the app asks you to confirm, then installs it. No forms, no files to download.</p>
-          <div class="deep-actions" style="margin-top: 4px;">
-            <a class="btn small" href="install.html#browser">How it works</a>
-            <a class="btn small primary" href="item.html?id=plugin:optomize">Try it on an item</a>
+          <figcaption><b>Build a page with capsules</b><span>Paste a block, a live board unfurls.</span></figcaption>
+        </figure>
+        <figure class="demo-card">
+          <div class="demo-frame">
+            <video autoplay muted loop playsinline poster="assets/motion/demo-mcp.jpg" aria-label="Demo — connecting an AI agent">
+              <source src="assets/motion/demo-mcp.mp4" type="video/mp4">
+            </video>
           </div>
-        </div>
+          <figcaption><b>Connect an AI agent</b><span>Approval first, token issued, every call logged.</span></figcaption>
+        </figure>
       </div>
     </div>
   </section>
 
-  <!-- 7. MCP BAND (black) -->
+  <!-- 5. MARKETPLACE TEASER -->
+  <section class="home-sec">
+    <div class="wrap">
+      <div class="kicker">Marketplace</div>
+      <h2>Extensions, capsules, themes, templates — previewed live.</h2>
+      <p class="sec-lede">Every add-on is rendered with real colors and real layout on the site, so you know exactly what you're installing.</p>
+      <div class="kind-row">
+        <a class="task" href="/marketplace/extensions/">
+          <span data-icon="Puzzle" data-icon-size="15"></span>
+          <span>Extensions</span>
+          <b class="k-count" data-kind-count="plugin">–</b>
+        </a>
+        <a class="task" href="/marketplace/capsules/">
+          <span data-icon="Braces" data-icon-size="15"></span>
+          <span>Capsules</span>
+          <b class="k-count" data-kind-count="capsule">–</b>
+        </a>
+        <a class="task" href="/marketplace/themes/">
+          <span data-icon="Palette" data-icon-size="15"></span>
+          <span>Themes</span>
+          <b class="k-count" data-kind-count="theme">–</b>
+        </a>
+        <a class="task" href="/marketplace/templates/">
+          <span data-icon="FileText" data-icon-size="15"></span>
+          <span>Templates</span>
+          <b class="k-count" data-kind-count="template">–</b>
+        </a>
+      </div>
+      <p class="feat-line">Featured right now: <b id="feat-names">…</b></p>
+    </div>
+  </section>
+
+  <!-- 6. MCP BAND (black) -->
   <section class="band">
     <div class="wrap section">
-      <div class="kicker">MCP &amp; Automation</div>
-      <h2>Your records, your AI agents —<br>with permission, not luck.</h2>
-      <p class="lede" style="margin-top: 14px;">FocusCaseX hosts its own MCP server. Connect Claude, Cursor or any MCP agent and it can read your clinic notes, search the EMR and draft new pages — but only after you approve the connection and issue it a token. Revoke any time.</p>
-      <div class="band-grid">
-        <div class="band-card">
-          <span class="bc-ic"><span data-icon="ShieldCheck" data-icon-size="18"></span></span>
-          <h3>Approval first</h3>
-          <p>Every agent asks before it gets in. You approve the connection inside the app and FocusCaseX issues it a personal access token.</p>
+      <div class="mcp-flex">
+        <div style="flex: 1; min-width: 280px;">
+          <div class="kicker">MCP &amp; Automation</div>
+          <h2>Your records, your AI agents — with permission, not luck.</h2>
+          <p class="lede">FocusCaseX hosts its own MCP server. Agents connect only after you approve the connection, receive a scoped token, and leave a log line for every call. Revoke any time.</p>
         </div>
-        <div class="band-card">
-          <span class="bc-ic"><span data-icon="Workflow" data-icon-size="18"></span></span>
-          <h3>Scoped tools</h3>
-          <p>Agents can list, read, search and create notes — plus browse the marketplace. No silent edits, no deletes, nothing beyond the tools you see documented.</p>
+        <div class="mcp-side">
+          <a class="btn blue-on-dark" href="/mcp/" style="min-height:48px;">Explore MCP &amp; Automation</a>
+          <button class="chip" type="button" data-copy="Settings → MCP &amp; Automation → Create token">
+            <span data-icon="Terminal" data-icon-size="13"></span>
+            <span>Settings → MCP &amp; Automation → Create token</span>
+          </button>
         </div>
-        <div class="band-card">
-          <span class="bc-ic"><span data-icon="ScrollText" data-icon-size="18"></span></span>
-          <h3>Full log, one-tap revoke</h3>
-          <p>Every call is recorded with time, agent and tool. Under <b>Settings → MCP &amp; Automation</b> you can revoke a token the moment something looks off.</p>
-        </div>
-      </div>
-      <div class="hero-cta" style="margin-top: 34px;">
-        <a class="btn blue-on-dark" href="mcp.html" style="min-height:48px;">Explore MCP &amp; Automation</a>
-        <button class="chip" type="button" data-copy="claude mcp add --transport http focuscasex https://focuscasex.vercel.app/api/mcp/server --header &quot;Authorization: Bearer &lt;your-token&gt;&quot;"><span data-icon="Terminal" data-icon-size="13"></span><span>claude mcp add focuscasex …</span></button>
       </div>
     </div>
   </section>
 
-  <!-- 8. TRUST ROW -->
-  <section class="section">
+  <!-- 7. PRICING TEASER -->
+  <section class="home-sec">
     <div class="wrap">
-      <div class="trust">
-        <div class="t-item">
-          <span data-icon="BadgeCheck"></span>
-          <div>
-            <b>Reviewed by CaseX Labs</b>
-            <span>Every add-on is built and reviewed before it lands here.</span>
-          </div>
+      <div class="pricing-flex">
+        <div style="flex: 1; min-width: 280px;">
+          <div class="kicker">Pricing</div>
+          <h2>Free for solo practice. Clinic plans in ₹, priced for India.</h2>
+          <p class="lede">Start free forever — upgrade only when your team grows.</p>
         </div>
-        <div class="t-item">
-          <span data-icon="WifiOff"></span>
-          <div>
-            <b>Works offline</b>
-            <span>After install, add-ons run on your device with no internet — like the rest of FocusCaseX.</span>
-          </div>
-        </div>
-        <div class="t-item">
-          <span data-icon="ShieldCheck"></span>
-          <div>
-            <b>Your records stay on your device</b>
-            <span>Installing or removing an add-on never touches your patient records.</span>
-          </div>
-        </div>
+        <a class="btn" href="/pricing/" style="min-height:48px;">See pricing <span data-icon="ArrowRight" data-icon-size="15"></span></a>
       </div>
     </div>
   </section>
 
-  <!-- 9. CTA BAND -->
-  <section class="section" style="padding-top: 0;">
+  <!-- 8. FINAL CTA BAND -->
+  <section class="cta-sec">
     <div class="wrap">
       <div class="cta-band">
-        <div style="flex:1;min-width:260px;">
+        <div style="flex: 1; min-width: 280px;">
           <h2>Set up your clinic's workspace in minutes, not weeks.</h2>
-          <p>Pick the boards, notes and look your front desk needs — see each one live here, then install it in one tap.</p>
+          <p>Open FocusCaseX, pick the boards and notes your clinic needs, and they appear in the workspace right away — everything works offline after install.</p>
         </div>
-        <a class="btn blue-on-dark" href="#kinds">Browse the catalog</a>
+        <div class="cta-actions">
+          <a class="btn primary" href="https://focuscasex.vercel.app" target="_blank" rel="noopener" style="min-height:48px;">Open FocusCaseX</a>
+          <a class="btn dark-ghost" href="/install/" style="min-height:48px;">Install guide</a>
+        </div>
       </div>
     </div>
   </section>
@@ -205,10 +328,20 @@
 </main>
 <footer id="site-footer"></footer>
 <script src="assets/icons.js"></script>
+<script src="assets/demos-capsules.js"></script>
+<script src="assets/demos-extensions.js"></script>
 <script src="assets/app.js"></script>
 <script>
   (function () {
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // Ambient motion is decoration — under prefers-reduced-motion, don't autoplay.
+    if (reduceMotion) {
+      document.querySelectorAll("video[autoplay]").forEach(function (v) {
+        v.removeAttribute("autoplay");
+        try { v.pause(); } catch (e) { /* not started yet — fine */ }
+      });
+    }
 
     // Paint static icons immediately (independent of the catalog).
     document.querySelectorAll("[data-icon]").forEach(function (el) {
@@ -216,179 +349,30 @@
       el.outerHTML = FCX.icon(el.getAttribute("data-icon"), size);
     });
 
-    document.getElementById("hero-search").addEventListener("click", function () {
-      FCX.openSearch();
-    });
+    FCX.ready({ active: "home" }).then(function () {
+      var items = FCX.items;
 
-    FCX.ready({ active: null }).then(function () {
-      /* --- kind entry cards --- */
+      // Hero stat row
+      var total = document.getElementById("stat-total");
+      if (total) total.textContent = String(items.length);
+      var kindsEl = document.getElementById("stat-kinds");
+      if (kindsEl) kindsEl.textContent = String(FCX.KIND_ORDER.length);
+
+      // Per-kind counts on the marketplace teaser chips
       var counts = {};
-      FCX.items.forEach(function (it) { counts[it.kind] = (counts[it.kind] || 0) + 1; });
-      document.getElementById("entries").innerHTML = FCX.KIND_ORDER.map(function (kind) {
-        var k = FCX.KINDS[kind];
-        return '<a class="entry" href="' + k.page + '" style="--entry-c: ' + k.c + '">' +
-          '<span class="entry-count">' + (counts[kind] || 0) + '</span>' +
-          '<span class="tile">' + FCX.icon(k.icon, 19) + '</span>' +
-          '<h3>' + FCX.esc(k.label) + '</h3>' +
-          '<p>' + FCX.esc(k.one) + '</p>' +
-          '<span class="go">Browse ' + FCX.esc(k.label) + ' ' + FCX.icon("ArrowRight", 14) + '</span>' +
-        '</a>';
-      }).join("");
+      items.forEach(function (it) { counts[it.kind] = (counts[it.kind] || 0) + 1; });
+      document.querySelectorAll("[data-kind-count]").forEach(function (el) {
+        var kind = el.getAttribute("data-kind-count");
+        el.textContent = String(counts[kind] || 0);
+      });
 
-      /* --- hero: live theme cycle with real theme variables --- */
-      var HERO_THEMES = ["blueprint", "paper-light", "midnight"];
-      var heroVars = [], heroIdx = 0, heroTimer = null;
-      var dotsEl = document.getElementById("hero-dots");
-
-      function paintHero(i) {
-        heroIdx = i;
-        var v = heroVars[i];
-        if (!v) return;
-        document.getElementById("hero-device").innerHTML = FCX.themePreviewHtml(v);
-        var it = FCX.byId("theme:" + HERO_THEMES[i]);
-        document.getElementById("hero-theme-name").textContent = it ? it.name : "";
-        dotsEl.querySelectorAll("button").forEach(function (b, bi) {
-          b.classList.toggle("on", bi === i);
-          b.setAttribute("aria-selected", bi === i ? "true" : "false");
-        });
-      }
-      function startHero() {
-        if (heroTimer || reduceMotion || heroVars.length < 2) return;
-        heroTimer = setInterval(function () { paintHero((heroIdx + 1) % heroVars.length); }, 4600);
-      }
-      function stopHero() { if (heroTimer) { clearInterval(heroTimer); heroTimer = null; } }
-
-      Promise.all(HERO_THEMES.map(function (id) { return FCX.fetchThemeVars(FCX.byId("theme:" + id)); }))
-        .then(function (all) {
-          heroVars = all;
-          dotsEl.innerHTML = HERO_THEMES.map(function (_id, i) {
-            return '<button type="button" role="tab" aria-label="Preview theme ' + (i + 1) + '"></button>';
-          }).join("");
-          dotsEl.querySelectorAll("button").forEach(function (b, i) {
-            b.addEventListener("click", function () { stopHero(); paintHero(i); startHero(); });
-          });
-          paintHero(0);
-          startHero();
-          var prev = document.querySelector(".hero-preview");
-          if (prev) {
-            prev.addEventListener("mouseenter", stopHero);
-            prev.addEventListener("mouseleave", startHero);
-          }
-        });
-
-      /* --- live preview showcase --- */
-      var tabsEl = document.getElementById("showcase-tabs");
-      var stageEl = document.getElementById("showcase-stage");
-      var SHOWCASE = [
-        { id: "themes", label: "Themes", count: FCX.items.filter(function (i) { return i.kind === "theme"; }).length },
-        { id: "capsules", label: "Capsules", count: FCX.items.filter(function (i) { return i.kind === "capsule"; }).length },
-        { id: "extensions", label: "Extensions", count: FCX.items.filter(function (i) { return i.kind === "plugin"; }).length },
-        { id: "templates", label: "Templates", count: FCX.items.filter(function (i) { return i.kind === "template"; }).length },
-      ];
-
-      function paneShell(inner, note, link) {
-        return '<div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:26px;align-items:start;" class="showcase-grid">' +
-          '<div class="preview-shell">' + inner + '</div>' +
-          '<div>' + note + link + '</div>' +
-          '</div>';
-      }
-
-      var THEMES_ROTATE = ["blueprint", "paper-light", "midnight", "terminal"];
-      function themesPane() {
-        var seg = '<div class="seg" style="margin-bottom:14px;" id="theme-seg">' +
-          THEMES_ROTATE.map(function (id, i) {
-            var it = FCX.byId("theme:" + id);
-            return '<button type="button" data-theme="' + id + '"' + (i === 0 ? ' class="on"' : '') + '>' + FCX.esc(it ? it.name : id) + '</button>';
-          }).join("") + '</div>';
-        return paneShell(
-          '<div id="theme-stage"></div>' + seg,
-          '<div class="kicker">Themes · 22 of them</div>' +
-          '<h3 style="font-size:19px;">Flip through real themes, right here.</h3>' +
-          '<p style="margin-top:10px;color:var(--ink-2);font-size:13.8px;line-height:1.6;">Every theme below the stage carries its real color swatches, and the preview repaints with each theme\'s actual variables — so "does this look good for my clinic?" is answerable before installing, not after.</p>' +
-          '<a class="btn small primary" href="themes.html" style="margin-top:16px;">Browse all 22 themes</a>'
-        );
-      }
-      function bindThemesPane() {
-        var stage = document.getElementById("theme-stage");
-        function paint(id) {
-          FCX.fetchThemeVars(FCX.byId("theme:" + id)).then(function (v) {
-            stage.innerHTML = FCX.themePreviewHtml(v) +
-              '<div class="preview-note" style="margin-top:12px;">' + FCX.swatchesHtml(v) + '<span style="margin-left:6px;">bg · panel · text · accent · border</span></div>';
-          });
-        }
-        paint(THEMES_ROTATE[0]);
-        document.getElementById("theme-seg").querySelectorAll("[data-theme]").forEach(function (b) {
-          b.addEventListener("click", function () {
-            document.getElementById("theme-seg").querySelectorAll("[data-theme]").forEach(function (x) { x.classList.remove("on"); });
-            b.classList.add("on");
-            paint(b.getAttribute("data-theme"));
-          });
-        });
-      }
-
-      function capsulesPane() {
-        return paneShell(
-          FCX.demoForCapsule("ui-appointment"),
-          '<div class="kicker" style="color:var(--k-capsule);">Capsule · Appointment board</div>' +
-          '<h3 style="font-size:19px;">The front-desk day book, running.</h3>' +
-          '<p style="margin-top:10px;color:var(--ink-2);font-size:13.8px;line-height:1.6;">Live stats, walk-ins, payment chips, stage stepper — this is the actual layout the capsule renders on your page, fed with sample data. Your version reads your real appointments.</p>' +
-          '<a class="btn small primary" href="item.html?id=capsule:ui-appointment" style="margin-top:16px;">Open the Appointment board</a>'
-        );
-      }
-
-      function extensionsPane() {
-        var opt = FCX.byId("plugin:optomize");
-        return paneShell(
-          FCX.extensionPreviewHtml(opt || { name: "Optomize", icon: "ScanEye" }),
-          '<div class="kicker">Extension · Optomize</div>' +
-          '<h3 style="font-size:19px;">A new tool where you already work.</h3>' +
-          '<p style="margin-top:10px;color:var(--ink-2);font-size:13.8px;line-height:1.6;">Extensions add buttons, panels and workflows to the workspace — compose refraction case files, track visit changes with compact change markers, clone patient profiles. Install and the tool simply appears.</p>' +
-          '<a class="btn small primary" href="item.html?id=plugin:optomize" style="margin-top:16px;">Open Optomize</a>'
-        );
-      }
-
-      function templatesPane() {
-        FCX.fetchTemplateBody(FCX.byId("template:patient-intake")).then(function (body) {
-          var inner = '<div class="md-preview">' + FCX.renderMd(body || "A ready clinical note — history, medications, goals and consent.") + '</div>';
-          document.getElementById("tpl-stage").innerHTML = inner;
-        });
-        return paneShell(
-          '<div id="tpl-stage"></div>' +
-          '<div class="preview-note">' + FCX.icon("FileText", 14) + '<span>The actual note body — this exact page appears in your workspace.</span></div>',
-          '<div class="kicker" style="color:var(--k-template);">Template · Patient intake</div>' +
-          '<h3 style="font-size:19px;">Notes that start half-written.</h3>' +
-          '<p style="margin-top:10px;color:var(--ink-2);font-size:13.8px;line-height:1.6;">Pre-built clinical forms: intake sheets, refraction notes, consent checklists. Install one and it lands as a ready page — drop the MR into the frontmatter and the patient header resolves itself.</p>' +
-          '<a class="btn small primary" href="item.html?id=template:patient-intake" style="margin-top:16px;">Open Patient intake</a>'
-        );
-      }
-
-      function renderShowcase(id) {
-        if (id === "themes") { stageEl.innerHTML = themesPane(); bindThemesPane(); }
-        else if (id === "capsules") { stageEl.innerHTML = capsulesPane(); }
-        else if (id === "extensions") { stageEl.innerHTML = extensionsPane(); }
-        else { stageEl.innerHTML = templatesPane(); }
-      }
-      FCX.renderTabs(tabsEl, SHOWCASE, "themes", renderShowcase);
-      renderShowcase("themes");
-
-      /* --- staff picks --- */
-      var picks = FCX.items.filter(function (it) { return it.featured; });
-      var rec = FCX.recommendOrder(FCX.items);
-      for (var i = 0; picks.length < 6 && i < rec.length; i++) {
-        if (picks.indexOf(rec[i]) === -1) picks.push(rec[i]);
-      }
-      picks = FCX.recommendOrder(picks.slice(0, 6));
-      var grid = document.getElementById("picks-grid");
-      grid.innerHTML = picks.map(function (it) { return FCX.cardHtml(it); }).join("");
-      FCX.wireGrid(grid);
-      FCX.wireDeepLinks(document);
+      // Featured names, straight from the catalog — nothing invented.
+      var featured = items.filter(function (it) { return it.featured; });
+      var pool = FCX.recommendOrder(featured.length ? featured : items);
+      var feat = document.getElementById("feat-names");
+      if (feat) feat.textContent = pool.slice(0, 3).map(function (it) { return it.name; }).join(" · ");
     });
   })();
 </script>
-<style>
-  @media (max-width: 860px) {
-    .showcase-grid { grid-template-columns: 1fr !important; }
-  }
-</style>
 </body>
 </html>

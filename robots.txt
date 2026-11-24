@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://stromplayz.github.io/FocusCaseX-Marketplace/sitemap.xml
+Sitemap: https://stromplayz.github.io/FocusCaseX/sitemap.xml
