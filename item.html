@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add-on details — FocusCaseX Marketplace</title>
+<meta name="description" content="Details and install steps for every free FocusCaseX add-on — extensions, capsules, themes and note templates.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  /* item.html page glue — layout only (aside stack, anchor offset, mobile
+     install bar). The design system in styles.css is untouched. */
+  .detail-aside > * + * { margin-top: 18px; }
+  .detail-aside .factbox dd a { color: var(--accent); font-weight: 500; }
+  #install { scroll-margin-top: 76px; }
+  .gap-t { margin-top: 12px; }
+  .swatch-row { padding: 18px 2px 4px; }
+  .swatch-row .sw { width: 30px; height: 30px; border-radius: 8px; }
+  .swatch-row .sw.ring { box-shadow: inset 0 0 0 1px rgba(30, 42, 50, .09), inset 0 0 0 3px var(--surface); }
+  .folder-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+  .detail-more { margin-top: 76px; }
+  .detail-more h2 { font-size: 22px; margin-bottom: 22px; }
+  .mob-bar { display: none; }
+  /* At very narrow widths the injected topbar (brand + search + Install guide)
+     cannot fit 360px; this page has its own mobile install bar, so drop the
+     topbar button there to keep the no-horizontal-overflow bar. */
+  @media (max-width: 400px) {
+    #topbar-install { display: none !important; }
+  }
+  @media (max-width: 640px) {
+    body { padding-bottom: 78px; }
+    .mob-bar {
+      display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+      align-items: center; gap: 14px;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+      background: color-mix(in srgb, var(--surface) 94%, transparent);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+    }
+    .mob-name {
+      flex: 1; min-width: 0; font-weight: 600; font-size: 14px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .mob-bar .btn { min-height: 44px; }
+  }
+</style>
+</head>
+<body>
+<header id="site-header"></header>
+<main>
+  <div id="page"></div>
+</main>
+<footer id="site-footer"></footer>
+<script src="assets/icons.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  /* FocusCaseX Marketplace — universal item detail page (?id=kind:id).
+     Renders one of four per-kind layouts from the shared catalog. */
+  (function () {
+    "use strict";
+
+    const page = document.getElementById("page");
+
+    /* ---------------- banned-word cleaner (see CONTRACT.md) ----------------
+       Required mappings plus a safety net: bare "vault", plural forms and
+       "plugin(s)" never reach the UI. Word-boundary safe, case-insensitive. */
+    const CLEAN = [
+      [/\/bvault\b/gi, "your clinic records"],
+      [/\byour vault\b/gi, "your clinic records"],
+      [/\bthe vault\b/gi, "your clinic records"],
+      [/\bvault\b/gi, "your clinic records"],
+      [/\bregistries\b/gi, "catalogs"],
+      [/\bregistry\b/gi, "catalog"],
+      [/\bmanifests\b/gi, "definition files"],
+      [/\bmanifest\b/gi, "definition file"],
+      [/\bfences\b/gi, "blocks"],
+      [/\bfence\b/gi, "block"],
+      [/\bpayloads\b/gi, "data"],
+      [/\bpayload\b/gi, "data"],
+      [/\bdeltas\b/gi, "change markers"],
+      [/\bdelta\b/gi, "change marker"],
+      [/\bplugins\b/gi, "extensions"],
+      [/\bplugin\b/gi, "extension"],
+    ];
+    function copyClean(text) {
+      let t = String(text == null ? "" : text);
+      CLEAN.forEach((pair) => { t = t.replace(pair[0], pair[1]); });
+      // fix the article after "plugin" → "extension": "A extension" → "An extension"
+      t = t.replace(/\b(a)\s+(extension)\b/gi, (_m, art) => (art[0] === "A" ? "An " : "an ") + "extension");
+      return t;
+    }
+
+    /* Split a description into 2-3 sentence paragraphs. */
+    function descParagraphs(text) {
+      const t = copyClean(text).replace(/\s+/g, " ").trim();
+      if (!t) return "";
+      const sents = (t.match(/[^.!?]+[.!?]+["')\]]?|[^.!?]+$/g) || [t])
+        .map((s) => s.trim()).filter(Boolean);
+      const chunks = [];
+      for (let i = 0; i < sents.length; i += 3) chunks.push(sents.slice(i, i + 3));
+      if (chunks.length > 1 && chunks[chunks.length - 1].length === 1) {
+        const merged = chunks.pop().concat(chunks.pop());
+        chunks.push(merged.slice(0, 2));
+        if (merged.length > 2) chunks.push(merged.slice(2));
+      }
+      return chunks.map((c) => "<p>" + FCX.esc(c.join(" ")) + "</p>").join("");
+    }
+
+    function factRow(label, valueHtml) {
+      return '<div class="fact"><dt>' + label + "</dt><dd>" + valueHtml + "</dd></div>";
+    }
+
+    /* A cleaned shallow copy for card rendering (cards must not show banned
+       words in their taglines either). */
+    function cardSafe(it) {
+      return Object.assign({}, it, {
+        tagline: copyClean(it.tagline),
+        description: copyClean(it.description),
+      });
+    }
+
+    /* ----------------------------- not found ----------------------------- */
+    function renderNotFound() {
+      document.title = "Not found — FocusCaseX Marketplace";
+      const tasks = FCX.KIND_ORDER.map((k) => {
+        const kk = FCX.KINDS[k];
+        return '<a class="task" href="' + kk.page + '">' + FCX.icon(kk.icon, 15) +
+          "<span>" + FCX.esc(kk.label) + "</span>" + FCX.icon("ArrowRight", 14) + "</a>";
+      }).join("");
+      page.innerHTML =
+        '<div class="wrap"><div class="error-page">' +
+        "<h1>Add-on not found</h1>" +
+        '<p class="lede">The link may be old — everything in the catalog is one tap away.</p>' +
+        '<div class="tasks">' + tasks + "</div>" +
+        '<a class="btn primary" href="index.html">Go home</a>' +
+        "</div></div>";
+    }
+
+    /* ----------------------------- found item ---------------------------- */
+    async function renderItem(item) {
+      const k = FCX.KINDS[item.kind];
+      document.title = item.name + " — FocusCaseX Marketplace";
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc && (item.tagline || item.description)) {
+        metaDesc.setAttribute("content", copyClean(item.tagline || item.description).slice(0, 155));
+      }
+
+      /* --- head --- */
+      const upd = FCX.fmtDate(item.released);
+      const subParts = [
+        '<span class="kindchip" style="--chip-c:' + k.c + ';--chip-soft:' + k.soft + '">' + FCX.esc(k.label) + "</span>",
+        '<span class="vshield" title="Reviewed and published by CaseX Labs">' + FCX.icon("ShieldCheck", 14) + "<span>Verified</span></span>",
+        "<span>" + FCX.esc(item.author) + "</span>",
+      ];
+      if (upd) subParts.push("<span>Updated " + upd + "</span>");
+      if (item.version) subParts.push("<span>v" + FCX.esc(item.version) + "</span>");
+
+      /* --- main column --- */
+      const desc = copyClean(item.description || item.tagline || "").trim();
+      let main = "<h2>What it does</h2>";
+      main += desc
+        ? descParagraphs(desc)
+        : "<p>This add-on doesn't have a full description yet — see the install steps below.</p>";
+
+      if (item.kind === "capsule") {
+        if (item.id === "capsule:ui-appointment") {
+          main += "<h2>See it running</h2>" + FCX.demoBoardHtml();
+        }
+        const fenceText = FCX.embedFence((item.meta && item.meta.capsuleId) || item.id);
+        main += "<h2>Add it to any page</h2>" +
+          '<div class="fence">' + FCX.esc(fenceText) +
+          '<button class="copy-btn" type="button" data-copy="' + FCX.esc(fenceText) + '">Copy</button></div>' +
+          '<p class="gap-t">Paste this block into any clinic page — the section renders right where you put it.</p>';
+      }
+
+      else if (item.kind === "theme") {
+        let previewHtml = "";
+        try {
+          const vars = await FCX.fetchThemeVars(item);
+          if (vars) previewHtml = FCX.themePreviewHtml(vars) +
+            '<div class="swatch-row">' + FCX.swatchesHtml(vars) + "</div>";
+        } catch (e) { previewHtml = ""; }
+        if (previewHtml) main += "<h2>Preview</h2>" + previewHtml;
+        main += "<h2>How it applies</h2><p>In FocusCaseX, open Settings → Appearance → Themes and tap " +
+          FCX.esc(item.name) + ". Every surface restyles instantly — backgrounds, panels, text, borders and accent — " +
+          "and clears back to the native look whenever you want.</p>";
+      }
+
+      else if (item.kind === "template") {
+        let body = "";
+        try { body = await FCX.fetchTemplateBody(item); } catch (e) { body = ""; }
+        body = String(body || "").trim();
+        if (body) {
+          main += '<h2>Preview the note</h2><div class="md-preview">' + FCX.renderMd(body) + "</div>";
+        } else {
+          main += '<h2>Preview the note</h2><p>The note opens as a ready page in your workspace — open it, then edit like any note.</p>';
+        }
+        const folder = (item.meta && item.meta.defaultFolder) || "";
+        main += "<h2>Where it lands</h2>";
+        if (folder) {
+          main += "<p>The note is created in a folder chosen for it:</p>" +
+            '<div class="folder-row">' +
+            '<button class="chip" type="button" data-copy="' + FCX.esc(folder) + '">' +
+            FCX.icon("FileCode", 13) + "<span>" + FCX.esc(folder) + "</span></button>" +
+            '<span class="small muted">You can move it anywhere later.</span></div>';
+        } else {
+          main += "<p>The note lands in your workspace — you can move it to any folder later.</p>";
+        }
+      }
+
+      else if (item.kind === "plugin") {
+        let man = null;
+        try {
+          const path = item.files && item.files.manifest;
+          if (path) {
+            const res = await fetch(path, { cache: "no-cache" });
+            if (res.ok) man = await res.json();
+          }
+        } catch (e) { man = null; }
+        if (man && typeof man === "object") {
+          const apis = (Array.isArray(man.apis) && man.apis.length) ? man.apis
+            : (Array.isArray(man.permissions) && man.permissions.length) ? man.permissions : [];
+          let facts = "";
+          if (apis.length) {
+            facts += factRow("Works with", FCX.esc(apis.map((a) => {
+              const s = String(a == null ? "" : a).trim();
+              const t = s.replace(/^[a-z]+:/i, "").replace(/[-_.]+/g, " ").trim() || s;
+              return t.charAt(0).toUpperCase() + t.slice(1);
+            }).filter(Boolean).join(", ")));
+          } else if (man.minAppVersion) {
+            facts += factRow("Works with", "FocusCaseX " + FCX.esc(String(man.minAppVersion)) + " and newer");
+          }
+          const ver = man.version || item.version;
+          if (ver) facts += factRow("Version", FCX.esc(String(ver)));
+          if (facts) main += '<h2>Under the hood</h2><dl class="factbox">' + facts + "</dl>";
+        }
+        const pid = (item.meta && item.meta.pluginId) || item.id.replace(/^plugin:/, "");
+        main += '<h2>View source</h2><a class="btn small" target="_blank" rel="noopener" ' +
+          'href="https://github.com/stromplayz/FocusCaseX-Marketplace/tree/main/plugins/' +
+          encodeURIComponent(pid) + '">' + FCX.icon("Github", 15) + "<span>View on GitHub</span></a>";
+      }
+
+      /* --- aside: install, facts, share --- */
+      let factRows = factRow("Author", FCX.esc(item.author));
+      factRows += factRow("Kind", '<a href="' + k.page + '">' + FCX.esc(k.label) + "</a>");
+      if (item.category) factRows += factRow("Category", FCX.esc(item.category));
+      if (item.version) factRows += factRow("Version", FCX.esc(item.version));
+      if (upd) factRows += factRow("Updated", upd);
+      const shareUrl = "https://stromplayz.github.io/FocusCaseX-Marketplace/item.html?id=" +
+        encodeURIComponent(item.id);
+      const aside =
+        '<aside class="detail-aside" id="install">' + FCX.installSteps(item) +
+        '<dl class="factbox">' + factRows + "</dl>" +
+        '<div><button class="chip" type="button" data-copy="' + FCX.esc(shareUrl) + '">' +
+        FCX.icon("Link", 13) + "<span>Copy link</span></button></div>" +
+        "</aside>";
+
+      /* --- related --- */
+      const related = FCX.related(item, 3).map(cardSafe)
+        .map((r) => FCX.cardHtml(r)).join("");
+
+      page.innerHTML =
+        '<div class="wrap">' +
+        '<a class="back" href="' + k.page + '">' + FCX.icon("ArrowLeft", 15) +
+        "<span>Back to " + FCX.esc(k.label) + "</span></a>" +
+        '<div class="detail-head">' +
+        '<span class="tile" style="' + FCX.tileStyle(item.kind) + '">' + FCX.icon(item.icon, 24) + "</span>" +
+        '<div class="detail-title"><h1>' + FCX.esc(item.name) + "</h1>" +
+        '<div class="detail-sub">' + subParts.join('<span class="dot"></span>') + "</div>" +
+        "</div></div>" +
+        '<div class="detail-body"><div class="detail-main">' + main + "</div>" + aside + "</div>" +
+        '<div class="detail-more"><h2>More like this</h2><div class="grid">' + related + "</div></div>" +
+        "</div>";
+
+      FCX.wireCopyButtons(page);
+      const grid = page.querySelector(".detail-more .grid");
+      if (grid) FCX.wireGrid(grid);
+
+      if (!document.querySelector(".mob-bar")) {
+        const bar = document.createElement("div");
+        bar.className = "mob-bar";
+        bar.innerHTML = '<span class="mob-name">' + FCX.esc(item.name) + "</span>" +
+          '<a class="btn small primary" href="#install">Install</a>';
+        document.body.appendChild(bar);
+      }
+    }
+
+    /* ------------------------------- boot -------------------------------- */
+    FCX.ready({ active: null }).then(() => {
+      let raw = FCX.getParam("id") || "";
+      try { raw = decodeURIComponent(raw); } catch (e) { /* keep raw value */ }
+      const item = raw ? FCX.byId(raw) : null;
+      if (!item) { renderNotFound(); return; }
+      renderItem(item).catch(renderNotFound);
+    });
+  })();
+</script>
+</body>
+</html>

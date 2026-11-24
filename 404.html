@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — FocusCaseX Marketplace</title>
+<meta name="description" content="The page you tried to open does not exist. Every FocusCaseX Marketplace add-on is one tap away inside the app under Settings → Marketplace.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="/FocusCaseX-Marketplace/icon.svg">
+<link rel="stylesheet" href="/FocusCaseX-Marketplace/assets/styles.css">
+</head>
+<body>
+<header id="site-header"></header>
+<main>
+  <div class="wrap">
+    <div class="error-page">
+      <div class="kicker">404</div>
+      <h1>Page not found</h1>
+      <p class="lede">The page moved or never existed — everything in the catalog is one tap away.</p>
+      <div class="tasks">
+        <a class="task" href="/FocusCaseX-Marketplace/extensions.html"><span data-icon="Puzzle" data-size="15"></span>Extensions</a>
+        <a class="task" href="/FocusCaseX-Marketplace/capsules.html"><span data-icon="Braces" data-size="15"></span>Capsules</a>
+        <a class="task" href="/FocusCaseX-Marketplace/themes.html"><span data-icon="Palette" data-size="15"></span>Themes</a>
+        <a class="task" href="/FocusCaseX-Marketplace/templates.html"><span data-icon="FileText" data-size="15"></span>Templates</a>
+      </div>
+      <a class="btn primary" href="/FocusCaseX-Marketplace/index.html">Go home</a>
+    </div>
+  </div>
+</main>
+<footer id="site-footer"></footer>
+<script src="/FocusCaseX-Marketplace/assets/icons.js"></script>
+<script src="/FocusCaseX-Marketplace/assets/app.js"></script>
+<script>
+(function () {
+  var BASE = "/FocusCaseX-Marketplace/";
+  var CACHE_KEY = "fcx.market.catalog.v3";
+
+  // A 404 is served AT the missing path, so every asset and link on this page
+  // is absolute. The chrome built by FCX uses relative links — re-point
+  // them at the site base once it is in place.
+  function absolutize(root) {
+    if (!root) return;
+    root.querySelectorAll("a[href]").forEach(function (a) {
+      var h = a.getAttribute("href") || "";
+      if (/^(https?:|#|mailto:)/.test(h)) return;
+      a.setAttribute("href", BASE + h.replace(/^\.\//, ""));
+    });
+  }
+
+  function hydrateIcons() {
+    if (!window.FCX || !FCX.icon) return;
+    document.querySelectorAll("[data-icon]").forEach(function (el) {
+      el.innerHTML = FCX.icon(el.getAttribute("data-icon"), Number(el.getAttribute("data-size")) || 15);
+    });
+  }
+
+  // Mirror of the runtime's normalize() so the seeded cache matches exactly
+  // what loadCatalog() would have cached itself. The seed is removed again
+  // right after FCX.ready consumes it, so other pages always load fresh.
+  function normalize(raw) {
+    var kind = raw.kind;
+    if (!FCX.KINDS[kind]) return null;
+    return {
+      id: raw.id,
+      kind: kind,
+      name: raw.name || raw.id,
+      tagline: String(raw.tagline || "").replace(/\s+/g, " ").trim(),
+      description: String(raw.description || "").trim(),
+      author: raw.author || "CaseX Labs",
+      version: raw.version || "",
+      category: raw.category || "",
+      tags: Array.isArray(raw.tags) ? raw.tags : [],
+      icon: raw.icon || (FCX.KINDS[kind] ? FCX.KINDS[kind].icon : "Package"),
+      featured: raw.featured === true,
+      verified: raw.verified !== false,
+      released: raw.released || "",
+      downloads: typeof raw.downloads === "number" ? raw.downloads : 0,
+      files: raw.files && typeof raw.files === "object" ? raw.files : {},
+      meta: raw.meta && typeof raw.meta === "object" ? raw.meta : {},
+    };
+  }
+
+  function seedCatalog(data) {
+    if (!data || !Array.isArray(data.items)) return;
+    var items = data.items.map(normalize).filter(Boolean);
+    if (!items.length) return;
+    try {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+        items: items,
+        generatedAt: (data.marketplace && data.marketplace.generatedAt) || data.generatedAt || "",
+      }));
+    } catch (e) { /* storage unavailable — fine */ }
+  }
+
+  function unseedCatalog() {
+    try { sessionStorage.removeItem(CACHE_KEY); } catch (e) { /* fine */ }
+  }
+
+  function fallbackChrome() {
+    // Only reachable if the catalog could not be fetched at all.
+    var header = document.getElementById("site-header");
+    var footer = document.getElementById("site-footer");
+    if (header && !header.firstChild) {
+      var brand = '<a class="brand" href="' + BASE + 'index.html">' + FCX.icon("Stethoscope", 20) +
+        '<span>FocusCaseX <span class="brand-market">Marketplace</span></span></a>';
+      var nav = FCX.KIND_ORDER.map(function (k) {
+        return '<a href="' + BASE + FCX.KINDS[k].page + '">' + FCX.esc(FCX.KINDS[k].label) + '</a>';
+      }).join("");
+      header.innerHTML = '<div class="top"><div class="top-inner">' + brand +
+        '<nav class="nav">' + nav + '</nav></div></div>';
+    }
+    if (footer && !footer.firstChild) {
+      footer.innerHTML = '<div class="foot"><div class="wrap foot-inner">' +
+        '<div><div class="foot-brand">' + FCX.icon("Stethoscope", 17) + ' FocusCaseX Marketplace</div>' +
+        '<div class="foot-status">Free add-ons for FocusCaseX · maintained by CaseX Labs</div></div>' +
+        '<div class="foot-links"><a href="' + BASE + 'install.html">Install guide</a>' +
+        '<a href="' + BASE + 'index.html">Home</a></div>' +
+        '</div></div>';
+    }
+  }
+
+  // Seed the runtime's catalog cache from an absolute URL so FCX.ready works
+  // at any path depth (the runtime itself fetches "catalog.json" relatively).
+  fetch(BASE + "catalog.json", { cache: "no-cache" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(seedCatalog)
+    .catch(function () { /* offline preview — fall through */ })
+    .then(function () {
+      return FCX.ready({ active: null, search: false });
+    })
+    .then(function () {
+      unseedCatalog();
+      absolutize(document.getElementById("site-header"));
+      absolutize(document.getElementById("site-footer"));
+      hydrateIcons();
+    })
+    .catch(function () {
+      hydrateIcons();
+      fallbackChrome();
+    });
+})();
+</script>
+</body>
+</html>

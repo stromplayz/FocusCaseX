@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extensions — FocusCaseX Marketplace</title>
+<meta name="description" content="Browse 19 free extensions for FocusCaseX — productivity, navigation, writing, clinical and appearance tools, installed from inside the app. Reviewed and published by CaseX Labs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header id="site-header"></header>
+<main>
+  <div class="wrap">
+    <div class="page-head">
+      <p class="kicker" style="color:var(--k-extension)">Extensions</p>
+      <h1>Extensions</h1>
+      <p class="lede">Small tools that add features — schedules, shortcuts, summaries and more, straight into your workspace.</p>
+      <p class="explain" id="head-explain">19 extensions · reviewed by CaseX Labs · install from inside the app</p>
+    </div>
+
+    <div class="tabs-row">
+      <div class="tabs" id="cat-tabs" aria-label="Extension categories"></div>
+    </div>
+
+    <div id="grid-wrap"></div>
+
+    <p class="skip-note" style="margin-top:26px">Extensions are installed from Settings → Marketplace inside FocusCaseX. <a href="install.html">See the install guide</a>.</p>
+  </div>
+</main>
+<footer id="site-footer"></footer>
+<script src="assets/icons.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  // Extensions browse page: category tabs (live counts from the catalog),
+  // 12-card capped grid, shareable ?cat= state. Kind: plugin.
+  FCX.ready({ active: "plugin" }).then(() => {
+    const plugins = FCX.items.filter((it) => it.kind === "plugin");
+
+    // Head explainer, recomputed so it always matches the catalog.
+    document.getElementById("head-explain").textContent =
+      plugins.length + " extensions · reviewed by CaseX Labs · install from inside the app";
+
+    // Tabs: All + every category present among extension items, live counts,
+    // ordered most-first (ties alphabetical).
+    const counts = new Map();
+    plugins.forEach((it) => {
+      const c = it.category || "Other";
+      counts.set(c, (counts.get(c) || 0) + 1);
+    });
+    const tabs = [{ id: "all", label: "All", count: plugins.length }].concat(
+      Array.from(counts.entries())
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+        .map(([label, n]) => ({ id: label, label: label, count: n }))
+    );
+
+    const tabsEl = document.getElementById("cat-tabs");
+    const gridWrap = document.getElementById("grid-wrap");
+
+    function currentCat() {
+      const raw = FCX.getParam("cat");
+      if (!raw) return "all";
+      const hit = tabs.find((t) => t.id.toLowerCase() === String(raw).toLowerCase());
+      return hit ? hit.id : "all";
+    }
+
+    function rememberCat(id) {
+      try {
+        FCX.setParam("cat", id === "all" ? "" : id);
+      } catch (e) {
+        /* history updates can be blocked on file:// — filtering still works */
+      }
+    }
+
+    // Canonicalize a valid but oddly-cased ?cat= so shared links stay clean.
+    (function syncParam() {
+      const raw = FCX.getParam("cat");
+      const cur = currentCat();
+      if (raw && cur !== raw) rememberCat(cur);
+    })();
+
+    function render() {
+      const cat = currentCat();
+      const items = FCX.SORTS.recommended(
+        cat === "all"
+          ? plugins.slice()
+          : plugins.filter((it) => (it.category || "Other") === cat)
+      );
+      if (!items.length) {
+        gridWrap.innerHTML =
+          '<p class="explain">No add-on matches that. Try a shorter word, or tap a category below.</p>';
+        return;
+      }
+      gridWrap.innerHTML = FCX.renderGrid(items, { cap: 12 });
+      FCX.wireGrid(gridWrap);
+    }
+
+    FCX.renderTabs(tabsEl, tabs, currentCat(), (id) => {
+      rememberCat(id);
+      render();
+    });
+
+    render();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalog API — FocusCaseX Marketplace</title>
+<meta name="description" content="The FocusCaseX marketplace API is plain static files — catalog.json, releases.json, api/registry.json and per-item sources, served straight from GitHub Pages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header id="site-header"></header>
+<main>
+
+  <div class="wrap">
+    <div class="page-head">
+      <p class="kicker">For developers</p>
+      <h1>The catalog API</h1>
+      <p class="lede">The marketplace is plain static files — every FocusCaseX client reads the same JSON you see below.</p>
+      <p class="explain">No database, no auth, no rate limits. <strong>Just files on GitHub Pages.</strong></p>
+    </div>
+  </div>
+
+  <section class="section" id="endpoints">
+    <div class="wrap">
+      <h2>Endpoints</h2>
+      <p class="muted" style="margin:12px 0 24px; max-width:620px;">Every path below is a real file at the site root. Point any HTTP client at them, or just open them in a browser.</p>
+      <dl class="factbox">
+        <div class="fact"><dt><code>catalog.json</code></dt><dd>The full catalog — 71 items across extensions, capsules, themes and templates, plus the snippets list</dd></div>
+        <div class="fact"><dt><code>releases.json</code></dt><dd>App release history — version, versionCode, core and notes for every build</dd></div>
+        <div class="fact"><dt><code>api/registry.json</code></dt><dd>Generated plugin registry — the index every client merges at boot</dd></div>
+        <div class="fact"><dt><code>api/core.json</code></dt><dd>Current core version, minimum app version, announcement and featured picks</dd></div>
+        <div class="fact"><dt><code>themes/&lt;id&gt;.json</code></dt><dd>Theme palettes — the <code>vars</code> each theme applies to the workspace</dd></div>
+        <div class="fact"><dt><code>templates/&lt;id&gt;.md</code></dt><dd>Template bodies — raw markdown, fetched and rendered on demand</dd></div>
+        <div class="fact"><dt><code>plugins/&lt;id&gt;/</code></dt><dd>Extension sources — <code>manifest.json</code> and <code>main.js</code> per folder</dd></div>
+        <div class="fact"><dt><code>capsules/&lt;id&gt;/</code></dt><dd>Capsule layers — <code>spec.mdui</code>, <code>style.css</code> and <code>logic.mdui</code>, varying by capsule</dd></div>
+        <div class="fact"><dt><code>snippets/&lt;id&gt;.css</code></dt><dd>Small CSS snippets, referenced by the <code>snippets</code> list in catalog.json</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" id="shape">
+    <div class="wrap">
+      <h2>Catalog shape</h2>
+      <p class="muted" style="margin:12px 0 24px; max-width:620px;">One real entry from <code>catalog.json</code>, compacted. Every item carries the same fields:</p>
+      <div class="fence" id="shape-fence"><code>{
+  "id": "plugin:note-templates",
+  "kind": "plugin",
+  "name": "Note Templates",
+  "tagline": "Inserts a dated checklist template at the end of the active note with one command.",
+  "description": "Inserts a dated checklist template at the end of the active note with one command.",
+  "author": "FocusCaseX originals",
+  "version": "1.0.0",
+  "category": "Writing",
+  "tags": ["plugin", "writing"],
+  "icon": "FileText",
+  "released": "2026-01-24",
+  "verified": true,
+  "featured": false,
+  "meta": { "pluginId": "note-templates" },
+  "files": { "manifest": "plugins/note-templates/manifest.json", "main": "plugins/note-templates/main.js" }
+}</code></div>
+    </div>
+  </section>
+
+  <section class="section" id="updates">
+    <div class="wrap">
+      <h2>How updates work</h2>
+      <p style="margin:14px 0 0; max-width:680px;">At boot, the app fetches <code>catalog.json</code> and merges the generated index in <code>api/registry.json</code>, so the Android app, the hosted workspace and this site all read the same list of items.</p>
+      <p style="margin:14px 0 0; max-width:680px;">Version checks compare the installed build against the newest entry in <code>releases.json</code>; the current core version and its minimum app version live in <code>api/core.json</code>.</p>
+      <p style="margin:14px 0 0; max-width:680px;">The registry is rebuilt by <code>scripts/build-registry.mjs</code> on every push. CI re-runs the script, validates that the catalog and core files still parse, and fails the build if a committed registry is stale.</p>
+    </div>
+  </section>
+
+  <section class="section" id="publishing">
+    <div class="wrap">
+      <h2>Publishing</h2>
+      <p class="muted" style="margin:12px 0 24px; max-width:620px;">There is no toolchain to learn. If the files exist and the JSON parses, the change ships.</p>
+      <ol class="steps" style="max-width:620px;">
+        <li><span>Fork the repository, or open a branch on your copy.</span></li>
+        <li><span>Commit your assets: a new entry in <code>catalog.json</code> plus the files it points to — <code>plugins/&lt;id&gt;/</code>, <code>capsules/&lt;id&gt;/</code>, <code>themes/&lt;id&gt;.json</code> or <code>templates/&lt;id&gt;.md</code>.</span></li>
+        <li><span>CI validates the catalog and the registry, and GitHub Pages serves the change — it is live the moment the push lands.</span></li>
+      </ol>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:30px;">
+        <a class="btn primary small" href="catalog.json">Open catalog.json</a>
+        <a class="btn small" href="api/registry.json">Open api/registry.json</a>
+        <a class="btn small" href="install.html">See how install works</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer id="site-footer"></footer>
+<script src="assets/icons.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  FCX.ready({ active: null }).then(() => {
+    // Copy button on the catalog example fence.
+    const fence = document.getElementById("shape-fence");
+    const code = fence && fence.querySelector("code");
+    if (fence && code) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "copy-btn";
+      btn.textContent = "Copy";
+      btn.setAttribute("data-copy", code.textContent);
+      fence.prepend(btn);
+      FCX.wireCopyButtons(fence);
+    }
+  });
+</script>
+</body>
+</html>

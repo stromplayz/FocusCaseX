@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Themes — FocusCaseX Marketplace</title>
+<meta name="description" content="Browse 22 free FocusCaseX themes — dark and light looks that restyle the whole workspace. Preview swatches, one tap in Settings → Appearance, no download.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header id="site-header"></header>
+<main>
+  <div class="wrap">
+    <section class="page-head">
+      <div class="kicker" style="color: var(--k-theme);">Themes</div>
+      <h1>Themes</h1>
+      <p class="lede">A new look for the whole workspace — backgrounds, panels, text and accent remap in one tap.</p>
+      <p class="explain">22 themes · applies instantly in <strong>Settings → Appearance</strong> · clears back to the native look any time</p>
+    </section>
+
+    <section class="section-tight">
+      <div class="tabs-row">
+        <div class="seg" id="tone-seg" role="group" aria-label="Theme tone">
+          <button type="button" data-v="dark" aria-pressed="false">Dark</button>
+          <button type="button" data-v="light" aria-pressed="false">Light</button>
+        </div>
+        <span class="skip-note" id="tone-count"></span>
+      </div>
+      <div id="theme-grid"></div>
+      <p class="skip-note" style="margin-top: 26px;">Every theme is one tap in Settings → Appearance. Nothing is downloaded — the look is applied on your device.</p>
+    </section>
+  </div>
+</main>
+<footer id="site-footer"></footer>
+<script src="assets/icons.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  FCX.ready({ active: "theme" }).then(() => {
+    const themes = FCX.items.filter((it) => it.kind === "theme");
+    const byTone = {
+      dark: themes.filter((it) => it.category === "Dark"),
+      light: themes.filter((it) => it.category === "Light"),
+    };
+    const counts = { dark: byTone.dark.length, light: byTone.light.length };
+
+    const seg = document.getElementById("tone-seg");
+    const host = document.getElementById("theme-grid");
+    const note = document.getElementById("tone-count");
+    note.textContent = counts.dark + " dark · " + counts.light + " light";
+
+    // Default tone: ?v= override, else the visitor's own color scheme.
+    const fromUrl = (FCX.getParam("v") || "").toLowerCase();
+    let tone = (fromUrl === "dark" || fromUrl === "light")
+      ? fromUrl
+      : (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+
+    function render() {
+      seg.querySelectorAll("button").forEach((b) => {
+        const on = b.getAttribute("data-v") === tone;
+        b.classList.toggle("on", on);
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      host.innerHTML = FCX.renderGrid(FCX.recommendOrder(byTone[tone]), { cap: 8 });
+      FCX.wireGrid(host);
+    }
+
+    seg.querySelectorAll("button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const v = btn.getAttribute("data-v");
+        if (v !== tone) {
+          tone = v;
+          FCX.setParam("v", tone);
+          render();
+        }
+      });
+    });
+
+    render();
+  });
+</script>
+</body>
+</html>
