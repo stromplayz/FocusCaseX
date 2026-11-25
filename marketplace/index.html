@@ -5,7 +5,7 @@
 <base href="/FocusCaseX/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FocusCaseX Marketplace — add-ons for your clinic workspace</title>
-<meta name="description" content="71 add-ons for FocusCaseX — appointment boards, refraction notes, themes and more. Every one is included with your plan. Preview each live on this site, then install it in one tap.">
+<meta name="description" content="92 add-ons for FocusCaseX — appointment boards, refraction notes, themes and more. Every one is included with your plan. Preview each live on this site, then install it in one tap.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -33,7 +33,7 @@
             </button>
           </div>
           <div class="hero-stats">
-            <div><b>71</b><span>add-ons</span></div>
+            <div><b>92</b><span>add-ons</span></div>
             <div><b>5</b><span>kinds</span></div>
             <div><b>100%</b><span>included in every plan</span></div>
             <div><b>0</b><span>setup steps</span></div>
@@ -245,12 +245,12 @@
     FCX.ready({ active: "marketplace" }).then(function () {
       /* --- kind entry cards --- */
       var counts = {};
-      FCX.items.forEach(function (it) { counts[it.kind] = (counts[it.kind] || 0) + 1; });
+      FCX.items.forEach(function (it) { if (it.kind !== "workbench") counts[it.kind] = (counts[it.kind] || 0) + 1; });
       document.getElementById("entries").innerHTML = FCX.KIND_ORDER.map(function (kind) {
         var k = FCX.KINDS[kind];
-        /* WorkBenches ship in their own catalog.json array (not `items`), so the
-           counter above sees 0 for them — 4 bundles at launch. */
-        var n = counts[kind] || (kind === "workbench" ? 4 : 0);
+        /* WorkBenches are counted from their own catalog.json array — 5
+           bundles now — never from the items feed above. */
+        var n = counts[kind] || (kind === "workbench" ? 5 : 0);
         return '<a class="entry" href="' + k.page + '" style="--entry-c: ' + k.c + '">' +
           '<span class="entry-count">' + n + '</span>' +
           '<span class="tile">' + FCX.icon(k.icon, 19) + '</span>' +

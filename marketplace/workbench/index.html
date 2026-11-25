@@ -31,6 +31,15 @@
     border: 1px solid var(--line); border-radius: 6px; padding: 3px 9px;
     white-space: nowrap;
   }
+  /* named bundle contents: one full-width chip per kind, names wrap inside */
+  .wb-chips .wb-group {
+    white-space: normal; flex: 1 1 100%; line-height: 1.9; text-align: left;
+  }
+  .wb-chips .wb-group b { font-weight: 600; color: var(--ink); }
+  .wb-chips .wb-more {
+    background: none; border: 0; padding: 0;
+    color: var(--ink-3); white-space: nowrap;
+  }
   .wb-card .card-meta { flex-wrap: wrap; }
   .wb-card .kindchip { font-size: 10.5px; padding: 3px 9px; }
   .wb-install { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
@@ -57,7 +66,7 @@
       <div class="kicker">WorkBenches</div>
       <h1>One install. Whole EMR.</h1>
       <p class="lede">A WorkBench is one installable bundle that contains a complete, pre-configured EMR setup — extensions, capsules, a theme, templates, snippets, starter pages and settings, put together for one way of working. Install a WorkBench and the whole workspace is set up in a single step, instead of assembling add-ons one by one.</p>
-      <p class="explain">4 WorkBenches at launch · every piece in a bundle is listed before you confirm · free</p>
+      <p class="explain">5 WorkBenches and counting · every piece in a bundle is listed before you confirm · free</p>
     </section>
 
     <!-- WHAT'S INSIDE -->
@@ -108,7 +117,7 @@
     <!-- CATALOG GRID -->
     <section class="section-tight" id="catalog" aria-label="WorkBenches you can install">
       <div class="wb-gridhead">
-        <h2>The first four<span class="wb-count" id="wb-count"></span></h2>
+        <h2>The first five<span class="wb-count" id="wb-count"></span></h2>
         <span style="font-size:13.5px;color:var(--ink-3);">Each installs every piece it lists — confirmed once, in the app.</span>
       </div>
       <div class="wb-grid" id="wb-grid"></div>
@@ -189,6 +198,42 @@
       return parts.map((p) => `<span>${FCX.esc(p)}</span>`).join("");
     }
 
+    /* ---------- named contents: entries that carry a named list render one
+       full-width chip per kind — bold label, then names joined by " · ",
+       capped at 12 names with "+N more"; the full list stays in the chip's
+       title attribute. Entries without a list keep the count chips. ---------- */
+    const WB_LIST_LABELS = { extension: "Extensions:", capsule: "Capsules:", theme: "Theme:", template: "Templates:", snippet: "Snippets:", page: "Pages:" };
+    const WB_LIST_ORDER = ["extension", "capsule", "theme", "template", "snippet", "page"];
+    const WB_LIST_CAP = 12;
+    function kindLabel(kind) {
+      if (WB_LIST_LABELS[kind]) return WB_LIST_LABELS[kind];
+      const word = String(kind || "other");
+      return word.charAt(0).toUpperCase() + word.slice(1) + "s:";
+    }
+    function namedListHtml(list) {
+      if (!Array.isArray(list) || !list.length) return "";
+      const namesByKind = {};
+      for (const entry of list) {
+        if (!entry || !entry.name) continue;
+        const kind = String(entry.kind || "other").toLowerCase();
+        (namesByKind[kind] = namesByKind[kind] || []).push(String(entry.name));
+      }
+      const kinds = WB_LIST_ORDER.filter((k) => namesByKind[k]);
+      for (const k of Object.keys(namesByKind)) {
+        if (kinds.indexOf(k) === -1) kinds.push(k);
+      }
+      return kinds.map((kind) => {
+        const names = namesByKind[kind];
+        const shown = names.slice(0, WB_LIST_CAP);
+        const more = names.length - shown.length;
+        return '<span class="wb-group" title="' + FCX.esc(names.join(" · ")) + '">' +
+          "<b>" + FCX.esc(kindLabel(kind)) + "</b> " +
+          FCX.esc(shown.join(" · ")) +
+          (more > 0 ? ' <span class="wb-more">+' + more + " more</span>" : "") +
+          "</span>";
+      }).join("");
+    }
+
     /* ---------- install: same deep-link mechanism as the kind pages.
        WorkBenches live in their own catalog array (not `items`), so the
        shared [data-open-app] wiring can't see them — this page wires the
@@ -260,7 +305,7 @@
   <span class="tile">${FCX.icon(wb.icon || "Layers", 17)}</span>
   <span class="card-name">${FCX.esc(wb.name)}${wb.verified !== false ? '<span class="vshield" title="Reviewed and published by CaseX Labs">' + FCX.icon("ShieldCheck", 13) + "</span>" : ""}</span>
   <span class="card-desc">${FCX.esc(wb.tagline || wb.description || "")}</span>
-  <span class="wb-chips">${chipsHtml(wb.meta && wb.meta.contents)}</span>
+  <span class="wb-chips">${namedListHtml(wb.meta && wb.meta.list) || chipsHtml(wb.meta && wb.meta.contents)}</span>
   <span class="card-meta">
     <span class="kindchip" style="--chip-c:var(--k-workbench);--chip-soft:var(--k-workbench-soft);">${FCX.esc(wb.category || "WorkBench")}</span>
     <span class="dot"></span><span>${FCX.esc(wb.author || "CaseX Labs")}</span>
