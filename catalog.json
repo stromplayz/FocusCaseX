@@ -2124,4 +2124,154 @@
       }
     }
   ]
+,
+  "workbenches": [
+    {
+      "id": "workbench:optometry-complete",
+      "kind": "workbench",
+      "name": "Optometry Complete",
+      "tagline": "A refraction-first EMR — exam capsules, vision templates, a clinic dashboard and a calm clinical theme, set up the way a busy optometry practice works.",
+      "description": "A refraction-first EMR: exam capsules for workup and follow-up visits, vision and refraction note templates, a clinic dashboard, recall and optics boards, and a calm clinical theme — installed as one bundle, pre-configured the way a busy optometry practice works. Every piece can be swapped or removed later under Settings.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Refraction-first",
+      "tags": [
+        "workbench",
+        "refraction",
+        "optometry",
+        "complete"
+      ],
+      "icon": "ScanEye",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "2026-11-25",
+      "verified": true,
+      "featured": true,
+      "meta": {
+        "workbenchId": "optometry-complete",
+        "code": "FCX-WTEGVR",
+        "contents": {
+          "extensions": 6,
+          "capsules": 12,
+          "theme": 1,
+          "templates": 8,
+          "snippets": 3,
+          "pages": 5,
+          "settings": true
+        }
+      },
+      "files": {}
+    },
+    {
+      "id": "workbench:pediatric-clinic",
+      "kind": "workbench",
+      "name": "Pediatric Clinic",
+      "tagline": "For children's eye care — screening-first exam flows, parent-facing letters, recall boards and a softer look for the waiting room.",
+      "description": "For children's eye care: screening-first exam capsules, vision and binocular-vision note templates, recall boards that keep follow-ups booked, parent-facing letters, and a softer theme for the waiting room — one bundle, pre-configured for a pediatric practice.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Pediatric",
+      "tags": [
+        "workbench",
+        "pediatric",
+        "children",
+        "screening"
+      ],
+      "icon": "Users",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "2026-11-25",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "workbenchId": "pediatric-clinic",
+        "code": "FCX-VE78SG",
+        "contents": {
+          "extensions": 4,
+          "capsules": 8,
+          "theme": 1,
+          "templates": 6,
+          "snippets": 2,
+          "pages": 4,
+          "settings": true
+        }
+      },
+      "files": {}
+    },
+    {
+      "id": "workbench:multispecialty-starter",
+      "kind": "workbench",
+      "name": "Multispecialty Starter",
+      "tagline": "A front desk built for several specialties — a shared day book, optics and billing queues, and pages divided by department.",
+      "description": "A starting point for clinics that see more than eyes: a shared day book and walk-in flow, per-department page sections, optics and billing queues, referrals, and a set of general-purpose templates — one bundle that gives each department its own corner of the same workspace.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Multispecialty",
+      "tags": [
+        "workbench",
+        "multispecialty",
+        "front desk",
+        "billing"
+      ],
+      "icon": "LayoutGrid",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "2026-11-25",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "workbenchId": "multispecialty-starter",
+        "code": "FCX-Y23DFM",
+        "contents": {
+          "extensions": 7,
+          "capsules": 14,
+          "theme": 1,
+          "templates": 9,
+          "snippets": 3,
+          "pages": 6,
+          "settings": true
+        }
+      },
+      "files": {}
+    },
+    {
+      "id": "workbench:solo-practice-minimal",
+      "kind": "workbench",
+      "name": "Solo Practice Minimal",
+      "tagline": "One chair, one doctor — the few boards and notes a solo practice actually needs, with nothing extra to manage.",
+      "description": "The smallest complete setup: a day book, a patient register, core exam and dispensing notes, recalls, and one quiet theme — one bundle for a solo practice that wants a working EMR with nothing extra to manage.",
+      "author": "CaseX Labs",
+      "version": "1.0.0",
+      "category": "Solo practice",
+      "tags": [
+        "workbench",
+        "solo",
+        "minimal"
+      ],
+      "icon": "User",
+      "rating": null,
+      "reviews": 0,
+      "downloads": 0,
+      "released": "2026-11-25",
+      "verified": true,
+      "featured": false,
+      "meta": {
+        "workbenchId": "solo-practice-minimal",
+        "code": "FCX-9AUM7P",
+        "contents": {
+          "extensions": 3,
+          "capsules": 6,
+          "theme": 1,
+          "templates": 5,
+          "snippets": 1,
+          "pages": 3,
+          "settings": true
+        }
+      },
+      "files": {}
+    }
+  ]
 }

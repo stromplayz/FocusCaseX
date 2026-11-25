@@ -71,24 +71,116 @@
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
   }
-  .demo-grid {
-    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px; margin-top: 36px;
-  }
-  .demo-card { margin: 0; }
-  .demo-frame {
-    border: 1px solid var(--line); border-radius: 14px;
-    overflow: hidden; background: var(--paper);
-    box-shadow: var(--shadow-1);
+  /* Demo carousel — one slide at a time, full composition visible (object-fit: contain) */
+  .demo-carousel { margin-top: 36px; }
+  .demo-stagewrap { position: relative; }
+  .demo-stage {
+    position: relative;
     aspect-ratio: 16 / 9;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--paper);
+    box-shadow: var(--shadow-1);
+    touch-action: pan-y; /* horizontal swipes belong to the carousel, vertical scroll stays free */
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
   }
-  .demo-frame video { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .demo-card figcaption { margin-top: 14px; padding: 0 2px; }
-  .demo-card b {
+  .demo-stage:active { cursor: grabbing; }
+  .demo-slide {
+    position: absolute; inset: 0;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .35s ease, visibility 0s linear .35s;
+    pointer-events: none;
+  }
+  .demo-slide.is-active {
+    opacity: 1; visibility: visible;
+    transition: opacity .35s ease;
+  }
+  .demo-slide video {
+    width: 100%; height: 100%;
+    object-fit: contain; /* the full composition, never cropped */
+    display: block;
+    background: var(--paper);
+  }
+
+  /* Arrows — chip-like, overlay the stage edges */
+  .demo-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    z-index: 3;
+    width: 42px; height: 42px;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0;
+    border-radius: 999px;
+    background: var(--paper);
+    border: 1px solid var(--line-2);
+    color: var(--ink);
+    box-shadow: var(--shadow-1);
+    cursor: pointer;
+    transition: border-color .16s ease, color .16s ease, background .16s ease;
+  }
+  .demo-arrow:hover { border-color: var(--blue); color: var(--blue-deep); background: var(--blue-soft); }
+  .demo-arrow svg { display: block; }
+  .demo-arrow.demo-prev { left: 14px; }
+  .demo-arrow.demo-next { right: 14px; }
+
+  /* Thin auto-advance progress bar on the active slide */
+  .demo-progress {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: 3px; z-index: 2;
+    background: var(--bg-soft-2);
+  }
+  .demo-progress span {
+    display: block; height: 100%;
+    background: var(--blue);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+  .demo-carousel.auto-off .demo-progress { display: none; }
+
+  /* Caption bar under the stage */
+  .demo-caption {
+    display: flex; align-items: center; justify-content: space-between; gap: 18px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding: 13px 18px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .demo-cap-label b {
     display: block; font-family: var(--font-display);
-    font-size: 16px; letter-spacing: -.01em;
+    font-size: 15.5px; letter-spacing: -.01em;
   }
-  .demo-card figcaption span { display: block; margin-top: 3px; font-size: 13px; color: var(--ink-2); }
+  .demo-cap-label span { display: block; margin-top: 3px; font-size: 13px; color: var(--ink-2); }
+  .demo-count {
+    font-family: var(--font-mono); font-size: 12px; color: var(--ink-3);
+    background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: 999px; padding: 5px 12px; white-space: nowrap;
+    flex: none;
+  }
+
+  /* Tick indicators — 34px hit areas */
+  .demo-dots { display: flex; justify-content: center; gap: 6px; margin-top: 14px; }
+  .demo-dot {
+    width: 34px; height: 34px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: transparent; border: 0; padding: 0;
+    cursor: pointer;
+  }
+  .demo-dot i {
+    display: block; width: 18px; height: 3px; border-radius: 999px;
+    background: var(--line-2);
+    transition: background .16s ease, width .16s ease;
+  }
+  .demo-dot:hover i { background: var(--ink-3); }
+  .demo-dot.is-active i { background: var(--blue); width: 26px; }
+
+  .demo-carousel :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .demo-arrow:focus-visible, .demo-dot:focus-visible { outline-offset: 1px; }
 
   /* Marketplace teaser */
   .kind-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
@@ -128,8 +220,11 @@
     .home-sec { padding: 64px 0; }
     .cta-sec { padding: 0 0 64px; }
     .banner-shell { border-radius: 14px; }
-    .demo-grid { grid-template-columns: 1fr; gap: 24px; }
     .mcp-flex, .pricing-flex { gap: 26px; }
+    .demo-caption { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .demo-arrow { width: 38px; height: 38px; }
+    .demo-arrow.demo-prev { left: 10px; }
+    .demo-arrow.demo-next { right: 10px; }
   }
   @media (max-width: 520px) {
     .home-sec { padding: 52px 0; }
@@ -137,6 +232,10 @@
     .stat-row .stat { padding-right: 15px; margin-right: 15px; }
     .stat-row b { font-size: 17px; }
     .cta-actions { flex-direction: column; align-items: stretch; }
+    .demo-arrow { width: 34px; height: 34px; }
+    .demo-arrow.demo-prev { left: 8px; }
+    .demo-arrow.demo-next { right: 8px; }
+    .demo-cap-label b { font-size: 14.5px; }
   }
 </style>
 </head>
@@ -157,8 +256,8 @@
       </div>
       <div class="stat-row">
         <span class="stat"><b id="stat-total">–</b> add-ons</span>
-        <span class="stat"><b id="stat-kinds">4</b> kinds</span>
-        <span class="stat"><b>100%</b> free</span>
+        <span class="stat"><b id="stat-kinds">5</b> kinds</span>
+        <span class="stat"><b>₹399</b> /month</span>
       </div>
     </div>
   </section>
@@ -200,77 +299,68 @@
     </div>
   </section>
 
-  <!-- 4. SEE IT BEING USED (soft band) -->
-  <section class="home-sec demo-band">
+  <!-- 4. SEE IT BEING USED (soft band) — one demo at a time -->
+  <section class="home-sec demo-band" aria-roledescription="carousel" aria-label="The clinic in motion — product demos">
     <div class="wrap">
       <div class="kicker">The clinic in motion</div>
       <h2>Watch the app do its actual job.</h2>
-      <p class="sec-lede">These are the app's own flows, re-created as motion in the brand's paper, ink and blue — quick-book a visit, run the workup, drop a capsule into a page, jump to a chart, read the clinic at a glance, re-skin the whole workspace with a theme, hand an AI agent a token, apply an add-on by code. Sample data throughout; your own boards read your own records.</p>
-      <div class="demo-grid">
-        <figure class="demo-card">
-          <div class="demo-frame">
-            <video autoplay muted loop playsinline poster="assets/motion/demo-register.jpg" aria-label="Demo — registering a patient">
-              <source src="assets/motion/demo-register.mp4" type="video/mp4">
-            </video>
+      <p class="sec-lede">The app's own flows, re-created as motion in the brand's paper, ink and blue — one demo at a time, full frame. Sample data throughout; your own boards read your own records.</p>
+
+      <div class="demo-carousel" id="demo-carousel">
+        <div class="demo-stagewrap">
+          <div class="demo-stage" tabindex="0" aria-label="Demos — use the left and right arrow keys to move between slides">
+            <div class="demo-slide is-active" role="group" aria-roledescription="slide" aria-label="1 of 8" data-title="Register a patient" data-desc="Quick-book a slot — the patient file and MR create themselves.">
+              <video muted loop playsinline preload="none" poster="assets/motion/demo-register.jpg" data-src="assets/motion/demo-register.mp4" aria-label="Demo — registering a patient"></video>
+            </div>
+            <div class="demo-slide" role="group" aria-roledescription="slide" aria-label="2 of 8" data-title="Run the workup" data-desc="Pick the patient, record vision, fill normals, write the plan — one board.">
+              <video muted loop playsinline preload="none" poster="assets/motion/demo-exam.jpg" data-src="assets/motion/demo-exam.mp4" aria-label="Demo — running an examination workup"></video>
+            </div>
+            <div class="demo-slide" role="group" aria-roledescription="slide" aria-label="3 of 8" data-title="Build a page with capsules" data-desc="A fenced block in markdown renders as live UI.">
+              <video muted loop playsinline preload="none" poster="assets/motion/demo-capsule.jpg" data-src="assets/motion/demo-capsule.mp4" aria-label="Demo — building a page with capsules"></video>
+            </div>
+            <div class="demo-slide" role="group" aria-roledescription="slide" aria-label="4 of 8" data-title="Find a chart" data-desc="Ctrl+K, type a name — the patient file opens.">
+              <video muted loop playsinline preload="none" poster="assets/motion/demo-find.jpg" data-src="assets/motion/demo-find.mp4" aria-label="Demo — finding a patient from the command palette"></video>
+            </div>
+            <div class="demo-slide" role="group" aria-roledescription="slide" aria-label="5 of 8" data-title="Read the clinic at a glance" data-desc="Every number resolves from the markdown case files and the day book.">
+              <video muted loop playsinline preload="none" poster="assets/motion/demo-dashboard.jpg" data-src="assets/motion/demo-dashboard.mp4" aria-label="Demo — reading the clinic dashboard"></video>
+            </div>
+            <div class="demo-slide" role="group" aria-roledescription="slide" aria-label="6 of 8" data-title="Make it yours" data-desc="One file of tokens re-skins every capsule — preview, apply, done.">
+              <video muted loop playsinline preload="none" poster="assets/motion/demo-theme.jpg" data-src="assets/motion/demo-theme.mp4" aria-label="Demo — applying a workspace theme"></video>
+            </div>
+            <div class="demo-slide" role="group" aria-roledescription="slide" aria-label="7 of 8" data-title="Connect an AI agent" data-desc="A token per agent. Anything without one waits for your approval.">
+              <video muted loop playsinline preload="none" poster="assets/motion/demo-mcp.jpg" data-src="assets/motion/demo-mcp.mp4" aria-label="Demo — connecting an AI agent"></video>
+            </div>
+            <div class="demo-slide" role="group" aria-roledescription="slide" aria-label="8 of 8" data-title="Install an add-on" data-desc="Type an item's code — it opens for confirmation, one tap applies it.">
+              <video muted loop playsinline preload="none" poster="assets/motion/demo-install.jpg" data-src="assets/motion/demo-install.mp4" aria-label="Demo — installing an add-on by code"></video>
+            </div>
+            <div class="demo-progress" aria-hidden="true"><span></span></div>
           </div>
-          <figcaption><b>Register a patient</b><span>Quick-book a slot — the patient file and MR create themselves.</span></figcaption>
-        </figure>
-        <figure class="demo-card">
-          <div class="demo-frame">
-            <video autoplay muted loop playsinline poster="assets/motion/demo-exam.jpg" aria-label="Demo — running an examination workup">
-              <source src="assets/motion/demo-exam.mp4" type="video/mp4">
-            </video>
+          <button class="demo-arrow demo-prev" type="button" aria-label="Previous demo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="demo-arrow demo-next" type="button" aria-label="Next demo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+
+        <div class="demo-caption">
+          <div class="demo-cap-label" aria-live="polite">
+            <b>Register a patient</b>
+            <span>Quick-book a slot — the patient file and MR create themselves.</span>
           </div>
-          <figcaption><b>Run the workup</b><span>Pick the patient, record vision, fill normals, write the plan — one board.</span></figcaption>
-        </figure>
-        <figure class="demo-card">
-          <div class="demo-frame">
-            <video autoplay muted loop playsinline poster="assets/motion/demo-capsule.jpg" aria-label="Demo — building a page with capsules">
-              <source src="assets/motion/demo-capsule.mp4" type="video/mp4">
-            </video>
-          </div>
-          <figcaption><b>Build a page with capsules</b><span>A fenced block in markdown renders as live UI.</span></figcaption>
-        </figure>
-        <figure class="demo-card">
-          <div class="demo-frame">
-            <video autoplay muted loop playsinline poster="assets/motion/demo-find.jpg" aria-label="Demo — finding a patient from the command palette">
-              <source src="assets/motion/demo-find.mp4" type="video/mp4">
-            </video>
-          </div>
-          <figcaption><b>Find a chart</b><span>Ctrl+K, type a name — the patient file opens.</span></figcaption>
-        </figure>
-        <figure class="demo-card">
-          <div class="demo-frame">
-            <video autoplay muted loop playsinline poster="assets/motion/demo-dashboard.jpg" aria-label="Demo — reading the clinic dashboard">
-              <source src="assets/motion/demo-dashboard.mp4" type="video/mp4">
-            </video>
-          </div>
-          <figcaption><b>Read the clinic at a glance</b><span>Every number resolves from the markdown case files and the day book.</span></figcaption>
-        </figure>
-        <figure class="demo-card">
-          <div class="demo-frame">
-            <video autoplay muted loop playsinline poster="assets/motion/demo-theme.jpg" aria-label="Demo — applying a workspace theme">
-              <source src="assets/motion/demo-theme.mp4" type="video/mp4">
-            </video>
-          </div>
-          <figcaption><b>Make it yours</b><span>One file of tokens re-skins every capsule — preview, apply, done.</span></figcaption>
-        </figure>
-        <figure class="demo-card">
-          <div class="demo-frame">
-            <video autoplay muted loop playsinline poster="assets/motion/demo-mcp.jpg" aria-label="Demo — connecting an AI agent">
-              <source src="assets/motion/demo-mcp.mp4" type="video/mp4">
-            </video>
-          </div>
-          <figcaption><b>Connect an AI agent</b><span>A token per agent. Anything without one waits for your approval.</span></figcaption>
-        </figure>
-        <figure class="demo-card">
-          <div class="demo-frame">
-            <video autoplay muted loop playsinline poster="assets/motion/demo-install.jpg" aria-label="Demo — installing an add-on by code">
-              <source src="assets/motion/demo-install.mp4" type="video/mp4">
-            </video>
-          </div>
-          <figcaption><b>Install an add-on</b><span>Type an item's code — it opens for confirmation, one tap applies it.</span></figcaption>
-        </figure>
+          <div class="demo-count">01 / 08</div>
+        </div>
+
+        <div class="demo-dots" role="group" aria-label="Choose a demo">
+          <button class="demo-dot is-active" type="button" aria-label="Demo 1: Register a patient" aria-current="true"><i></i></button>
+          <button class="demo-dot" type="button" aria-label="Demo 2: Run the workup"><i></i></button>
+          <button class="demo-dot" type="button" aria-label="Demo 3: Build a page with capsules"><i></i></button>
+          <button class="demo-dot" type="button" aria-label="Demo 4: Find a chart"><i></i></button>
+          <button class="demo-dot" type="button" aria-label="Demo 5: Read the clinic at a glance"><i></i></button>
+          <button class="demo-dot" type="button" aria-label="Demo 6: Make it yours"><i></i></button>
+          <button class="demo-dot" type="button" aria-label="Demo 7: Connect an AI agent"><i></i></button>
+          <button class="demo-dot" type="button" aria-label="Demo 8: Install an add-on"><i></i></button>
+        </div>
       </div>
     </div>
   </section>
@@ -282,6 +372,11 @@
       <h2>Extensions, capsules, themes, templates — previewed live.</h2>
       <p class="sec-lede">Every add-on is rendered with real colors and real layout on the site, so you know exactly what you're installing.</p>
       <div class="kind-row">
+        <a class="task" href="/marketplace/workbench/">
+          <span data-icon="Layers" data-icon-size="15"></span>
+          <span>WorkBenches — one install, whole EMR</span>
+          <b class="k-count">New</b>
+        </a>
         <a class="task" href="/marketplace/extensions/">
           <span data-icon="Puzzle" data-icon-size="15"></span>
           <span>Extensions</span>
@@ -313,14 +408,14 @@
       <div class="mcp-flex">
         <div style="flex: 1; min-width: 280px;">
           <div class="kicker">MCP &amp; Automation</div>
-          <h2>Your records, your AI agents — with permission, not luck.</h2>
-          <p class="lede">FocusCaseX hosts its own MCP server. Agents connect only after you approve the connection, receive a scoped token, and leave a log line for every call. Revoke any time.</p>
+          <h2>Your records, your AI agents — every write waits for your approval.</h2>
+          <p class="lede">FocusCaseX hosts its own MCP server. Pair an agent with a 6-digit code or a QR scan, give it read / write / build scopes, and it reads the clinic freely — while every write shows a human-readable diff and waits for you. Revoke any time.</p>
         </div>
         <div class="mcp-side">
           <a class="btn blue-on-dark" href="/mcp/" style="min-height:48px;">Explore MCP &amp; Automation</a>
-          <button class="chip" type="button" data-copy="Settings → MCP &amp; Automation → Create token">
+          <button class="chip" type="button" data-copy="Settings → MCP → Pair an agent">
             <span data-icon="Terminal" data-icon-size="13"></span>
-            <span>Settings → MCP &amp; Automation → Create token</span>
+            <span>Settings → MCP → Pair an agent</span>
           </button>
         </div>
       </div>
@@ -333,8 +428,8 @@
       <div class="pricing-flex">
         <div style="flex: 1; min-width: 280px;">
           <div class="kicker">Pricing</div>
-          <h2>Free for solo practice. Clinic plans in ₹, priced for India.</h2>
-          <p class="lede">Start free forever — upgrade only when your team grows.</p>
+          <h2>One price. The full product. Monthly to lifetime.</h2>
+          <p class="lede">Every plan is the complete FocusCaseX with nothing capped — pick how long the licence runs, from ₹399 a month to ₹9,999 once.</p>
         </div>
         <a class="btn" href="/pricing/" style="min-height:48px;">See pricing <span data-icon="ArrowRight" data-icon-size="15"></span></a>
       </div>
@@ -404,6 +499,164 @@
       var feat = document.getElementById("feat-names");
       if (feat) feat.textContent = pool.slice(0, 3).map(function (it) { return it.name; }).join(" · ");
     });
+  })();
+</script>
+<script>
+  /* Demo carousel — one demo at a time.
+     Active slide's video plays (lazy-loaded via data-src on first activation);
+     leaving slides pause + reset. Auto-advances every 12s until the user
+     interacts with the carousel (arrows, dots, swipe, keyboard) — then never again. */
+  (function () {
+    var root = document.getElementById("demo-carousel");
+    if (!root) return;
+
+    var stage   = root.querySelector(".demo-stage");
+    var slides  = Array.prototype.slice.call(root.querySelectorAll(".demo-slide"));
+    var videos  = slides.map(function (s) { return s.querySelector("video"); });
+    var dots    = Array.prototype.slice.call(root.querySelectorAll(".demo-dot"));
+    var capT    = root.querySelector(".demo-cap-label b");
+    var capD    = root.querySelector(".demo-cap-label span");
+    var countEl = root.querySelector(".demo-count");
+    var barEl   = root.querySelector(".demo-progress span");
+
+    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var n = slides.length;
+    var AUTO_MS = 12000;
+    var SWIPE_PX = 40;
+
+    var current = 0;
+    var loaded = [];
+    var autoOn = !reduceMotion;
+    var autoStart = 0;
+    var rafId = 0;
+
+    function pad(i) { return (i < 9 ? "0" : "") + (i + 1); }
+
+    function loadSlide(i) {
+      if (loaded[i]) return;
+      loaded[i] = true;
+      var v = videos[i];
+      if (v && v.dataset.src) { v.src = v.dataset.src; v.load(); }
+    }
+
+    function playActive(i) {
+      var v = videos[i];
+      if (!v || reduceMotion) return;
+      loadSlide(i);
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {}); /* autoplay policy — muted, should not fire */
+    }
+
+    function pauseSlide(i) {
+      var v = videos[i];
+      if (!v) return;
+      try { v.pause(); } catch (e) {}
+      try { if (v.currentTime > 0) v.currentTime = 0; } catch (e) {}
+    }
+
+    function render() {
+      slides.forEach(function (s, i) {
+        var on = i === current;
+        s.classList.toggle("is-active", on);
+        s.setAttribute("aria-hidden", on ? "false" : "true");
+      });
+      dots.forEach(function (d, i) {
+        var on = i === current;
+        d.classList.toggle("is-active", on);
+        if (on) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
+      });
+      capT.textContent = slides[current].dataset.title;
+      capD.textContent = slides[current].dataset.desc;
+      countEl.textContent = pad(current) + " / " + pad(n - 1);
+    }
+
+    function go(i, byUser) {
+      var next = ((i % n) + n) % n; /* wrap-around */
+      if (byUser) stopAuto();
+      if (next === current) return;
+      pauseSlide(current);
+      current = next;
+      loadSlide(current);
+      render();
+      playActive(current);
+      autoStart = performance.now();
+    }
+
+    /* ---- auto-advance (12s), driven by one rAF loop so the progress bar and
+           the timer can't drift; frozen while the tab is hidden ---- */
+    function autoTick(now) {
+      if (!autoOn) { rafId = 0; return; }
+      if (!document.hidden) {
+        var elapsed = now - autoStart;
+        if (barEl) barEl.style.transform = "scaleX(" + Math.min(elapsed / AUTO_MS, 1) + ")";
+        if (elapsed >= AUTO_MS) go(current + 1, false);
+      }
+      rafId = requestAnimationFrame(autoTick);
+    }
+    function startAuto() {
+      if (!autoOn) return;
+      autoStart = performance.now();
+      if (!rafId) rafId = requestAnimationFrame(autoTick);
+    }
+    function stopAuto() {
+      if (!autoOn) return;
+      autoOn = false;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+      if (barEl) barEl.style.transform = "scaleX(0)";
+      root.classList.add("auto-off");
+    }
+
+    /* ---- arrows / dots / keyboard ---- */
+    var prevBtn = root.querySelector(".demo-prev");
+    var nextBtn = root.querySelector(".demo-next");
+    if (prevBtn) prevBtn.addEventListener("click", function () { go(current - 1, true); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { go(current + 1, true); });
+    dots.forEach(function (d, i) {
+      d.addEventListener("click", function () { go(i, true); });
+    });
+    root.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(current - 1, true); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); go(current + 1, true); }
+    });
+
+    /* ---- swipe / drag (pointer events, mouse + touch) ---- */
+    var drag = null;
+    stage.addEventListener("pointerdown", function (e) {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      drag = { x: e.clientX, y: e.clientY, done: false };
+      stopAuto();
+    });
+    stage.addEventListener("pointermove", function (e) {
+      if (!drag || drag.done) return;
+      var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (Math.abs(dx) > SWIPE_PX && Math.abs(dx) > Math.abs(dy)) {
+        drag.done = true;
+        go(dx < 0 ? current + 1 : current - 1, true);
+      }
+    });
+    function endDrag(e) {
+      if (!drag) return;
+      if (!drag.done && typeof e.clientX === "number") {
+        var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+        if (Math.abs(dx) > SWIPE_PX && Math.abs(dx) >= Math.abs(dy)) {
+          go(dx < 0 ? current + 1 : current - 1, true);
+        }
+      }
+      drag = null;
+    }
+    stage.addEventListener("pointerup", endDrag);
+    stage.addEventListener("pointercancel", endDrag);
+
+    /* ---- pause the active video when the tab is hidden ---- */
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) pauseSlide(current);
+      else playActive(current);
+    });
+
+    /* ---- init ---- */
+    render();
+    playActive(0);
+    startAuto();
   })();
 </script>
 </body>

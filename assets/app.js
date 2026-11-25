@@ -137,8 +137,14 @@
       page: "/marketplace/templates/", icon: "FileText",
       c: "var(--k-template)", soft: "var(--k-template-soft)",
     },
+    workbench: {
+      id: "workbench", label: "WorkBenches", one: "One bundle — a whole pre-configured EMR",
+      page: "/marketplace/workbench/", icon: "Layers",
+      c: "var(--k-workbench)", soft: "var(--k-workbench-soft)",
+      new: true,
+    },
   };
-  const KIND_ORDER = ["plugin", "capsule", "theme", "template"];
+  const KIND_ORDER = ["workbench", "plugin", "capsule", "theme", "template"];
 
   /* ------------------------------ catalog -------------------------------- */
 

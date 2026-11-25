@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="/FocusCaseX/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorkBenches — FocusCaseX Marketplace</title>
+<meta name="description" content="One install. Whole EMR. FocusCaseX WorkBenches bundle extensions, capsules, a theme, templates, snippets, starter pages and settings into a single installable, pre-configured for a way of working.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  /* ---------- workbench page: catalog grid ---------- */
+  .wb-gridhead {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .wb-gridhead h2 { font-size: clamp(20px, 2.8vw, 26px); }
+  .wb-count { font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--ink-3); margin-left: 10px; letter-spacing: 0; }
+  .wb-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 16px;
+  }
+  .wb-card .card-desc { -webkit-line-clamp: 3; }
+  .wb-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .wb-chips span {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .01em;
+    color: var(--ink-2); background: var(--bg-soft);
+    border: 1px solid var(--line); border-radius: 6px; padding: 3px 9px;
+    white-space: nowrap;
+  }
+  .wb-card .card-meta { flex-wrap: wrap; }
+  .wb-card .kindchip { font-size: 10.5px; padding: 3px 9px; }
+  .wb-install { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .wb-install .code-row { margin-top: 0; }
+  .wb-install .code-token { font-size: 12.5px; padding: 7px 11px; letter-spacing: .1em; }
+  .wb-note { margin-top: 24px; color: var(--ink-3); font-size: 13.5px; }
+
+  /* ---------- what's inside strip ---------- */
+  .inside-head { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  .inside-head h2 { font-size: clamp(20px, 2.8vw, 26px); }
+  .inside-head span { font-size: 13.5px; color: var(--ink-3); }
+
+  @media (max-width: 900px) {
+    .wb-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header id="site-header"></header>
+<main>
+  <div class="wrap">
+
+    <section class="page-head">
+      <div class="kicker">WorkBenches</div>
+      <h1>One install. Whole EMR.</h1>
+      <p class="lede">A WorkBench is one installable bundle that contains a complete, pre-configured EMR setup — extensions, capsules, a theme, templates, snippets, starter pages and settings, put together for one way of working. Install a WorkBench and the whole workspace is set up in a single step, instead of assembling add-ons one by one.</p>
+      <p class="explain">4 WorkBenches at launch · every piece in a bundle is listed before you confirm · free</p>
+    </section>
+
+    <!-- WHAT'S INSIDE -->
+    <section class="section-tight" aria-label="What's inside a WorkBench">
+      <div class="inside-head">
+        <h2>What's inside</h2>
+        <span>Every kind the marketplace carries, plus the pieces only a bundle can bring.</span>
+      </div>
+      <div class="entries">
+        <div class="entry">
+          <span class="tile" style="background:var(--k-extension-soft);color:var(--k-extension);"><span data-icon="Puzzle" data-icon-size="19"></span></span>
+          <h3>Extensions</h3>
+          <p>Small tools that add features — exam composers, visit trackers, patient cloning.</p>
+        </div>
+        <div class="entry">
+          <span class="tile" style="background:var(--k-capsule-soft);color:var(--k-capsule);"><span data-icon="Braces" data-icon-size="19"></span></span>
+          <h3>Capsules</h3>
+          <p>Ready-made sections — boards, registers, histories — that render live in your pages.</p>
+        </div>
+        <div class="entry">
+          <span class="tile" style="background:var(--k-theme-soft);color:var(--k-theme);"><span data-icon="Palette" data-icon-size="19"></span></span>
+          <h3>Theme</h3>
+          <p>One look for the whole workspace, applied the moment the bundle lands.</p>
+        </div>
+        <div class="entry">
+          <span class="tile" style="background:var(--k-template-soft);color:var(--k-template);"><span data-icon="FileText" data-icon-size="19"></span></span>
+          <h3>Templates</h3>
+          <p>Pre-written clinical notes and forms, filed into your page tree.</p>
+        </div>
+        <div class="entry">
+          <span class="tile" style="background:var(--k-workbench-soft);color:var(--k-workbench);"><span data-icon="Sparkle" data-icon-size="19"></span></span>
+          <h3>Snippets</h3>
+          <p>Small CSS touches that adjust heading sizes, spacing and the reading view.</p>
+        </div>
+        <div class="entry">
+          <span class="tile" style="background:var(--k-workbench-soft);color:var(--k-workbench);"><span data-icon="BookOpen" data-icon-size="19"></span></span>
+          <h3>Starter pages</h3>
+          <p>A dashboard, day book and clinic pages, ready to edit from first open.</p>
+        </div>
+        <div class="entry">
+          <span class="tile" style="background:var(--k-workbench-soft);color:var(--k-workbench);"><span data-icon="SlidersHorizontal" data-icon-size="19"></span></span>
+          <h3>Settings</h3>
+          <p>Workspace preferences tuned to the way the clinic works — sidebars, defaults, views.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATALOG GRID -->
+    <section class="section-tight" id="catalog" aria-label="WorkBenches you can install">
+      <div class="wb-gridhead">
+        <h2>The first four<span class="wb-count" id="wb-count"></span></h2>
+        <span style="font-size:13.5px;color:var(--ink-3);">Each installs every piece it lists — confirmed once, in the app.</span>
+      </div>
+      <div class="wb-grid" id="wb-grid"></div>
+      <p class="wb-note">Tap <b>Install</b> and your browser hands the bundle to the FocusCaseX app on this device — the app lists everything the WorkBench adds and asks you to confirm. No app on this device? Type the code under <b>Settings → Marketplace → Install by code</b>, or see the <a href="/install/#browser" style="color:var(--blue);font-weight:600;">install guide</a>.</p>
+    </section>
+
+    <!-- TRUST -->
+    <section class="section-tight" aria-label="Why WorkBenches are safe">
+      <div class="trust">
+        <div class="t-item">
+          <span data-icon="CircleCheckBig" data-icon-size="18"></span>
+          <div>
+            <b>One confirm before anything lands</b>
+            <span>The app lists every extension, capsule, template and page the WorkBench adds. You confirm once — the whole bundle installs.</span>
+          </div>
+        </div>
+        <div class="t-item">
+          <span data-icon="Trash2" data-icon-size="18"></span>
+          <div>
+            <b>Remove piece by piece</b>
+            <span>Anything a WorkBench installs can be removed later under Settings — the bundle adds tools and pages, it never moves your patient records.</span>
+          </div>
+        </div>
+        <div class="t-item">
+          <span data-icon="BadgeCheck" data-icon-size="18"></span>
+          <div>
+            <b>Reviewed by CaseX Labs</b>
+            <span>Every WorkBench in this catalog is built and reviewed before it lands here, like the rest of the marketplace.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- BUILD YOUR OWN BAND (black) -->
+  <section class="band" style="margin-top:56px;">
+    <div class="wrap section">
+      <div class="kicker">Build your own</div>
+      <h2>Your setup, saved as one bundle.</h2>
+      <p class="lede" style="margin-top:14px;max-width:720px;">Any clinic can turn its current workspace into a WorkBench. In the app, open <b>Settings → Marketplace → Save as WorkBench</b> — FocusCaseX packs your extensions, capsules, theme, templates, snippets, pages and settings into one shareable bundle. Hand it to a second branch or a colleague and they install the whole setup in one step. The WorkBench Builder on the MCP &amp; Automation page can also draft a starter bundle from a plain description of how your clinic works.</p>
+      <div class="hero-cta">
+        <a class="btn blue-on-dark" href="/install/" style="min-height:48px;">Install the app</a>
+        <a class="btn dark-ghost" href="/mcp/" style="min-height:48px;">WorkBench Builder — MCP &amp; Automation</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer id="site-footer"></footer>
+<script src="assets/icons.js"></script>
+<script src="assets/demos-capsules.js"></script>
+<script src="assets/demos-extensions.js"></script>
+<script src="assets/app.js"></script>
+<script>
+  document.querySelectorAll("[data-icon]").forEach((el) => {
+    el.outerHTML = FCX.icon(el.getAttribute("data-icon"), Number(el.getAttribute("data-icon-size")) || 16);
+  });
+
+  FCX.ready({ active: "marketplace" }).then(() => {
+    const gridHost = document.getElementById("wb-grid");
+    const countEl = document.getElementById("wb-count");
+
+    /* ---------- contents chips: "6 extensions · 12 capsules · 1 theme …" ---------- */
+    function plural(n, word) {
+      if (word === "pages") return n + " " + word;
+      return n + " " + word + (n === 1 ? "" : "s");
+    }
+    function chipsHtml(c) {
+      if (!c || typeof c !== "object") return "";
+      const parts = [];
+      if (c.extensions) parts.push(plural(c.extensions, "extension"));
+      if (c.capsules) parts.push(plural(c.capsules, "capsule"));
+      if (c.theme) parts.push(plural(c.theme, "theme"));
+      if (c.templates) parts.push(plural(c.templates, "template"));
+      if (c.snippets) parts.push(plural(c.snippets, "snippet"));
+      if (c.pages) parts.push(plural(c.pages, "page"));
+      return parts.map((p) => `<span>${FCX.esc(p)}</span>`).join("");
+    }
+
+    /* ---------- install: same deep-link mechanism as the kind pages.
+       WorkBenches live in their own catalog array (not `items`), so the
+       shared [data-open-app] wiring can't see them — this page wires the
+       identical fcx://install flow + code fallback itself. ---------- */
+    function showWbFallback(id, name) {
+      const code = FCX.installCode(id);
+      const el = document.createElement("div");
+      el.className = "ov open";
+      el.setAttribute("role", "dialog");
+      el.innerHTML = `
+<div class="ov-backdrop" data-fx-close></div>
+<div class="ov-panel" style="max-width:440px;">
+  <div style="padding:22px 22px 8px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="width:38px;height:38px;border-radius:10px;background:var(--k-workbench-soft);color:var(--k-workbench);display:flex;align-items:center;justify-content:center;">${FCX.icon("MonitorSmartphone", 19)}</span>
+      <div><b style="font-family:var(--font-display);font-size:15.5px;">Open this in FocusCaseX</b>
+      <div style="font-size:12px;color:var(--ink-3);">On the device that has the app installed</div></div>
+    </div>
+    <p style="margin-top:14px;font-size:13px;color:var(--ink-2);line-height:1.55;">
+      The install button hands <b>${FCX.esc(name)}</b> to the FocusCaseX app on this device, where you confirm the install.
+      If the app isn't on this device, type the code below in the app instead —
+      <b>Settings → Marketplace → Install by code</b>.
+    </p>
+  </div>
+  <div style="padding:10px 22px 6px;">
+    <div class="code-row" style="margin-top:2px;">
+      <span class="code-token">${FCX.esc(code)}</span>
+      <button class="chip" type="button" data-copy="${FCX.esc(code)}">${FCX.icon("Copy", 13)}<span>Copy code</span></button>
+    </div>
+    <div style="display:flex;gap:9px;margin:14px 0 6px;">
+      <a class="btn small primary" href="/install/">Get the app</a>
+      <button class="btn small" type="button" data-fx-close>Close</button>
+    </div>
+  </div>
+</div>`;
+      document.body.appendChild(el);
+      FCX.wireCopyButtons(el);
+      el.querySelectorAll("[data-fx-close]").forEach((x) =>
+        x.addEventListener("click", () => x.closest(".ov") && x.closest(".ov").remove()));
+    }
+
+    function wireInstalls(root) {
+      root.querySelectorAll("[data-wb-install]").forEach((btn) => {
+        if (btn.__fxWb) return;
+        btn.__fxWb = true;
+        btn.addEventListener("click", (ev) => {
+          ev.preventDefault();
+          const id = btn.getAttribute("data-wb-install");
+          const name = btn.getAttribute("data-wb-name") || "this WorkBench";
+          let switched = false;
+          const onHide = () => { switched = true; };
+          document.addEventListener("visibilitychange", onHide, { once: true });
+          window.addEventListener("pagehide", onHide, { once: true });
+          window.addEventListener("blur", onHide, { once: true });
+          try { location.href = FCX.deepLinkUrl(id); } catch (e) { /* blocked — fallback covers it */ }
+          setTimeout(() => {
+            if (!switched && !document.hidden) showWbFallback(id, name);
+          }, 1900);
+        });
+      });
+    }
+
+    /* ---------- cards ---------- */
+    function cardHtml(wb) {
+      const code = FCX.installCode(wb.id);
+      const updated = FCX.fmtDate(wb.released);
+      return `
+<article class="card wb-card" style="--card-c:var(--k-workbench);--card-soft:var(--k-workbench-soft);">
+  <span class="tile">${FCX.icon(wb.icon || "Layers", 17)}</span>
+  <span class="card-name">${FCX.esc(wb.name)}${wb.verified !== false ? '<span class="vshield" title="Reviewed and published by CaseX Labs">' + FCX.icon("ShieldCheck", 13) + "</span>" : ""}</span>
+  <span class="card-desc">${FCX.esc(wb.tagline || wb.description || "")}</span>
+  <span class="wb-chips">${chipsHtml(wb.meta && wb.meta.contents)}</span>
+  <span class="card-meta">
+    <span class="kindchip" style="--chip-c:var(--k-workbench);--chip-soft:var(--k-workbench-soft);">${FCX.esc(wb.category || "WorkBench")}</span>
+    <span class="dot"></span><span>${FCX.esc(wb.author || "CaseX Labs")}</span>
+    ${updated ? '<span class="dot"></span><span>Updated ' + FCX.esc(updated) + "</span>" : ""}
+  </span>
+  <div class="wb-install">
+    <button class="btn small primary" type="button" data-wb-install="${FCX.esc(wb.id)}" data-wb-name="${FCX.esc(wb.name)}">${FCX.icon("MonitorSmartphone", 15)}<span>Install — open the app</span></button>
+    <div class="code-row">
+      <span class="code-token" title="Install code — type this inside the app">${FCX.esc(code)}</span>
+      <button class="chip" type="button" data-copy="${FCX.esc(code)}" title="Copy install code">${FCX.icon("Copy", 13)}<span>Copy code</span></button>
+    </div>
+  </div>
+</article>`;
+    }
+
+    /* ---------- boot: render from catalog.json's own workbenches array ---------- */
+    fetch("catalog.json", { cache: "no-cache" })
+      .then((r) => { if (!r.ok) throw new Error("catalog.json " + r.status); return r.json(); })
+      .then((data) => {
+        const wbs = Array.isArray(data.workbenches) ? data.workbenches : [];
+        countEl.textContent = " · " + wbs.length + " shown";
+        gridHost.innerHTML = wbs.map(cardHtml).join("");
+        wireInstalls(gridHost);
+        FCX.wireCopyButtons(gridHost);
+      })
+      .catch(() => {
+        countEl.textContent = "";
+        gridHost.innerHTML = '<p class="wb-note">The WorkBench catalog could not load — check your connection and reload.</p>';
+      });
+  });
+</script>
+</body>
+</html>
