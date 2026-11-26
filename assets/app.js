@@ -765,7 +765,8 @@
         navLink("/", "Overview", "home") +
         navLink("/marketplace/", "Marketplace", "marketplace") +
         navLink("/pricing/", "Pricing", "pricing") +
-        navLink("/mcp/", "MCP &amp; Automation", "mcp");
+        navLink("/mcp/", "MCP &amp; Automation", "mcp") +
+        navLink("/docs/", "Docs", "docs");
       header.innerHTML = `
 <div class="top"><div class="top-inner">
   ${brand}
@@ -791,6 +792,7 @@
     <a href="/marketplace/">Marketplace</a>
     <a href="/pricing/">Pricing</a>
     <a href="/mcp/">MCP &amp; Automation</a>
+    <a href="/docs/">Docs</a>
     <a href="/install/">Install guide</a>
     <a href="/api/">For developers</a>
     <a href="https://github.com/stromplayz/FocusCaseX" target="_blank" rel="noopener">GitHub</a>

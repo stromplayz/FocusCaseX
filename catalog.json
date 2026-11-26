@@ -3423,5 +3423,11 @@
         "bundle": "workbenches/solo-optometry/workbench.json"
       }
     }
-  ]
+  ],
+  "cli": {
+    "npm": "focuscasex",
+    "repo": "https://github.com/stromplayz/FCX-NPM",
+    "install": "npm install -g github:stromplayz/FCX-NPM",
+    "version": "2.8.0"
+  }
 }
