@@ -260,9 +260,9 @@
         <div class="cli-band">
           <h3>First steps</h3>
           <ol class="steps">
-            <li><span>Run <strong>fcx doctor</strong> — check the environment: Node version, workspace and marketplace reachability.</span></li>
-            <li><span>Run <strong>fcx workbench list</strong> — see the marketplace's WorkBenches with their install codes.</span></li>
-            <li><span>Run <strong>fcx serve</strong> — host the registry on this machine; it prints the local and LAN URLs.</span></li>
+            <li><span>Run <strong>fcx setup</strong> — guided setup: pick the workspace folder, sync the catalog, sign in.</span></li>
+            <li><span>Run <strong>fcx marketplace</strong> — browse and install Extensions from the terminal.</span></li>
+            <li><span>Run <strong>fcx status</strong> — confirm the device licence.</span></li>
           </ol>
         </div>
         <div class="cli-band">
@@ -289,15 +289,32 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>fcx doctor</td><td>Check Node, workspace and marketplace reachability.</td></tr>
-              <tr><td>fcx sync</td><td>Refresh the catalog from the public marketplace.</td></tr>
-              <tr><td>fcx catalog [kind]</td><td>List everything installable (Extensions, capsules, themes, templates…).</td></tr>
-              <tr><td>fcx workbench list</td><td>List WorkBenches with install codes.</td></tr>
-              <tr><td>fcx workbench show &lt;id-or-code&gt;</td><td>Full description plus every piece a WorkBench installs.</td></tr>
-              <tr><td>fcx workbench install &lt;id-or-code&gt;</td><td>Install a WorkBench into a local workspace folder with a per-item summary.</td></tr>
+              <tr><td colspan="2" style="font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--bg-soft);">Console and setup</td></tr>
+              <tr><td>fcx (bare) / fcx menu</td><td>The interactive console — every menu, arrow keys. Running bare <b>fcx</b> in a terminal opens it too.</td></tr>
+              <tr><td>fcx setup</td><td>Guided setup: pick the workspace folder, sync the catalog, sign in, install a first WorkBench.</td></tr>
+              <tr><td colspan="2" style="font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--bg-soft);">Account and licence</td></tr>
+              <tr><td>fcx login</td><td>Sign in with your licence email, password and the owner-issued FCX-XXXXXX code (alias: <b>fcx activate</b>).</td></tr>
+              <tr><td>fcx logout</td><td>Remove the device licence from this machine.</td></tr>
+              <tr><td>fcx status</td><td>Print the device licence card and re-check it with the registry.</td></tr>
+              <tr><td>fcx device</td><td>The full device identity card — exactly what the owner's admin Devices page sees.</td></tr>
+              <tr><td>fcx whoami</td><td>One-line identity — signed-in email and device id.</td></tr>
+              <tr><td>fcx vitals</td><td>Environment health check, eight checks (alias: <b>fcx doctor</b>).</td></tr>
+              <tr><td colspan="2" style="font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--bg-soft);">Marketplace and catalog</td></tr>
+              <tr><td>fcx marketplace</td><td>The Extensions storefront in the terminal — categories, search, item detail, install in place (alias: <b>fcx market</b>).</td></tr>
+              <tr><td>fcx install [id-or-code]</td><td>Install any catalog item — Extensions, capsules, themes, templates, snippets, WorkBenches. Bare <b>fcx install</b> opens the marketplace; <b>fcx install list</b> shows installed items.</td></tr>
+              <tr><td>fcx uninstall &lt;id-or-code&gt;</td><td>Remove an installed item.</td></tr>
+              <tr><td>fcx catalog [kind]</td><td>Quick catalog listing — every kind, with install codes.</td></tr>
+              <tr><td>fcx workbench list|show|install</td><td>WorkBench bundles — list with install codes, inspect every piece, install locally.</td></tr>
+              <tr><td>fcx sync</td><td>Refresh the catalog cache from the public marketplace.</td></tr>
+              <tr><td colspan="2" style="font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--bg-soft);">System and diagnostics</td></tr>
+              <tr><td>fcx stats</td><td>Local usage dashboard — commands run, installs, recent activity.</td></tr>
+              <tr><td>fcx alive start|stop|status|run</td><td>Keepalive daemon — pings the licence registry on a schedule so the admin Devices page shows this machine as current.</td></tr>
+              <tr><td>fcx config list|get|set|reset</td><td>CLI settings — workspace folder, keepalive interval, appearance.</td></tr>
+              <tr><td>fcx update</td><td>Check versions — prints the one-line install command when a newer CLI ships.</td></tr>
               <tr><td>fcx serve [--port 4319]</td><td>Host the registry locally — catalog and bundles over HTTP.</td></tr>
               <tr><td>fcx open</td><td>Open the full FocusCaseX workspace — same features as the Android app.</td></tr>
               <tr><td>fcx mcp</td><td>MCP pairing info plus ready-to-paste setup snippets for AI agents.</td></tr>
+              <tr><td>fcx version / --version / --help</td><td>Version and help.</td></tr>
             </tbody>
           </table>
         </div>

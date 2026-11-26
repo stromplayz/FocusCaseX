@@ -5,7 +5,7 @@
 <base href="/FocusCaseX/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The FCX CLI — command reference — FocusCaseX Documentation</title>
-<meta name="description" content="The fcx command line: install the FocusCaseX marketplace and WorkBenches on any computer with Node 18, host the registry on the clinic LAN, and keep both ends updated. Full command reference, serve endpoints, file locations and troubleshooting.">
+<meta name="description" content="The fcx command line: an interactive console, the Extensions storefront and the licence flow in the terminal. Install the FocusCaseX marketplace on any computer with Node 18, host the registry on the clinic LAN, and keep both ends updated. Full command reference, serve endpoints, file locations and troubleshooting.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -86,13 +86,13 @@
       <a class="crumb" href="/docs/"><span data-icon="ArrowLeft" data-icon-size="13"></span><span>All documentation</span></a>
       <div class="kicker">Documentation</div>
       <h1>The FCX CLI</h1>
-      <p class="lede">Install the marketplace anywhere Node 18 runs, host it on your own machine, and script the catalog — every <code>fcx</code> command, in one place.</p>
+      <p class="lede">The interactive console, the Extensions storefront, the licence flow and the LAN registry host — every <code>fcx</code> command, in one place.</p>
       <p class="explain">The CLI installs from this site's own registry — one curl command, binary <code>fcx</code> — and is maintained in the <a href="https://github.com/stromplayz/FCX-NPM" target="_blank" rel="noopener">FCX-NPM repo</a>. The <a href="/install/#cli">install guide</a> keeps the short version.</p>
     </section>
 
     <!-- 1. OVERVIEW -->
     <section class="section-tight" id="overview" aria-label="Overview" style="padding-top: 22px;">
-      <p class="doc-lede">The FocusCaseX marketplace and its WorkBenches are installable anywhere Node 18 runs. The <code>fcx</code> command line installs from the same catalog the Android app browses — same items, same <strong>FCX-XXXXXX</strong> install codes — and it can host the registry on your own machine so every computer in the clinic LAN installs from it. Both ends update from the same pipeline, so the CLI and the app never drift apart.</p>
+      <p class="doc-lede">The FocusCaseX marketplace and its WorkBenches are installable anywhere Node 18 runs. The <code>fcx</code> command line browses the same catalog the Android app browses — same items, same <strong>FCX-XXXXXX</strong> install codes — from an interactive console (bare <code>fcx</code> on a terminal), a terminal storefront (<code>fcx marketplace</code>) or plain commands. It can also host the registry on your own machine so every computer in the clinic LAN installs from it. Both ends update from the same pipeline, so the CLI and the app never drift apart.</p>
     </section>
 
     <!-- 2. INSTALL -->
@@ -110,26 +110,26 @@
       </div>
     </section>
 
-    <!-- 2b. ACTIVATE -->
-    <section class="section" id="activate" aria-label="Activate the CLI" style="padding-top: 0;">
+    <!-- 2b. LICENCE FLOW -->
+    <section class="section" id="licence" aria-label="The licence flow" style="padding-top: 0;">
       <div class="kicker">Licence</div>
-      <h2 style="margin-bottom: 6px;">Activate the CLI</h2>
+      <h2 style="margin-bottom: 6px;">The licence flow</h2>
       <div class="cli-band">
-        <h3>One-time per machine</h3>
-        <p>Install does not carry the licence — the CLI asks for it once, the same way the app activates a device. In a terminal:</p>
+        <h3>One code per device</h3>
+        <p>Install does not carry the licence. The FocusCaseX owner issues activation codes on the admin page — one <strong>FCX-XXXXXX code</strong> per device. In a terminal:</p>
         <div class="code-row cli-cmd">
-          <span class="code-token" title="Activate command — run this in a terminal">fcx activate</span>
-          <button class="chip" type="button" data-copy="fcx activate" title="Copy activate command"><span data-icon="Copy" data-icon-size="13"></span><span>Copy command</span></button>
+          <span class="code-token" title="Sign-in command — run this in a terminal">fcx login</span>
+          <button class="chip" type="button" data-copy="fcx login" title="Copy login command"><span data-icon="Copy" data-icon-size="13"></span><span>Copy command</span></button>
         </div>
         <ol class="steps">
-          <li><span>Run <strong>fcx activate</strong> and answer the three prompts — your <strong>licence email</strong>, <strong>password</strong> and the <strong>FCX-XXXXXX code</strong> from your licence email.</span></li>
-          <li><span>The machine registers as a <strong>trusted device</strong> under the licence — the CLI writes <strong>~/.focuscasex/activation.json</strong> and this computer counts against the code's device limit.</span></li>
-          <li><span>Run <strong>fcx status</strong> to confirm — it prints the licence state and the last check-in.</span></li>
+          <li><span>Run <strong>fcx login</strong> and answer the three prompts — your <strong>licence email</strong>, <strong>password</strong> and the <strong>FCX-XXXXXX code</strong> from your licence email (alias: <strong>fcx activate</strong>).</span></li>
+          <li><span>The machine registers as a <strong>trusted device</strong> under the licence — the CLI writes <strong>~/.focuscasex/activation.json</strong> (mode 0600, never synced) and this computer counts against the code's device limit.</span></li>
+          <li><span>Trusted devices never re-enter a code — <strong>fcx login</strong> on a signed-in machine re-verifies the stored licence instead of asking again. Run <strong>fcx status</strong> to confirm, and <strong>fcx device</strong> to see exactly what the owner sees on the admin Devices page.</span></li>
         </ol>
       </div>
       <div class="note">
         <span data-icon="ShieldCheck" data-icon-size="17"></span>
-        <p><b>Codes and device limits.</b> Codes are issued by the FocusCaseX team for your licence email. A machine counts against the code's device limit — move a licence by revoking the old machine on the admin console. <a href="/docs/security/">Full details: how codes, devices and revocation work</a>.</p>
+        <p><b>Codes, device limits and keepalive.</b> Codes are issued by the FocusCaseX owner on the admin page for your licence email; a machine counts against the code's device limit — move a licence by revoking the old machine on the admin console. <b>fcx alive start</b> runs a small daemon that pings the licence registry on a schedule, so the admin Devices page shows this machine as current between sign-ins (<b>fcx alive status</b> checks it, <b>fcx alive stop</b> stops it). <a href="/docs/security/">Full details: how codes, devices and revocation work</a>.</p>
       </div>
     </section>
 
@@ -139,10 +139,32 @@
       <h2 style="margin-bottom: 6px;">Three commands to start</h2>
       <div class="cli-band">
         <ol class="steps">
-          <li><span>Run <strong>fcx doctor</strong> — check Node, the workspace folder, the catalog cache and marketplace reachability.</span></li>
-          <li><span>Run <strong>fcx sync</strong> — refresh the catalog cache from the public marketplace.</span></li>
-          <li><span>Run <strong>fcx workbench list</strong> — see every WorkBench with its install code.</span></li>
+          <li><span>Run <strong>fcx setup</strong> — guided setup: pick the workspace folder, sync the catalog, sign in, install a first WorkBench.</span></li>
+          <li><span>Run <strong>fcx marketplace</strong> — browse and install Extensions from the terminal.</span></li>
+          <li><span>Run <strong>fcx status</strong> — confirm the device licence.</span></li>
         </ol>
+      </div>
+    </section>
+
+    <!-- 3b. THE INTERACTIVE CONSOLE -->
+    <section class="section" id="console" aria-label="The interactive console" style="padding-top: 0;">
+      <div class="kicker">The console</div>
+      <h2 style="margin-bottom: 6px;">The interactive console</h2>
+      <div class="cli-band">
+        <h3>Bare fcx on a real terminal</h3>
+        <p>Run <strong>fcx</strong> with no arguments in a terminal — or <strong>fcx menu</strong> — and the console opens: the whole CLI behind arrow-key menus. Account, Extensions, WorkBenches, diagnostics, keepalive and the clinic workspace, with Esc to go back a level.</p>
+        <p class="cli-alt">When the output is piped — or <code>FCX_NON_INTERACTIVE=1</code> is set — bare <code>fcx</code> prints the plain help text instead, and every command on this page still works on its own.</p>
+      </div>
+    </section>
+
+    <!-- 3c. THE STOREFRONT -->
+    <section class="section" id="storefront" aria-label="The storefront" style="padding-top: 0;">
+      <div class="kicker">Marketplace</div>
+      <h2 style="margin-bottom: 6px;">The storefront in the terminal</h2>
+      <div class="cli-band">
+        <h3>fcx marketplace</h3>
+        <p><strong>fcx marketplace</strong> opens the Extensions storefront: browse by category — Featured, Clinical, Productivity and more — press <strong>/</strong> to search, enter an item page for the description, rating and install code, and press <strong>i</strong> to install in place. Alias: <strong>fcx market</strong>. Bare <strong>fcx install</strong> opens it too.</p>
+        <p class="cli-alt">Everything it installs lands under <code>~/.focuscasex/workspace/</code>. To switch an Extension on in the app, install it there by the same code: <code>Settings → Extensions</code> → install by code.</p>
       </div>
     </section>
 
@@ -160,19 +182,34 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>fcx --version</td><td>Print the CLI version — it tracks the platform release.</td></tr>
-            <tr><td>fcx activate</td><td>Sign in with your licence email, password and FCX-XXXXXX code; registers this machine as a trusted device and writes ~/.focuscasex/activation.json.</td></tr>
-            <tr><td>fcx status</td><td>Print the licence state — email, device id, last check-in — and flag a revoked device.</td></tr>
-            <tr><td>fcx doctor [--offline]</td><td>Check Node, the workspace folder, the catalog cache and marketplace reachability. With <b>--offline</b> it warns instead of failing and falls back to the cache.</td></tr>
-            <tr><td>fcx sync</td><td>Refresh the catalog cache from the public marketplace.</td></tr>
-            <tr><td>fcx update</td><td>Compare your build with the registry and print the one-line update command when a newer CLI ships.</td></tr>
-            <tr><td>fcx catalog [kind] [--json]</td><td>List everything installable — Extensions, capsules, themes, templates — with an optional kind filter; <b>--json</b> prints the list for scripts.</td></tr>
+            <tr><td colspan="2" style="font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--bg-soft);">Console and setup</td></tr>
+            <tr><td>fcx (bare) / fcx menu</td><td>The interactive console — every menu, arrow keys. Running bare <b>fcx</b> in a terminal opens it too.</td></tr>
+            <tr><td>fcx setup</td><td>Guided setup: pick the workspace folder, sync the catalog, sign in, install a first WorkBench.</td></tr>
+            <tr><td colspan="2" style="font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--bg-soft);">Account and licence</td></tr>
+            <tr><td>fcx login</td><td>Sign in with your licence email, password and the owner-issued FCX-XXXXXX code (alias: <b>fcx activate</b>).</td></tr>
+            <tr><td>fcx logout</td><td>Remove the device licence from this machine.</td></tr>
+            <tr><td>fcx status</td><td>Print the device licence card and re-check it with the registry.</td></tr>
+            <tr><td>fcx device</td><td>The full device identity card — exactly what the owner's admin Devices page sees.</td></tr>
+            <tr><td>fcx whoami</td><td>One-line identity — signed-in email and device id.</td></tr>
+            <tr><td>fcx vitals [--offline]</td><td>Environment health check, eight checks — Node, FCX home, config, licence, catalog cache, marketplace, keepalive, installed items (alias: <b>fcx doctor</b>). With <b>--offline</b> it skips the network checks.</td></tr>
+            <tr><td colspan="2" style="font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--bg-soft);">Marketplace and catalog</td></tr>
+            <tr><td>fcx marketplace</td><td>The Extensions storefront in the terminal — categories, search, item detail, install in place (alias: <b>fcx market</b>).</td></tr>
+            <tr><td>fcx install [id-or-code]</td><td>Install any catalog item — Extensions, capsules, themes, templates, snippets, WorkBenches. Bare <b>fcx install</b> opens the marketplace; <b>fcx install list</b> shows installed items.</td></tr>
+            <tr><td>fcx uninstall &lt;id-or-code&gt;</td><td>Remove an installed item.</td></tr>
+            <tr><td>fcx catalog [kind] [--json]</td><td>Quick catalog listing — every kind, with install codes; <b>--json</b> prints the list for scripts.</td></tr>
             <tr><td>fcx workbench list</td><td>List WorkBenches with their install codes.</td></tr>
             <tr><td>fcx workbench show &lt;id-or-code&gt;</td><td>Print the full description and every piece inside. Accepts an item id, an FCX-XXXXXX code, or a name substring.</td></tr>
             <tr><td>fcx workbench install &lt;id-or-code&gt; [--dir D]</td><td>Install a WorkBench into a local workspace folder — <b>--dir D</b> picks the destination — and print a per-item summary of everything that landed.</td></tr>
+            <tr><td>fcx sync</td><td>Refresh the catalog cache from the public marketplace.</td></tr>
+            <tr><td colspan="2" style="font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--bg-soft);">System and diagnostics</td></tr>
+            <tr><td>fcx stats [--json]</td><td>Local usage dashboard — commands run, installs, recent activity.</td></tr>
+            <tr><td>fcx alive start|stop|status|run</td><td>Keepalive daemon — pings the licence registry on a schedule so the admin Devices page shows this machine as current.</td></tr>
+            <tr><td>fcx config list|get|set|reset</td><td>CLI settings — workspace folder, keepalive interval, appearance.</td></tr>
+            <tr><td>fcx update</td><td>Compare your build with the registry and print the one-line update command when a newer CLI ships.</td></tr>
             <tr><td>fcx serve [--port 4319]</td><td>Host the registry locally — health, catalog and WorkBench bundle endpoints — and print the local and LAN URLs.</td></tr>
             <tr><td>fcx open</td><td>Open the full FocusCaseX workspace in your browser — the same features as the Android app.</td></tr>
             <tr><td>fcx mcp</td><td>Print MCP pairing info plus ready-to-paste agent setup snippets. The full walkthrough: <a href="/docs/mcp/">MCP &amp; AI agents</a>.</td></tr>
+            <tr><td>fcx version / --version / --help</td><td>Version and help — it tracks the platform release.</td></tr>
           </tbody>
         </table>
       </div>
@@ -202,11 +239,25 @@
       </div>
     </section>
 
+    <!-- 5b. USAGE STATS -->
+    <section class="section" id="stats" aria-label="Usage stats" style="padding-top: 0;">
+      <div class="kicker">Diagnostics</div>
+      <h2 style="margin-bottom: 6px;">Local usage stats</h2>
+      <p class="explain" style="max-width: 640px;"><strong>fcx stats</strong> prints the local usage dashboard — commands run, installs and uninstalls, sign-ins, syncs, keepalive actions and updates — plus the most-used commands and the last few events. <strong>--json</strong> dumps the same numbers for scripts.</p>
+    </section>
+
+    <!-- 5c. CLI SETTINGS -->
+    <section class="section" id="config" aria-label="CLI settings" style="padding-top: 0;">
+      <div class="kicker">Settings</div>
+      <h2 style="margin-bottom: 6px;">CLI settings</h2>
+      <p class="explain" style="max-width: 640px;"><strong>fcx config</strong> reads and writes <code>~/.focuscasex/config.json</code>: <strong>fcx config list</strong> prints every key and value, <strong>fcx config get &lt;key&gt;</strong> and <strong>fcx config set &lt;key&gt; &lt;value&gt;</strong> read and write dotted keys — <code>workspaceDir</code>, <code>keepalive.intervalMinutes</code>, <code>appearance</code> — and <strong>fcx config reset</strong> restores the defaults.</p>
+    </section>
+
     <!-- 6. WHERE THINGS LIVE -->
     <section class="section" id="files" aria-label="Where things live" style="padding-top: 0;">
       <div class="kicker">On disk</div>
       <h2 style="margin-bottom: 6px;">Where things live</h2>
-      <p class="explain" style="max-width: 640px;">Three entries, all under your home folder.</p>
+      <p class="explain" style="max-width: 640px;">Everything lives under one folder in your home directory.</p>
       <div class="cli-ref-scroll">
         <table class="cli-ref">
           <thead>
@@ -216,9 +267,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>~/.focuscasex/cache/catalog.json</td><td>The catalog cache — <b>fcx sync</b> refreshes it, <b>fcx serve</b> shares it, <b>fcx doctor</b> checks it.</td></tr>
+            <tr><td>~/.focuscasex/activation.json</td><td>The device licence token (mode 0600, never synced) — written by <b>fcx login</b>, checked by <b>fcx status</b>, removed by <b>fcx logout</b>.</td></tr>
+            <tr><td>~/.focuscasex/device.uuid</td><td>The stable machine id.</td></tr>
+            <tr><td>~/.focuscasex/config.json</td><td>CLI settings — <b>fcx config</b> reads and writes it.</td></tr>
+            <tr><td>~/.focuscasex/installed.json</td><td>What is installed — <b>fcx install list</b> reads it, <b>fcx uninstall</b> updates it.</td></tr>
+            <tr><td>~/.focuscasex/stats.jsonl</td><td>Usage events behind <b>fcx stats</b> (JSON lines, append only).</td></tr>
+            <tr><td>~/.focuscasex/alive.pid · alive.log</td><td>The keepalive daemon's pid file and ping log — <b>fcx alive</b>.</td></tr>
+            <tr><td>~/.focuscasex/cache/catalog.json</td><td>The catalog cache — <b>fcx sync</b> refreshes it, <b>fcx serve</b> shares it, <b>fcx vitals</b> checks it.</td></tr>
             <tr><td>~/.focuscasex/workspace/&lt;workbench-id&gt;/</td><td>One folder per installed WorkBench, with every piece inside.</td></tr>
-            <tr><td>~/.focuscasex/activation.json</td><td>The device licence token — written by <b>fcx activate</b>, checked by <b>fcx status</b>.</td></tr>
+            <tr><td>~/.focuscasex/workspace/extensions/&lt;id&gt;/</td><td>One folder per installed Extension — capsules, themes, templates and snippets follow the same pattern.</td></tr>
           </tbody>
         </table>
       </div>
@@ -238,7 +295,7 @@
     <section class="section" id="troubleshooting" aria-label="Troubleshooting" style="padding-top: 0;">
       <div class="kicker">When something's off</div>
       <h2 style="margin-bottom: 6px;">Troubleshooting</h2>
-      <p class="explain" style="max-width: 640px;">Four things come up most; each has a short answer.</p>
+      <p class="explain" style="max-width: 640px;">Five things come up most; each has a short answer.</p>
       <div class="cli-ref-scroll">
         <table class="cli-ref">
           <thead>
@@ -249,7 +306,8 @@
           </thead>
           <tbody>
             <tr><td>fcx: command not found</td><td>The installer puts <b>fcx</b> in <b>~/.focuscasex/bin</b> and wires your PATH, but a terminal opened before the install will not see it. Open a fresh terminal and run <b>fcx</b> again.</td></tr>
-            <tr><td>catalog fetch fails</td><td>Run <b>fcx sync</b> to refresh the cache, or check the network. <b>fcx doctor --offline</b> passes with a cached catalog, so installs keep working without the network.</td></tr>
+            <tr><td>catalog fetch fails</td><td>Run <b>fcx sync</b> to refresh the cache, or check the network. <b>fcx vitals --offline</b> passes with a cached catalog, so installs keep working without the network.</td></tr>
+            <tr><td>This screen needs an interactive terminal</td><td>The console and the marketplace are full-screen views — they print this hint when the output is piped. Run them in a real terminal, or use the non-interactive paths: <b>fcx catalog</b>, <b>fcx install &lt;id-or-code&gt;</b>.</td></tr>
             <tr><td>port already in use</td><td>Start the server on another port: <b>fcx serve --port &lt;other&gt;</b>.</td></tr>
             <tr><td>version mismatch</td><td>Run <b>fcx update</b> — it prints the one-line command when a newer build ships — or re-run the install command from the top of this page, then check <b>fcx --version</b>.</td></tr>
           </tbody>
