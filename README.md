@@ -3,11 +3,11 @@
 The **public extension hub** for FocusCaseX — and the **API mediator** every FocusCaseX client reads.
 
 The clinical app itself lives in the private [`stromplayz/FocusCaseX`](https://github.com/stromplayz/FocusCaseX)
-repo. Everything users can extend the app with — **capsules, plugins, themes, templates, snippets** — plus the
+repo. Everything users can extend the app with — **capsules, Extensions, themes, templates, snippets** — plus the
 **mandatory core layer** is published *here*, on a public repo served through GitHub Pages. The app never depends
 on its own repo for updates: it pulls from this site.
 
-**Live site → <https://stromplayz.github.io/FocusCaseX-Marketplace/>**
+**Live site → <https://stromplayz.github.io/FocusCaseX/>**
 
 ---
 
@@ -20,20 +20,22 @@ Two static JSON endpoints (no server, no build — plain files on Pages):
 ```jsonc
 {
   "schema": "fcx.market.core.v1",
-  "version": "2.0.0",              // the core version stamp
+  "version": "2.2.4",              // the core version stamp
   "flags": { ... },                // remote feature flags
   "announcement": {                 // rendered by the core-announcement surface
-    "id": "core-v2-2026-11",
-    "title": "Update v2 is live",
+    "id": "core-v2-2-4-2026-11",
+    "title": "Official news: the hosted Clinic sidebar now ships in the core",
     "level": "update",
-    "action": { "label": "DOWNLOAD UPDATE V2", "kind": "core-pull" }
+    "action": { "label": "DOWNLOAD UPDATE V2.2.4", "kind": "core-pull" }
   },
-  "corePlugins": [                  // pulled by the core-updater on user confirmation
+  "corePlugins": [                  // pulled by the core-updater on user confirmation — 8 plugins in v2.2.4
     { "id": "core-ui", "version": "2.0.0",
       "files": { "manifest": "plugins/core-ui/manifest.json", "main": "plugins/core-ui/main.js" },
       "enable": true }
+    // … the other 7 (focuscasex-sbl, update-v2-notifier, quick-actions-v2,
+    //    core-settings, core-pages, core-cmds, core-modes) follow the same shape
   ],
-  "coreCss": []                     // site-relative CSS files applied as the core layer
+  "coreCss": ["core/core.css"]      // site-relative CSS files applied as the core layer
 }
 ```
 

@@ -1621,7 +1621,7 @@
       "kind": "template",
       "name": "Refraction note",
       "tagline": "Subjective refraction with final Rx, VA and near add working space.",
-      "description": "The daily bread-and-butter refraction page: dry & cyclo refraction tables, final Rx with VA line, near addition and the prescribing decision trail. Pairs with the vitals panel capsule for the latest recorded values.",
+      "description": "The daily bread-and-butter refraction page: dry & cyclo refraction tables, final Rx with VA line, near addition and the prescribing decision trail. Pairs with the vitals panel capsule for the latest values on the chart.",
       "author": "CaseX Clinical Team",
       "version": "1.0.0",
       "category": "Clinical",
@@ -3425,9 +3425,10 @@
     }
   ],
   "cli": {
-    "npm": "focuscasex",
     "repo": "https://github.com/stromplayz/FCX-NPM",
-    "install": "npm install -g github:stromplayz/FCX-NPM",
+    "install": "curl -fsSL https://stromplayz.github.io/FocusCaseX/install.sh | bash",
+    "registry": "https://stromplayz.github.io/FocusCaseX/install.sh",
+    "requires": "Node 18+",
     "version": "2.8.0"
   }
 }

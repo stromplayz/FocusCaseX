@@ -87,7 +87,7 @@
       <div class="kicker">Documentation</div>
       <h1>The FCX CLI</h1>
       <p class="lede">Install the marketplace anywhere Node 18 runs, host it on your own machine, and script the catalog — every <code>fcx</code> command, in one place.</p>
-      <p class="explain">The CLI is the npm package <code>focuscasex</code> (binary <code>fcx</code>), maintained in the <a href="https://github.com/stromplayz/FCX-NPM" target="_blank" rel="noopener">FCX-NPM repo</a>. The <a href="/install/#cli">install guide</a> keeps the short version.</p>
+      <p class="explain">The CLI installs from this site's own registry — one curl command, binary <code>fcx</code> — and is maintained in the <a href="https://github.com/stromplayz/FCX-NPM" target="_blank" rel="noopener">FCX-NPM repo</a>. The <a href="/install/#cli">install guide</a> keeps the short version.</p>
     </section>
 
     <!-- 1. OVERVIEW -->
@@ -101,12 +101,35 @@
       <h2 style="margin-bottom: 6px;">Install the CLI</h2>
       <div class="cli-band">
         <h3>Install once</h3>
-        <p>Node 18 or newer, then one command in a terminal — Linux, macOS or Windows:</p>
+        <p>One command in a terminal — works on Linux, macOS or Windows (WSL/Git Bash):</p>
         <div class="code-row cli-cmd">
-          <span class="code-token" title="Install command — run this in a terminal">npm install -g github:stromplayz/FCX-NPM</span>
-          <button class="chip" type="button" data-copy="npm install -g github:stromplayz/FCX-NPM" title="Copy install command"><span data-icon="Copy" data-icon-size="13"></span><span>Copy command</span></button>
+          <span class="code-token" title="Install command — run this in a terminal">curl -fsSL https://stromplayz.github.io/FocusCaseX/install.sh | bash</span>
+          <button class="chip" type="button" data-copy="curl -fsSL https://stromplayz.github.io/FocusCaseX/install.sh | bash" title="Copy install command"><span data-icon="Copy" data-icon-size="13"></span><span>Copy command</span></button>
         </div>
-        <p class="cli-alt">Also published to npm as <code>focuscasex</code> — the GitHub install above works today. Once the npm token is configured on the repo, <code>npm install -g focuscasex</code> works too. Source and releases: <a href="https://github.com/stromplayz/FCX-NPM" target="_blank" rel="noopener">github.com/stromplayz/FCX-NPM</a>.</p>
+        <p class="cli-alt">The registry installer checks Node 18+, installs <code>fcx</code> to <code>~/.focuscasex/bin</code> and wires your PATH. Source and releases: <a href="https://github.com/stromplayz/FCX-NPM" target="_blank" rel="noopener">github.com/stromplayz/FCX-NPM</a>.</p>
+      </div>
+    </section>
+
+    <!-- 2b. ACTIVATE -->
+    <section class="section" id="activate" aria-label="Activate the CLI" style="padding-top: 0;">
+      <div class="kicker">Licence</div>
+      <h2 style="margin-bottom: 6px;">Activate the CLI</h2>
+      <div class="cli-band">
+        <h3>One-time per machine</h3>
+        <p>Install does not carry the licence — the CLI asks for it once, the same way the app activates a device. In a terminal:</p>
+        <div class="code-row cli-cmd">
+          <span class="code-token" title="Activate command — run this in a terminal">fcx activate</span>
+          <button class="chip" type="button" data-copy="fcx activate" title="Copy activate command"><span data-icon="Copy" data-icon-size="13"></span><span>Copy command</span></button>
+        </div>
+        <ol class="steps">
+          <li><span>Run <strong>fcx activate</strong> and answer the three prompts — your <strong>licence email</strong>, <strong>password</strong> and the <strong>FCX-XXXXXX code</strong> from your licence email.</span></li>
+          <li><span>The machine registers as a <strong>trusted device</strong> under the licence — the CLI writes <strong>~/.focuscasex/activation.json</strong> and this computer counts against the code's device limit.</span></li>
+          <li><span>Run <strong>fcx status</strong> to confirm — it prints the licence state and the last check-in.</span></li>
+        </ol>
+      </div>
+      <div class="note">
+        <span data-icon="ShieldCheck" data-icon-size="17"></span>
+        <p><b>Codes and device limits.</b> Codes are issued by the FocusCaseX team for your licence email. A machine counts against the code's device limit — move a licence by revoking the old machine on the admin console. <a href="/docs/security/">Full details: how codes, devices and revocation work</a>.</p>
       </div>
     </section>
 
@@ -138,8 +161,11 @@
           </thead>
           <tbody>
             <tr><td>fcx --version</td><td>Print the CLI version — it tracks the platform release.</td></tr>
+            <tr><td>fcx activate</td><td>Sign in with your licence email, password and FCX-XXXXXX code; registers this machine as a trusted device and writes ~/.focuscasex/activation.json.</td></tr>
+            <tr><td>fcx status</td><td>Print the licence state — email, device id, last check-in — and flag a revoked device.</td></tr>
             <tr><td>fcx doctor [--offline]</td><td>Check Node, the workspace folder, the catalog cache and marketplace reachability. With <b>--offline</b> it warns instead of failing and falls back to the cache.</td></tr>
             <tr><td>fcx sync</td><td>Refresh the catalog cache from the public marketplace.</td></tr>
+            <tr><td>fcx update</td><td>Compare your build with the registry and print the one-line update command when a newer CLI ships.</td></tr>
             <tr><td>fcx catalog [kind] [--json]</td><td>List everything installable — Extensions, capsules, themes, templates — with an optional kind filter; <b>--json</b> prints the list for scripts.</td></tr>
             <tr><td>fcx workbench list</td><td>List WorkBenches with their install codes.</td></tr>
             <tr><td>fcx workbench show &lt;id-or-code&gt;</td><td>Print the full description and every piece inside. Accepts an item id, an FCX-XXXXXX code, or a name substring.</td></tr>
@@ -180,7 +206,7 @@
     <section class="section" id="files" aria-label="Where things live" style="padding-top: 0;">
       <div class="kicker">On disk</div>
       <h2 style="margin-bottom: 6px;">Where things live</h2>
-      <p class="explain" style="max-width: 640px;">Two places, both under your home folder.</p>
+      <p class="explain" style="max-width: 640px;">Three entries, all under your home folder.</p>
       <div class="cli-ref-scroll">
         <table class="cli-ref">
           <thead>
@@ -192,6 +218,7 @@
           <tbody>
             <tr><td>~/.focuscasex/cache/catalog.json</td><td>The catalog cache — <b>fcx sync</b> refreshes it, <b>fcx serve</b> shares it, <b>fcx doctor</b> checks it.</td></tr>
             <tr><td>~/.focuscasex/workspace/&lt;workbench-id&gt;/</td><td>One folder per installed WorkBench, with every piece inside.</td></tr>
+            <tr><td>~/.focuscasex/activation.json</td><td>The device licence token — written by <b>fcx activate</b>, checked by <b>fcx status</b>.</td></tr>
           </tbody>
         </table>
       </div>
@@ -203,7 +230,7 @@
       <h2 style="margin-bottom: 6px;">Staying updated</h2>
       <div class="note">
         <span data-icon="RefreshCcw" data-icon-size="17"></span>
-        <p><b>Both ends move together.</b> A GitHub Action in the <a href="https://github.com/stromplayz/FCX-NPM" target="_blank" rel="noopener">FCX-NPM repo</a> syncs the CLI from the private source repo, rebuilds it and publishes it whenever the platform ships. To update, run the same install command again — <code>npm install -g github:stromplayz/FCX-NPM</code> — and <code>fcx --version</code> confirms the build you have.</p>
+        <p><b>Both ends move together.</b> Run <b>fcx update</b> to compare your build with the registry — when a newer CLI ships, it prints the one-line command to run. Or re-run the install command from the top of this page; <code>fcx --version</code> confirms the build you have afterwards. The app and the CLI ship from the same pipeline, so a release lands on both ends together.</p>
       </div>
     </section>
 
@@ -221,10 +248,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>fcx: command not found</td><td>npm's global bin folder is not on your PATH. Add it to PATH — or reinstall with the install command and open a fresh terminal.</td></tr>
+            <tr><td>fcx: command not found</td><td>The installer puts <b>fcx</b> in <b>~/.focuscasex/bin</b> and wires your PATH, but a terminal opened before the install will not see it. Open a fresh terminal and run <b>fcx</b> again.</td></tr>
             <tr><td>catalog fetch fails</td><td>Run <b>fcx sync</b> to refresh the cache, or check the network. <b>fcx doctor --offline</b> passes with a cached catalog, so installs keep working without the network.</td></tr>
             <tr><td>port already in use</td><td>Start the server on another port: <b>fcx serve --port &lt;other&gt;</b>.</td></tr>
-            <tr><td>version mismatch</td><td>Reinstall with the same command — <b>npm install -g github:stromplayz/FCX-NPM</b> — then check <b>fcx --version</b>.</td></tr>
+            <tr><td>version mismatch</td><td>Run <b>fcx update</b> — it prints the one-line command when a newer build ships — or re-run the install command from the top of this page, then check <b>fcx --version</b>.</td></tr>
           </tbody>
         </table>
       </div>
