@@ -2,59 +2,76 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<title>Solo Optometrist WorkBench — FocusCaseX WorkBench</title>
+<meta name="description" content="One install. A complete solo optometry EMR. Solo Optometrist WorkBench bundles 10 extensions, 28 capsules, a theme, 13 templates, 7 snippets and 14 starter pagess into one install. Install code FCX-2VJD2S.">
+
+<meta charset="utf-8">
 <base href="/FocusCaseX/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WorkBenches — FocusCaseX Marketplace</title>
-<meta name="description" content="One install. Whole EMR. FocusCaseX WorkBenches bundle extensions, capsules, a theme, templates, snippets, starter pages and settings into a single installable, pre-configured for a way of working.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="icon.svg">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  /* ---------- workbench page: catalog grid ---------- */
-  .wb-gridhead {
-    display: flex; align-items: baseline; justify-content: space-between;
-    gap: 16px; flex-wrap: wrap; margin-bottom: 20px;
+  /* ---------- single-WorkBench page ---------- */
+  .wb-hero-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 6px; }
+  .wb-hero-meta .kindchip { font-size: 10.5px; padding: 3px 9px; }
+  .wb-hero-meta span.meta { font-size: 12.5px; color: var(--ink-3); }
+  .wb-hero-card {
+    margin-top: 26px; padding: 20px; border: 1px solid var(--line); border-radius: 14px;
+    background: var(--bg-soft);
   }
-  .wb-gridhead h2 { font-size: clamp(20px, 2.8vw, 26px); }
-  .wb-count { font-family: var(--font-mono); font-size: 12px; font-weight: 400; color: var(--ink-3); margin-left: 10px; letter-spacing: 0; }
-  .wb-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
-    gap: 16px;
-  }
-  .wb-card .card-desc { -webkit-line-clamp: 3; }
-  .wb-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .wb-chips span {
+  .wb-hero-card .wb-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .wb-hero-card .wb-chips span {
     font-family: var(--font-mono); font-size: 11px; letter-spacing: .01em;
-    color: var(--ink-2); background: var(--bg-soft);
+    color: var(--ink-2); background: var(--bg-card, #fff);
     border: 1px solid var(--line); border-radius: 6px; padding: 3px 9px;
-    white-space: nowrap;
+    white-space: nowrap; line-height: 1.9; text-align: left;
   }
-  /* named bundle contents: one full-width chip per kind, names wrap inside */
-  .wb-chips .wb-group {
-    white-space: normal; flex: 1 1 100%; line-height: 1.9; text-align: left;
-  }
+  .wb-chips .wb-group { white-space: normal; flex: 1 1 100%; }
   .wb-chips .wb-group b { font-weight: 600; color: var(--ink); }
-  .wb-chips .wb-more {
-    background: none; border: 0; padding: 0;
-    color: var(--ink-3); white-space: nowrap;
-  }
-  .wb-card .card-meta { flex-wrap: wrap; }
-  .wb-card .kindchip { font-size: 10.5px; padding: 3px 9px; }
-  .wb-install { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .wb-chips .wb-more { background: none; border: 0; padding: 0; color: var(--ink-3); }
+  .wb-install { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
   .wb-install .code-row { margin-top: 0; }
   .wb-install .code-token { font-size: 12.5px; padding: 7px 11px; letter-spacing: .1em; }
-  .wb-note { margin-top: 24px; color: var(--ink-3); font-size: 13.5px; }
+  .wb-note { margin-top: 20px; color: var(--ink-3); font-size: 13.5px; }
 
-  /* ---------- what's inside strip ---------- */
-  .inside-head { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
-  .inside-head h2 { font-size: clamp(20px, 2.8vw, 26px); }
-  .inside-head span { font-size: 13.5px; color: var(--ink-3); }
-
-  @media (max-width: 900px) {
-    .wb-grid { grid-template-columns: 1fr; }
+  /* demo band */
+  .wb-demos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .wb-demo { margin: 0; }
+  .wb-demo-frame {
+    aspect-ratio: 16 / 10; border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; background: #101418;
   }
+  .wb-demo-frame video { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .wb-demo figcaption { display: flex; flex-direction: column; gap: 2px; padding-top: 10px; }
+  .wb-demo figcaption b { font-family: var(--font-display); font-size: 14px; }
+  .wb-demo figcaption span { font-size: 12.5px; color: var(--ink-3); }
+
+  /* detail-page piece lists */
+  .wb-list-section { margin-top: 34px; }
+  .wb-list-section h3 { font-size: 17px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .wb-list-section h3 span { font-size: 12.5px; color: var(--ink-3); font-weight: 400; }
+  .wb-piece-list { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .wb-piece {
+    display: flex; align-items: flex-start; gap: 12px;
+    border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; background: var(--bg-card, #fff);
+  }
+  .wb-piece .tile { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex: none; margin-top: 1px; }
+  .wb-piece > div { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .wb-piece b { font-size: 13.5px; }
+  .wb-piece span { font-size: 12.5px; color: var(--ink-3); line-height: 1.5; }
+  .wb-piece-code { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); background: var(--bg-soft); border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; flex: none; align-self: center; }
+
+  /* theme swatches */
+  .wb-theme { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .wb-swatch { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; background: var(--bg-card, #fff); }
+  .wb-swatch > span:first-child { width: 22px; height: 22px; border-radius: 6px; border: 1px solid rgba(0,0,0,.12); display: inline-block; }
+  .wb-swatch code { font-family: var(--font-mono); font-size: 11px; color: var(--ink-2); }
+  .wb-swatch-wide > code { font-size: 12px; }
+  .wb-pages-tree { font-family: var(--font-mono); font-size: 12.5px; color: var(--ink-2); line-height: 2; }
+  .wb-pages-tree b { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -63,65 +80,104 @@
   <div class="wrap">
 
     <section class="page-head">
-      <div class="kicker">WorkBenches</div>
-      <h1>One install. Whole EMR.</h1>
-      <p class="lede">A WorkBench is one installable bundle that contains a complete, pre-configured EMR setup — extensions, capsules, a theme, templates, snippets, starter pages and settings, put together for one way of working. Install a WorkBench and the whole workspace is set up in a single step, instead of assembling add-ons one by one.</p>
-      <p class="explain">5 WorkBenches and counting · every piece in a bundle is listed before you confirm · free</p>
+      <div class="kicker">WorkBench</div>
+      <h1>Solo Optometrist WorkBench</h1>
+      <p class="lede">One install. A complete solo optometry EMR.</p>
+      <div class="wb-hero-meta">
+        <span class="kindchip" style="--chip-c:var(--k-workbench);--chip-soft:var(--k-workbench-soft);">Solo practice</span>
+        <span class="meta">v1.0.0</span>
+        <span class="meta">·</span>
+        <span class="meta">CaseX Labs</span>
+        <span class="meta">·</span><span class="meta">Updated 2026-11-26</span>
+        <span class="meta">·</span>
+        <span class="meta">Install code <b style="font-family:var(--font-mono);color:var(--ink);">FCX-2VJD2S</b></span>
+      </div>
+      <p class="explain">One install configures the whole workspace — 10 extensions, 28 capsules, 1 theme, 13 templates, 7 snippets, 14 starter pagess and the settings snapshot. Free.</p>
     </section>
 
-    <!-- WHAT'S INSIDE -->
-    <section class="section-tight" aria-label="What's inside a WorkBench">
+    
+<div class="wb-install" style="gap:12px;">
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+    <button class="btn primary" type="button" data-wb-install="workbench:solo-optometry" data-wb-name="Solo Optometrist WorkBench" style="min-height:48px;">
+      <span data-icon="MonitorSmartphone" data-icon-size="17"></span>
+      <span>Install — open the app</span>
+    </button>
+    <a class="btn" href="/workbenches/solo-optometry/" style="text-decoration:none;">View the full contents</a>
+  </div>
+  <div class="code-row">
+    <span class="code-token" title="Install code — type this inside the app">FCX-2VJD2S</span>
+    <button class="chip" type="button" data-copy="FCX-2VJD2S" title="Copy install code"><span data-icon="Copy" data-icon-size="13"></span><span>Copy code</span></button>
+  </div>
+</div>
+
+    <section class="section-tight" aria-label="What this WorkBench installs">
+      <div class="wb-hero-card">
+        <p style="margin:0 0 12px;font-size:14px;color:var(--ink);"><b>The one-chair practice in one install — chairside Solo pages, claims, stock, lab and comms boards, recall and inventory automation, on the calm Solo Optometry theme.</b></p>
+        <div class="wb-chips">
+          <span class="wb-group" title="optomize · essential-diagrams · utility-panel · quick-actions-v2 · focuscasex-sbl · recall-campaign-runner · day-sheet-exporter · inventory-stock-alerter · quick-phrases · referral-letter-composer"><b>Extensions:</b> optomize · essential-diagrams · utility-panel · quick-actions-v2 · focuscasex-sbl · recall-campaign-runner · day-sheet-exporter · inventory-stock-alerter · quick-phrases · referral-letter-composer</span><span class="wb-group" title="Appointment board · Patient directory · Examination workup · Clinic overview · Workflow tracker · Today&#39;s patients · Recall board · Billing desk · Diagnosis cohorts · Claims board · Comms log · Lab job board · Purchase orders · Scan index · Inventory board · Stat tiles · Action buttons · Note cards · Patient header · Vitals panel · Visit history · Visit record · Trend chart · CL fitting log · IOP watch · Visual fields · Database embed · Right panel"><b>Capsules:</b> Appointment board · Patient directory · Examination workup · Clinic overview · Workflow tracker · Today&#39;s patients · Recall board · Billing desk · Diagnosis cohorts · Claims board · Comms log · Lab job board · Purchase orders · Scan index · Inventory board · Stat tiles <span class="wb-more">+12 more</span></span><span class="wb-group"><b>Theme:</b> Solo Optometry</span><span class="wb-group" title="Patient intake · Refraction note · Contact lens fitting · Glaucoma workup · Dispensing &amp; order · Recall letter · Appointment book · Daily huddle board · CL aftercare &amp; progress · Spectacle Rx pad · Referral letter · Medical necessity letter · Low vision assessment"><b>Templates:</b> Patient intake · Refraction note · Contact lens fitting · Glaucoma workup · Dispensing &amp; order · Recall letter · Appointment book · Daily huddle board · CL aftercare &amp; progress · Spectacle Rx pad · Referral letter · Medical necessity letter · Low vision assessment</span><span class="wb-group" title="Bigger Headings · Rounded Editor · Compact Sidebar · Readable Queue · Print Friendly · Calm Headers · Chairside Va"><b>Snippets:</b> Bigger Headings · Rounded Editor · Compact Sidebar · Readable Queue · Print Friendly · Calm Headers · Chairside Va</span><span class="wb-group" title="My day · Patient flow · Refraction &amp; exam hub · Dispensing &amp; orders · Billing &amp; day close · Chairside quick reference · Stock &amp; reorder · Weekly review · How this bench fits · Insurance &amp; TPA · Inventory · Lab jobs · Purchase orders · Comms log"><b>Pages:</b> My day · Patient flow · Refraction &amp; exam hub · Dispensing &amp; orders · Billing &amp; day close · Chairside quick reference · Stock &amp; reorder · Weekly review · How this bench fits · Insurance &amp; TPA · Inventory · Lab jobs · Purchase orders · Comms log</span>
+        </div>
+        <p class="wb-note" style="margin-top:14px;">Every piece is listed before you confirm — the full per-item breakdown with descriptions is on the <a href="/workbenches/solo-optometry/" style="color:var(--blue);font-weight:600;">WorkBench detail page</a>.</p>
+      </div>
+    </section>
+
+    
+<section class="section-tight" aria-label="The workspace in motion">
+  <div class="inside-head">
+    <h2>See it run</h2>
+    <span>The workspace this WorkBench sets up — captured live.</span>
+  </div>
+  <div class="wb-demos">
+    
+    <figure class="wb-demo">
+      <div class="wb-demo-frame">
+        <video muted loop playsinline preload="none" poster="assets/motion/demo-register.jpg" data-src="assets/motion/demo-register.mp4" aria-label="Demo — Register a patient"></video>
+      </div>
+      <figcaption><b>Register a patient</b><span>Quick-book a slot — the patient file and MR create themselves.</span></figcaption>
+    </figure>
+    <figure class="wb-demo">
+      <div class="wb-demo-frame">
+        <video muted loop playsinline preload="none" poster="assets/motion/demo-exam.jpg" data-src="assets/motion/demo-exam.mp4" aria-label="Demo — Run the workup"></video>
+      </div>
+      <figcaption><b>Run the workup</b><span>Pick the patient, record vision, fill normals, write the plan.</span></figcaption>
+    </figure>
+    <figure class="wb-demo">
+      <div class="wb-demo-frame">
+        <video muted loop playsinline preload="none" poster="assets/motion/demo-dashboard.jpg" data-src="assets/motion/demo-dashboard.mp4" aria-label="Demo — Read the day at a glance"></video>
+      </div>
+      <figcaption><b>Read the day at a glance</b><span>Every number resolves from the case files and the day book.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+    <!-- HOW INSTALL WORKS -->
+    <section class="section-tight" aria-label="How the install works">
       <div class="inside-head">
-        <h2>What's inside</h2>
-        <span>Every kind the marketplace carries, plus the pieces only a bundle can bring.</span>
+        <h2>How the install works</h2>
+        <span>Tap, hand off, confirm — the whole flow runs in the app.</span>
       </div>
       <div class="entries">
         <div class="entry">
-          <span class="tile" style="background:var(--k-extension-soft);color:var(--k-extension);"><span data-icon="Puzzle" data-icon-size="19"></span></span>
-          <h3>Extensions</h3>
-          <p>Small tools that add features — exam composers, visit trackers, patient cloning.</p>
+          <span class="tile" style="background:var(--k-workbench-soft);color:var(--k-workbench);"><span data-icon="MonitorSmartphone" data-icon-size="19"></span></span>
+          <h3>Tap Install here</h3>
+          <p>Your browser hands the WorkBench to the FocusCaseX app on this device — no copy-paste needed.</p>
         </div>
         <div class="entry">
-          <span class="tile" style="background:var(--k-capsule-soft);color:var(--k-capsule);"><span data-icon="Braces" data-icon-size="19"></span></span>
-          <h3>Capsules</h3>
-          <p>Ready-made sections — boards, registers, histories — that render live in your pages.</p>
+          <span class="tile" style="background:var(--k-workbench-soft);color:var(--k-workbench);"><span data-icon="ListChecks" data-icon-size="19"></span></span>
+          <h3>The app lists everything</h3>
+          <p>The WorkBench opens inside the marketplace with its full contents — extensions, capsules, theme, templates, snippets and pages.</p>
         </div>
         <div class="entry">
-          <span class="tile" style="background:var(--k-theme-soft);color:var(--k-theme);"><span data-icon="Palette" data-icon-size="19"></span></span>
-          <h3>Theme</h3>
-          <p>One look for the whole workspace, applied the moment the bundle lands.</p>
+          <span class="tile" style="background:var(--k-workbench-soft);color:var(--k-workbench);"><span data-icon="CircleCheckBig" data-icon-size="19"></span></span>
+          <h3>You confirm once</h3>
+          <p>Tap Apply and the install runs in the app with per-step progress, then a final summary of everything that landed. Nothing is deleted; patient records are never touched.</p>
         </div>
         <div class="entry">
-          <span class="tile" style="background:var(--k-template-soft);color:var(--k-template);"><span data-icon="FileText" data-icon-size="19"></span></span>
-          <h3>Templates</h3>
-          <p>Pre-written clinical notes and forms, filed into your page tree.</p>
-        </div>
-        <div class="entry">
-          <span class="tile" style="background:var(--k-workbench-soft);color:var(--k-workbench);"><span data-icon="Sparkle" data-icon-size="19"></span></span>
-          <h3>Snippets</h3>
-          <p>Small CSS touches that adjust heading sizes, spacing and the reading view.</p>
-        </div>
-        <div class="entry">
-          <span class="tile" style="background:var(--k-workbench-soft);color:var(--k-workbench);"><span data-icon="BookOpen" data-icon-size="19"></span></span>
-          <h3>Starter pages</h3>
-          <p>A dashboard, day book and clinic pages, ready to edit from first open.</p>
-        </div>
-        <div class="entry">
-          <span class="tile" style="background:var(--k-workbench-soft);color:var(--k-workbench);"><span data-icon="SlidersHorizontal" data-icon-size="19"></span></span>
-          <h3>Settings</h3>
-          <p>Workspace preferences tuned to the way the clinic works — sidebars, defaults, views.</p>
+          <span class="tile" style="background:var(--k-workbench-soft);color:var(--k-workbench);"><span data-icon="ArrowLeftRight" data-icon-size="19"></span></span>
+          <h3>Switch modes anytime</h3>
+          <p>Applied WorkBenches appear as modes in the app — Marketplace → WorkBenches. Tap a chip to shuffle the whole workspace to another setup; your records stay put.</p>
         </div>
       </div>
-    </section>
-
-    <!-- CATALOG GRID -->
-    <section class="section-tight" id="catalog" aria-label="WorkBenches you can install">
-      <div class="wb-gridhead">
-        <h2>The first five<span class="wb-count" id="wb-count"></span></h2>
-        <span style="font-size:13.5px;color:var(--ink-3);">Each installs every piece it lists — confirmed once, in the app.</span>
-      </div>
-      <div class="wb-grid" id="wb-grid"></div>
-      <p class="wb-note">Tap <b>Install</b> and your browser hands the bundle to the FocusCaseX app on this device — the app lists everything the WorkBench adds and asks you to confirm. No app on this device? Type the code under <b>Settings → Marketplace → Install by code</b>, or see the <a href="/install/#browser" style="color:var(--blue);font-weight:600;">install guide</a>.</p>
+      <p class="wb-note">No app on this device? Type the code under <b>Settings → Marketplace → Install by code</b>, or see the <a href="/install/#browser" style="color:var(--blue);font-weight:600;">install guide</a>.</p>
     </section>
 
     <!-- TRUST -->
@@ -138,14 +194,14 @@
           <span data-icon="Trash2" data-icon-size="18"></span>
           <div>
             <b>Remove piece by piece</b>
-            <span>Anything a WorkBench installs can be removed later under Settings — the bundle adds tools and pages, it never moves your patient records.</span>
+            <span>Anything the WorkBench installs can be removed later under Settings — the bundle adds tools and pages, it never moves your patient records.</span>
           </div>
         </div>
         <div class="t-item">
           <span data-icon="BadgeCheck" data-icon-size="18"></span>
           <div>
             <b>Reviewed by CaseX Labs</b>
-            <span>Every WorkBench in this catalog is built and reviewed before it lands here, like the rest of the marketplace.</span>
+            <span>The WorkBench is built and reviewed before it lands here, like the rest of the marketplace.</span>
           </div>
         </div>
       </div>
@@ -168,9 +224,8 @@
 
 </main>
 <footer id="site-footer"></footer>
+
 <script src="assets/icons.js"></script>
-<script src="assets/demos-capsules.js"></script>
-<script src="assets/demos-extensions.js"></script>
 <script src="assets/app.js"></script>
 <script>
   document.querySelectorAll("[data-icon]").forEach((el) => {
@@ -178,68 +233,12 @@
   });
 
   FCX.ready({ active: "marketplace" }).then(() => {
-    const gridHost = document.getElementById("wb-grid");
-    const countEl = document.getElementById("wb-count");
-
-    /* ---------- contents chips: "6 extensions · 12 capsules · 1 theme …" ---------- */
-    function plural(n, word) {
-      if (word === "pages") return n + " " + word;
-      return n + " " + word + (n === 1 ? "" : "s");
-    }
-    function chipsHtml(c) {
-      if (!c || typeof c !== "object") return "";
-      const parts = [];
-      if (c.extensions) parts.push(plural(c.extensions, "extension"));
-      if (c.capsules) parts.push(plural(c.capsules, "capsule"));
-      if (c.theme) parts.push(plural(c.theme, "theme"));
-      if (c.templates) parts.push(plural(c.templates, "template"));
-      if (c.snippets) parts.push(plural(c.snippets, "snippet"));
-      if (c.pages) parts.push(plural(c.pages, "page"));
-      return parts.map((p) => `<span>${FCX.esc(p)}</span>`).join("");
-    }
-
-    /* ---------- named contents: entries that carry a named list render one
-       full-width chip per kind — bold label, then names joined by " · ",
-       capped at 12 names with "+N more"; the full list stays in the chip's
-       title attribute. Entries without a list keep the count chips. ---------- */
-    const WB_LIST_LABELS = { extension: "Extensions:", capsule: "Capsules:", theme: "Theme:", template: "Templates:", snippet: "Snippets:", page: "Pages:" };
-    const WB_LIST_ORDER = ["extension", "capsule", "theme", "template", "snippet", "page"];
-    const WB_LIST_CAP = 12;
-    function kindLabel(kind) {
-      if (WB_LIST_LABELS[kind]) return WB_LIST_LABELS[kind];
-      const word = String(kind || "other");
-      return word.charAt(0).toUpperCase() + word.slice(1) + "s:";
-    }
-    function namedListHtml(list) {
-      if (!Array.isArray(list) || !list.length) return "";
-      const namesByKind = {};
-      for (const entry of list) {
-        if (!entry || !entry.name) continue;
-        const kind = String(entry.kind || "other").toLowerCase();
-        (namesByKind[kind] = namesByKind[kind] || []).push(String(entry.name));
-      }
-      const kinds = WB_LIST_ORDER.filter((k) => namesByKind[k]);
-      for (const k of Object.keys(namesByKind)) {
-        if (kinds.indexOf(k) === -1) kinds.push(k);
-      }
-      return kinds.map((kind) => {
-        const names = namesByKind[kind];
-        const shown = names.slice(0, WB_LIST_CAP);
-        const more = names.length - shown.length;
-        return '<span class="wb-group" title="' + FCX.esc(names.join(" · ")) + '">' +
-          "<b>" + FCX.esc(kindLabel(kind)) + "</b> " +
-          FCX.esc(shown.join(" · ")) +
-          (more > 0 ? ' <span class="wb-more">+' + more + " more</span>" : "") +
-          "</span>";
-      }).join("");
-    }
-
-    /* ---------- install: same deep-link mechanism as the kind pages.
-       WorkBenches live in their own catalog array (not `items`), so the
-       shared [data-open-app] wiring can't see them — this page wires the
-       identical fcx://install flow + code fallback itself. ---------- */
+    /* ---------- install: same fcx://install flow as the kind pages.
+       The WorkBench resolves inside the app (curated build-side), the app
+       lists every piece and asks once — the install is confirmed and runs
+       entirely in the app. Without the app, the code fallback appears. ---------- */
     function showWbFallback(id, name) {
-      const code = FCX.installCode(id);
+      const code = "FCX-2VJD2S";
       const el = document.createElement("div");
       el.className = "ov open";
       el.setAttribute("role", "dialog");
@@ -275,66 +274,39 @@
         x.addEventListener("click", () => x.closest(".ov") && x.closest(".ov").remove()));
     }
 
-    function wireInstalls(root) {
-      root.querySelectorAll("[data-wb-install]").forEach((btn) => {
-        if (btn.__fxWb) return;
-        btn.__fxWb = true;
-        btn.addEventListener("click", (ev) => {
-          ev.preventDefault();
-          const id = btn.getAttribute("data-wb-install");
-          const name = btn.getAttribute("data-wb-name") || "this WorkBench";
-          let switched = false;
-          const onHide = () => { switched = true; };
-          document.addEventListener("visibilitychange", onHide, { once: true });
-          window.addEventListener("pagehide", onHide, { once: true });
-          window.addEventListener("blur", onHide, { once: true });
-          try { location.href = FCX.deepLinkUrl(id); } catch (e) { /* blocked — fallback covers it */ }
-          setTimeout(() => {
-            if (!switched && !document.hidden) showWbFallback(id, name);
-          }, 1900);
-        });
+    document.querySelectorAll("[data-wb-install]").forEach((btn) => {
+      btn.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        const id = btn.getAttribute("data-wb-install");
+        const name = btn.getAttribute("data-wb-name") || "Solo Optometrist WorkBench";
+        let switched = false;
+        const onHide = () => { switched = true; };
+        document.addEventListener("visibilitychange", onHide, { once: true });
+        window.addEventListener("pagehide", onHide, { once: true });
+        window.addEventListener("blur", onHide, { once: true });
+        try { location.href = FCX.deepLinkUrl(id); } catch (e) { /* blocked — fallback covers it */ }
+        setTimeout(() => {
+          if (!switched && !document.hidden) showWbFallback(id, name);
+        }, 1900);
       });
-    }
+    });
 
-    /* ---------- cards ---------- */
-    function cardHtml(wb) {
-      const code = FCX.installCode(wb.id);
-      const updated = FCX.fmtDate(wb.released);
-      return `
-<article class="card wb-card" style="--card-c:var(--k-workbench);--card-soft:var(--k-workbench-soft);">
-  <span class="tile">${FCX.icon(wb.icon || "Layers", 17)}</span>
-  <span class="card-name">${FCX.esc(wb.name)}${wb.verified !== false ? '<span class="vshield" title="Reviewed and published by CaseX Labs">' + FCX.icon("ShieldCheck", 13) + "</span>" : ""}</span>
-  <span class="card-desc">${FCX.esc(wb.tagline || wb.description || "")}</span>
-  <span class="wb-chips">${namedListHtml(wb.meta && wb.meta.list) || chipsHtml(wb.meta && wb.meta.contents)}</span>
-  <span class="card-meta">
-    <span class="kindchip" style="--chip-c:var(--k-workbench);--chip-soft:var(--k-workbench-soft);">${FCX.esc(wb.category || "WorkBench")}</span>
-    <span class="dot"></span><span>${FCX.esc(wb.author || "CaseX Labs")}</span>
-    ${updated ? '<span class="dot"></span><span>Updated ' + FCX.esc(updated) + "</span>" : ""}
-  </span>
-  <div class="wb-install">
-    <button class="btn small primary" type="button" data-wb-install="${FCX.esc(wb.id)}" data-wb-name="${FCX.esc(wb.name)}">${FCX.icon("MonitorSmartphone", 15)}<span>Install — open the app</span></button>
-    <div class="code-row">
-      <span class="code-token" title="Install code — type this inside the app">${FCX.esc(code)}</span>
-      <button class="chip" type="button" data-copy="${FCX.esc(code)}" title="Copy install code">${FCX.icon("Copy", 13)}<span>Copy code</span></button>
-    </div>
-  </div>
-</article>`;
+    /* lazy demo videos — load when scrolled near, pause offscreen */
+    const vids = document.querySelectorAll("video[data-src]");
+    if (vids.length) {
+      const io = new IntersectionObserver((entries) => {
+        for (const en of entries) {
+          const v = en.target;
+          if (en.isIntersecting) {
+            if (!v.src && v.dataset.src) v.src = v.dataset.src;
+            v.play().catch(() => {});
+          } else {
+            v.pause();
+          }
+        }
+      }, { rootMargin: "200px" });
+      vids.forEach((v) => io.observe(v));
     }
-
-    /* ---------- boot: render from catalog.json's own workbenches array ---------- */
-    fetch("catalog.json", { cache: "no-cache" })
-      .then((r) => { if (!r.ok) throw new Error("catalog.json " + r.status); return r.json(); })
-      .then((data) => {
-        const wbs = Array.isArray(data.workbenches) ? data.workbenches : [];
-        countEl.textContent = " · " + wbs.length + " shown";
-        gridHost.innerHTML = wbs.map(cardHtml).join("");
-        wireInstalls(gridHost);
-        FCX.wireCopyButtons(gridHost);
-      })
-      .catch(() => {
-        countEl.textContent = "";
-        gridHost.innerHTML = '<p class="wb-note">The WorkBench catalog could not load — check your connection and reload.</p>';
-      });
   });
 </script>
 </body>

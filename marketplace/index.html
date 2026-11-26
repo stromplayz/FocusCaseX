@@ -248,17 +248,23 @@
       FCX.items.forEach(function (it) { if (it.kind !== "workbench") counts[it.kind] = (counts[it.kind] || 0) + 1; });
       document.getElementById("entries").innerHTML = FCX.KIND_ORDER.map(function (kind) {
         var k = FCX.KINDS[kind];
-        /* WorkBenches are counted from their own catalog.json array — 5
-           bundles now — never from the items feed above. */
-        var n = counts[kind] || (kind === "workbench" ? 5 : 0);
+        /* WorkBenches are counted from their own catalog.json array —
+           one published bundle — never from the items feed above. */
+        var n = counts[kind] || (kind === "workbench" ? 1 : 0);
         return '<a class="entry" href="' + k.page + '" style="--entry-c: ' + k.c + '">' +
-          '<span class="entry-count">' + n + '</span>' +
+          '<span class="entry-count"' + (kind === "workbench" ? ' id="wb-entry-count"' : "") + '>' + n + '</span>' +
           '<span class="tile">' + FCX.icon(k.icon, 19) + '</span>' +
           '<h3>' + FCX.esc(k.label) + (k.new ? ' <span class="kindchip" style="--chip-c:var(--blue);--chip-soft:var(--blue-soft);margin-left:7px;transform:translateY(-1px);">New</span>' : '') + '</h3>' +
           '<p>' + FCX.esc(k.one) + '</p>' +
           '<span class="go">Browse ' + FCX.esc(k.label) + ' ' + FCX.icon("ArrowRight", 14) + '</span>' +
         '</a>';
       }).join("");
+
+      /* live WorkBench count from catalog.json's workbenches array */
+      fetch("catalog.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (d) {
+        var el = document.getElementById("wb-entry-count");
+        if (el && Array.isArray(d.workbenches)) el.textContent = d.workbenches.length;
+      }).catch(function () { /* count stays at the fallback */ });
 
       /* --- hero: live theme cycle with real theme variables --- */
       var HERO_THEMES = ["blueprint", "paper-light", "midnight"];
