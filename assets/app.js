@@ -766,7 +766,8 @@
         navLink("/marketplace/", "Marketplace", "marketplace") +
         navLink("/pricing/", "Pricing", "pricing") +
         navLink("/mcp/", "MCP &amp; Automation", "mcp") +
-        navLink("/docs/", "Docs", "docs");
+        navLink("/docs/", "Docs", "docs") +
+        navLink("/faq/", "FAQ", "faq");
       header.innerHTML = `
 <div class="top"><div class="top-inner">
   ${brand}
