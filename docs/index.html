@@ -127,6 +127,36 @@
   .faq-card h2 { font-size: 20px; }
   .faq-card p { font-size: 13.3px; color: var(--ink-2); line-height: 1.55; margin-top: 7px; max-width: 560px; }
 
+  /* docs hero banner (black band) */
+  .docs-hero { background: var(--dark); color: #fff; }
+  .docs-hero .docs-hero-inner {
+    display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.8fr);
+    gap: 44px; align-items: center; padding-top: 62px; padding-bottom: 54px;
+  }
+  .docs-hero .kicker { color: var(--blue-bright); }
+  .docs-hero h1 { color: #fff; font-size: clamp(34px, 4.6vw, 54px); letter-spacing: -0.03em; margin: 10px 0 0; }
+  .docs-hero h1 .hl-b { color: var(--blue-bright); }
+  .docs-hero .lede { color: var(--dark-muted); margin-top: 14px; max-width: 640px; font-size: 14.5px; line-height: 1.66; }
+  .docs-hero-chips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+  .chip-l {
+    display: inline-flex; align-items: center; border: 1px solid rgba(255,255,255,.22);
+    color: #e8ebf4; font-size: 12.5px; font-weight: 500; padding: 7px 14px; border-radius: 999px;
+  }
+  .chip-l:hover { border-color: var(--blue-bright); color: #fff; background: rgba(124,155,255,.08); }
+  .docs-hero-meta { margin-top: 18px; font-family: var(--font-mono); font-size: 11.5px; color: #6f7a92; letter-spacing: .02em; }
+  .docs-hero-term .term { margin: 0; border-color: #1e2633; box-shadow: var(--shadow-2); }
+  @media (max-width: 940px) {
+    .docs-hero .docs-hero-inner { grid-template-columns: 1fr; gap: 30px; padding-bottom: 44px; }
+  }
+
+  /* toc part labels in the sticky contents */
+  .toc-part {
+    font-family: var(--font-display); font-size: 9.5px; font-weight: 600;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3);
+    padding: 12px 10px 4px; border-top: 1px solid var(--line); margin-top: 6px;
+  }
+  #toc-nav .toc-part:first-child { border-top: none; margin-top: 0; padding-top: 2px; }
+
   .next-band {
     display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
     border: 1px solid var(--line); border-radius: var(--radius);
@@ -141,26 +171,55 @@
 <body>
 <header id="site-header"></header>
 <main>
-  <div class="wrap">
 
-    <section class="page-head">
-      <div class="kicker">Documentation</div>
-      <h1>The full FocusCaseX guide</h1>
-      <p class="lede">Everything on one page, A to Z — the workspace and every board, the Android app, the FCX CLI with every command demonstrated live, one-file packs, authoring Extensions, Themes, Capsules and WorkBenches, security, troubleshooting, the glossary and the full link map.</p>
-      <p class="explain">No cards, no teasers: scroll top to bottom, or jump with the contents. The short reference pages (<a href="/docs/getting-started/" style="color:var(--blue);font-weight:500;">Getting started</a>, <a href="/docs/cli/" style="color:var(--blue);font-weight:500;">FCX CLI</a>, <a href="/docs/security/" style="color:var(--blue);font-weight:500;">Licences and devices</a>) keep their own corners. Questions first? The <a href="/faq/" style="color:var(--blue);font-weight:500;">FAQ is its own page</a>. Updated November 2026.</p>
+  <section class="docs-hero">
+    <div class="wrap docs-hero-inner">
+        <div class="docs-hero-copy">
+          <div class="kicker">Documentation · updated November 2026</div>
+          <h1>The full FocusCaseX guide, <span class="hl-b">A to Z</span></h1>
+          <p class="lede">Everything on one page — the workspace and every board, the Android app, the FCX CLI with every command demonstrated live, one-file packs, authoring Extensions, Themes, Capsules and WorkBenches, automation with AI agents, security, troubleshooting, the glossary and the full link map. No cards, no teasers: scroll top to bottom, or jump with the contents.</p>
+          <div class="docs-hero-chips">
+            <a class="chip-l" href="#quickstart">Start in seven steps</a>
+            <a class="chip-l" href="#cli-install">Install the CLI</a>
+            <a class="chip-l" href="#cli-reference">Every command</a>
+            <a class="chip-l" href="#packs">Pack formats</a>
+            <a class="chip-l" href="#extensions-guide">Build an Extension</a>
+            <a class="chip-l" href="/updates/">News &amp; updates</a>
+          </div>
+          <div class="docs-hero-meta">24 sections · 25 commands · app v2.9.0 · CLI v3.1</div>
+        </div>
+        <div class="docs-hero-term">
+          <div class="term" data-title="fcx — the console">
+            <div class="term-cmd">fcx</div>
+            <div class="term-out">FocusCaseX Console — v3.1.0
+▸ Open the marketplace
+▸ Install from a pack file
+▸ Licence and devices
+▸ Care and diagnostics</div>
+            <div class="term-note">↑↓ move · 1-9 jump · enter select · esc back</div>
+            <div class="term-cmd">fcx install solo-optometry.fcxwb</div>
+            <div class="term-out">Installing from file — Solo Optometry WorkBench
+9 capsules · 5 Extensions · 5 templates · 4 snippets · 1 theme</div>
+          </div>
+        </div>
+      </div>
     </section>
+
+  <div class="wrap">
 
     <div class="guide">
 
       <!-- STICKY CONTENTS -->
       <aside class="guide-toc" aria-label="Contents">
-        <details class="toc-fold" id="toc-fold">
+        <details class="toc-fold" id="toc-fold" open>
           <summary class="toc-title">On this page</summary>
           <nav id="toc-nav">
+            <div class="toc-part">Part 1 — The clinic</div>
             <a href="#what">1. What is FocusCaseX</a>
             <a href="#quickstart">2. Start in seven steps</a>
             <a href="#tour">3. The workspace, board by board</a>
             <a href="#android">4. The Android app</a>
+            <div class="toc-part">Part 2 — The terminal</div>
             <a href="#cli-install">5. Install the FCX CLI</a>
             <a href="#cli-setup">6. The setup wizard</a>
             <a href="#cli-account">7. Account and licence</a>
@@ -171,12 +230,14 @@
             <a href="#cli-care">12. Care and diagnostics</a>
             <a href="#cli-mcp">13. MCP and AI agents</a>
             <a href="#cli-reference">14. Every CLI command</a>
+            <div class="toc-part">Part 3 — Build and customize</div>
             <a href="#marketplace">15. The marketplace</a>
             <a href="#themes">16. Themes</a>
             <a href="#capsules">17. Capsules</a>
             <a href="#extensions-guide">18. Create your own Extension</a>
             <a href="#workbenches">19. WorkBenches</a>
             <a href="#packs">20. Pack formats, A to Z</a>
+            <div class="toc-part">Part 4 — Reference</div>
             <a href="#security">21. Security and privacy</a>
             <a href="#troubleshooting">22. Troubleshooting</a>
             <a href="#glossary">23. Glossary</a>
@@ -184,7 +245,7 @@
           </nav>
         </details>
         <a class="toc-back" href="/install/"><span data-icon="ArrowLeft" data-icon-size="13"></span><span>Install guide</span></a>
-        <a class="toc-back" href="/faq/"><span data-icon="CircleHelp" data-icon-size="13"></span><span>FAQ — its own page</span></a>
+        <a class="toc-back" href="/updates/"><span data-icon="Sparkle" data-icon-size="13"></span><span>News &amp; updates</span></a>
         <a class="toc-back" href="/marketplace/"><span data-icon="ArrowLeft" data-icon-size="13"></span><span>Marketplace</span></a>
       </aside>
 
@@ -272,7 +333,7 @@
     <p><b>Sharing with the front desk.</b> When your clinic has its own network, the workspace can be shared across it — the guide's clinic-network section shows how, with the <a href="#cli-web" style="color:var(--blue);font-weight:500;">fcx open</a> command opening the same clinic for every computer on that network. No clinic network? Nothing changes: the web app still opens as usual, and everyone signs in from wherever they are.</p>
   </div>
 
-  <p class="doc-lede">Deeper detail lives on <a href="/docs/getting-started/" style="color:var(--blue);font-weight:500;">the Getting started page</a> — the requirements, the activation screen in full, and uninstalling. Plain-language questions — where records live, what happens offline, who sees what — have short answers on the <a href="/faq/" style="color:var(--blue);font-weight:500;">FAQ</a>.</p>
+  <p class="doc-lede">Deeper detail lives on <a href="/docs/getting-started/" style="color:var(--blue);font-weight:500;">the Getting started page</a> — the requirements, the activation screen in full, and uninstalling. Plain-language questions — where records live, what happens offline, who sees what — have short answers in the <a href="#troubleshooting" style="color:var(--blue);font-weight:500;">troubleshooting section</a> of this guide.</p>
 </section>
 
         <!-- 03-tour -->
@@ -352,7 +413,7 @@
         <tr><td>Where do I get it?</td><td>From the <a href="/install/" style="color:var(--blue);font-weight:500;">install guide</a> — it links the latest FocusCaseX build, the v2.9.0 APK, to download straight onto the device.</td></tr>
         <tr><td>Does it need the internet?</td><td>Only once — the licence check when the device first activates; everything day to day runs offline after that.</td></tr>
         <tr><td>How do I update it?</td><td>The app checks for updates on its own and tells you inside the app when one is ready — you confirm and it updates.</td></tr>
-        <tr><td>Can I share it with the front desk?</td><td>Yes — with your own clinic network, <strong>fcx open</strong> and <strong>fcx serve</strong> on a computer share the workspace and the marketplace across it, so the front desk opens the same clinic — the guide's <a href="#cli-web" style="color:var(--blue);font-weight:500;">clinic-network section</a> shows how; with no clinic network, the web workspace opens as usual — more on the <a href="/faq/" style="color:var(--blue);font-weight:500;">FAQ page</a>.</td></tr>
+        <tr><td>Can I share it with the front desk?</td><td>Yes — with your own clinic network, <strong>fcx open</strong> and <strong>fcx serve</strong> on a computer share the workspace and the marketplace across it, so the front desk opens the same clinic — the guide's <a href="#cli-web" style="color:var(--blue);font-weight:500;">clinic-network section</a> shows how; with no clinic network, the web workspace opens as usual.</td></tr>
       </tbody>
     </table>
   </div>
@@ -1123,9 +1184,23 @@ config file: kept by fcx on this machine</code></pre>
     <p>The command's full entry sits with every other command in the <a href="#cli-reference" style="color:var(--blue);font-weight:500;">CLI reference</a>.</p>
   </div>
 
+  <div class="guide-sub">
+    <h3>What an agent may do — three kinds of tools</h3>
+    <ul class="kind-list">
+      <li><span data-icon="Search" data-icon-size="15"></span><span><b>Read.</b> Patients, appointments, records, inventory, the catalog — the scopes you granted decide what the agent sees, and no more.</span></li>
+      <li><span data-icon="Pipette" data-icon-size="15"></span><span><b>Act, with approval.</b> Reminders, recalls, billing drafts, record updates — every write lands as a pending request with a human-readable diff, and nothing applies until someone approves it in the app.</span></li>
+      <li><span data-icon="Wrench" data-icon-size="15"></span><span><b>Build.</b> The builders — Capsule Builder, Extension Builder, WorkBench Builder — draft an add-on from a plain description of how your clinic works; you review it and install the result the same one-tap way as any marketplace item. See <a href="#workbenches" style="color:var(--blue);font-weight:500;">WorkBenches</a>.</span></li>
+    </ul>
+  </div>
+
+  <div class="guide-sub">
+    <h3>Where the data sits</h3>
+    <p>An agent talks to the endpoint <strong>fcx mcp</strong> printed for your install — the web workspace endpoint when your clinic runs hosted, or your device's own address when the records live on the phone or tablet in the room. Either way the same rules hold: pairing happens with a code only the clinic can mint, scopes cap what is visible, every call lands in one audit log, and revoking the token ends the agent's access on its next call. The full security story: <a href="#security" style="color:var(--blue);font-weight:500;">Security and privacy</a>.</p>
+  </div>
+
   <div class="note">
     <span data-icon="Info" data-icon-size="17"></span>
-    <p><b>Where the deep detail lives.</b> The full walkthrough — pairing, permissions and every snippet, kept current — is on the <a href="/docs/mcp/" style="color:var(--blue);font-weight:500;">MCP &amp; AI agents page</a>, and the overview written for managers is the shorter <a href="/mcp/" style="color:var(--blue);font-weight:500;">MCP overview</a>. Whatever an agent reads, it reads under the clinic licence: the licence governs the data, and the rules are on <a href="#security" style="color:var(--blue);font-weight:500;">Security</a>.</p>
+    <p><b>Where the deep detail lives.</b> Every ready-to-paste snippet, one per client, is printed by <strong>fcx mcp</strong> — kept current with each release. The pairing walkthrough with token minting for headless clients is the <a href="/docs/mcp/" style="color:var(--blue);font-weight:500;">MCP &amp; AI agents reference</a> under Docs. Whatever an agent reads, it reads under the clinic licence: the licence governs the data, and the rules are on <a href="#security" style="color:var(--blue);font-weight:500;">Security</a>.</p>
   </div>
 </section>
 
@@ -1910,7 +1985,7 @@ zip the folder  →  clinic-vitals.zip  →  rename it  →  clinic-vitals.fcxex
     <p><b>One licence is one clinic.</b> Codes are bound to a single email, and the devices under it share one workspace — a second clinic needs its own licence, its own email and its own codes.</p>
   </div>
 
-  <p class="doc-lede">The full plain-language page, <a href="/docs/security/" style="color:var(--blue);font-weight:500;">Licences, devices &amp; codes</a>, covers activation, the hardware identity list and device moves field by field. For quick answers, <a href="/faq/" style="color:var(--blue);font-weight:500;">the FAQ</a> collects the licence and data questions in one place.</p>
+  <p class="doc-lede">The full plain-language page, <a href="/docs/security/" style="color:var(--blue);font-weight:500;">Licences, devices &amp; codes</a>, covers activation, the hardware identity list and device moves field by field. For quick answers, the <a href="#troubleshooting" style="color:var(--blue);font-weight:500;">troubleshooting section</a> of this guide collects the questions that come up most.</p>
 </section>
 
         <!-- 22-troubleshooting -->
@@ -1928,7 +2003,7 @@ zip the folder  →  clinic-vitals.zip  →  rename it  →  clinic-vitals.fcxex
                 <tr><td>Records missing after an update?</td><td>Updates change the app, never the records — patient files, boards and notes are left in place. If a board looks different after updating, check the installed Extensions and snippets: a renamed or removed snippet can change where things appear. Nothing has been deleted.</td></tr>
                 <tr><td>A board or page looks odd</td><td>Switch themes to see whether the theme is responsible, or disable the newest snippet and look again — one of the two is usually the cause. This is only a display question: no record ever changes while you test. Once you find the culprit, remove or fix that one item and the page returns to normal.</td></tr>
               </tbody></table></div>
-          <div class="note">Still stuck? The <a href="/faq/" style="color:var(--blue);font-weight:500;">FAQ</a> answers the most common questions in plain words, and <code>fcx vitals</code> prints an eight-line health check of your setup that you can paste to support when you get in touch.</div>
+          <div class="note">Still stuck? <code>fcx vitals</code> prints an eight-line health check of your setup that you can paste to support when you get in touch, and the questions that come up most are answered in the <a href="#security" style="color:var(--blue);font-weight:500;">security section</a> above.</div>
         </section>
 
         <!-- 23-glossary -->
@@ -2097,7 +2172,7 @@ zip the folder  →  clinic-vitals.zip  →  rename it  →  clinic-vitals.fcxex
         </thead>
         <tbody>
           <tr><td><a href="/pricing/" style="color:var(--blue);font-weight:500;">Pricing</a></td><td class="wrap-col">The plans and licences, with what each one covers, so a clinic can pick what fits.</td></tr>
-          <tr><td><a href="/faq/" style="color:var(--blue);font-weight:500;">FAQ</a></td><td class="wrap-col">Short answers to the questions clinics ask most, on one page.</td></tr>
+          <tr><td><a href="/updates/" style="color:var(--blue);font-weight:500;">News &amp; updates</a></td><td class="wrap-col">Release notes, clinic stories and the story of the product, post by post.</td></tr>
           <tr><td><a href="#troubleshooting" style="color:var(--blue);font-weight:500;">Troubleshooting</a></td><td class="wrap-col">What you see on screen, what it means, and what to do — the problems clinics meet most.</td></tr>
           <tr><td><a href="#glossary" style="color:var(--blue);font-weight:500;">Glossary</a></td><td class="wrap-col">Every word this guide uses, defined in plain English, each pointing to the section that covers it.</td></tr>
         </tbody>
@@ -2114,7 +2189,7 @@ zip the folder  →  clinic-vitals.zip  →  rename it  →  clinic-vitals.fcxex
         </thead>
         <tbody>
           <tr><td><a href="/docs/" style="color:var(--blue);font-weight:500;">Docs home</a></td><td class="wrap-col">All the documentation, organized by topic, starting from one page.</td></tr>
-          <tr><td><a href="/mcp/" style="color:var(--blue);font-weight:500;">MCP</a></td><td class="wrap-col">What MCP is, in short, and how an AI assistant pairs with the clinic.</td></tr>
+          <tr><td><a href="#cli-mcp" style="color:var(--blue);font-weight:500;">MCP and AI agents</a></td><td class="wrap-col">Pairing an agent with the clinic, scopes, builders and the data boundary — section 13 of this guide.</td></tr>
           <tr><td><a href="/docs/mcp/" style="color:var(--blue);font-weight:500;">MCP docs</a></td><td class="wrap-col">The full MCP documentation on the web: pairing, scopes, and approving what an agent proposes.</td></tr>
           <tr><td><a href="#security" style="color:var(--blue);font-weight:500;">Security and privacy</a></td><td class="wrap-col">The two promises behind the workspace: records stay on your device, the licence stays in the clinic's hands, and exactly what crosses the network.</td></tr>
           <tr><td><a href="/docs/security/" style="color:var(--blue);font-weight:500;">Security docs</a></td><td class="wrap-col">The full security documentation on the web, for anyone who wants the complete picture.</td></tr>
@@ -2124,18 +2199,7 @@ zip the folder  →  clinic-vitals.zip  →  rename it  →  clinic-vitals.fcxex
   </div>
 </section>
 
-        <section class="guide-sec" id="faq-card" aria-label="Questions">
-          <div class="faq-card">
-            <div>
-              <h2>Questions?</h2>
-              <p>The FAQ is its own page now — plain answers about offline use, licences and devices, packs, data, updates and sharing, written for clinics, not for engineers.</p>
-            </div>
-            <div class="cta-btns">
-              <a class="btn primary" href="/faq/"><span data-icon="CircleHelp" data-icon-size="15"></span><span>Open the FAQ</span></a>
-              <a class="btn ghost" href="/install/"><span data-icon="Download" data-icon-size="15"></span><span>Install guide</span></a>
-            </div>
-          </div>
-
+        <section class="guide-sec" id="install-cta" aria-label="Install">
           <div class="next-band">
             <div>
               <h2>Ready to install?</h2>
@@ -2179,9 +2243,8 @@ zip the folder  →  clinic-vitals.zip  →  rename it  →  clinic-vitals.fcxex
           '<a href="/">Overview</a>' +
           '<a href="/marketplace/">Marketplace</a>' +
           '<a href="/pricing/">Pricing</a>' +
-          '<a href="/mcp/">MCP &amp; Automation</a>' +
           '<a href="/docs/">Docs</a>' +
-          '<a href="/faq/">FAQ</a>' +
+          '<a href="/updates/">Updates</a>' +
           '</nav></div></div>';
       }
       if (footer && !footer.firstChild) {
@@ -2189,11 +2252,42 @@ zip the folder  →  clinic-vitals.zip  →  rename it  →  clinic-vitals.fcxex
           '<div class="foot"><div class="wrap foot-inner">' +
           '<div><div class="foot-brand">' + FCX.icon("Stethoscope", 17) + ' FocusCaseX</div>' +
           '<div class="foot-status">FocusCaseX documentation · maintained by CaseX Labs</div></div>' +
-          '<div class="foot-links"><a href="/docs/">Documentation</a><a href="/faq/">FAQ</a><a href="/install/">Install guide</a></div>' +
+          '<div class="foot-links"><a href="/docs/">Documentation</a><a href="/updates/">Updates</a><a href="/install/">Install guide</a></div>' +
           '</div></div>';
       }
       FCX.wireCopyButtons(document);
     });
+
+    /* fragment-link interceptor: the page's <base href> makes plain "#id"
+       links resolve against the deployment root, so clicking a contents
+       entry would leave the guide. Intercept them and scroll in place. */
+    document.addEventListener("click", function (ev) {
+      var t = ev.target;
+      var a = t && t.closest ? t.closest('a[href^="#"]') : null;
+      if (!a) return;
+      var href = a.getAttribute("href");
+      if (!href || href === "#") return;
+      var id;
+      try { id = decodeURIComponent(href.slice(1)); } catch (e) { return; }
+      var target = document.getElementById(id);
+      if (!target) return;
+      ev.preventDefault();
+      if (history.pushState) history.pushState(null, "", location.pathname + location.search + "#" + id);
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    /* contents: keep the sidebar list open on desktop, collapsible on small screens */
+    var tocFold = document.getElementById("toc-fold");
+    function tocDesktop() { return window.matchMedia("(min-width: 981px)").matches; }
+    if (tocFold) {
+      if (tocDesktop()) tocFold.open = true;
+      tocFold.addEventListener("toggle", function () {
+        if (tocDesktop() && !tocFold.open) tocFold.open = true;
+      });
+      window.addEventListener("resize", function () {
+        if (tocDesktop()) tocFold.open = true;
+      });
+    }
 
     /* contents: highlight the section currently on screen */
     var tocLinks = Array.prototype.slice.call(document.querySelectorAll("#toc-nav a"));
