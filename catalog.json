@@ -3429,6 +3429,6 @@
     "install": "curl -fsSL https://stromplayz.github.io/FocusCaseX/install.sh | bash",
     "registry": "https://stromplayz.github.io/FocusCaseX/install.sh",
     "requires": "Node 18+",
-    "version": "3.0.0"
+    "version": "3.0.1"
   }
 }

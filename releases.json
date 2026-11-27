@@ -14,7 +14,7 @@
       "date": "2026-11-26",
       "apk": "FocusCaseX-v2.9.0.apk",
       "notes": [
-        "Admin OTP licence system — devices activate with an owner-issued FCX code, same device is remembered, the owner console at /admin manages codes and devices",
+        "Admin OTP licence system — devices activate with an owner-issued FCX code, same device is remembered, the owner manages codes and devices",
         "Own registry install: curl -fsSL stromplayz.github.io/FocusCaseX/install.sh | bash installs the fcx CLI (activate / status / update included)",
         "Install page rebuilt — Terminal, Android, Desktop (coming soon) and iOS (coming soon)"
       ]

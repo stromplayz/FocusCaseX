@@ -5,7 +5,7 @@
 <base href="/FocusCaseX/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The FCX CLI — command reference — FocusCaseX Documentation</title>
-<meta name="description" content="The fcx command line: an interactive console, the Extensions storefront and the licence flow in the terminal. Install the FocusCaseX marketplace on any computer with Node 18, host the registry on the clinic LAN, and keep both ends updated. Full command reference, serve endpoints, file locations and troubleshooting.">
+<meta name="description" content="The fcx command line: an interactive console, the Extensions storefront and the licence flow in the terminal. Install the FocusCaseX marketplace on any computer with Node 18, host it on your clinic network, and keep both ends updated. Full command reference, serve endpoints and troubleshooting.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -116,20 +116,20 @@
       <h2 style="margin-bottom: 6px;">The licence flow</h2>
       <div class="cli-band">
         <h3>One code per device</h3>
-        <p>Install does not carry the licence. The FocusCaseX owner issues activation codes on the admin page — one <strong>FCX-XXXXXX code</strong> per device. In a terminal:</p>
+        <p>Install does not carry the licence. Your FocusCaseX owner issues one <strong>FCX-XXXXXX code</strong> per device. In a terminal:</p>
         <div class="code-row cli-cmd">
           <span class="code-token" title="Sign-in command — run this in a terminal">fcx login</span>
           <button class="chip" type="button" data-copy="fcx login" title="Copy login command"><span data-icon="Copy" data-icon-size="13"></span><span>Copy command</span></button>
         </div>
         <ol class="steps">
           <li><span>Run <strong>fcx login</strong> and answer the three prompts — your <strong>licence email</strong>, <strong>password</strong> and the <strong>FCX-XXXXXX code</strong> from your licence email (alias: <strong>fcx activate</strong>).</span></li>
-          <li><span>The machine registers as a <strong>trusted device</strong> under the licence — the CLI writes <strong>~/.focuscasex/activation.json</strong> (mode 0600, never synced) and this computer counts against the code's device limit.</span></li>
-          <li><span>Trusted devices never re-enter a code — <strong>fcx login</strong> on a signed-in machine re-verifies the stored licence instead of asking again. Run <strong>fcx status</strong> to confirm, and <strong>fcx device</strong> to see exactly what the owner sees on the admin Devices page.</span></li>
+          <li><span>The machine becomes a <strong>trusted device</strong> under the licence and counts against the code's device limit.</span></li>
+          <li><span>Trusted devices never re-enter a code — <strong>fcx login</strong> on a signed-in machine re-verifies the stored licence instead of asking again. Run <strong>fcx status</strong> to confirm, and <strong>fcx device</strong> to see exactly what the owner sees on the licence record.</span></li>
         </ol>
       </div>
       <div class="note">
         <span data-icon="ShieldCheck" data-icon-size="17"></span>
-        <p><b>Codes, device limits and keepalive.</b> Codes are issued by the FocusCaseX owner on the admin page for your licence email; a machine counts against the code's device limit — move a licence by revoking the old machine on the admin console. <b>fcx alive start</b> runs a small daemon that pings the licence registry on a schedule, so the admin Devices page shows this machine as current between sign-ins (<b>fcx alive status</b> checks it, <b>fcx alive stop</b> stops it). <a href="/docs/security/">Full details: how codes, devices and revocation work</a>.</p>
+        <p><b>Codes, device limits and keepalive.</b> Codes are issued by your FocusCaseX owner for your licence email; a machine counts against the code's device limit — a licence moves by revoking the old machine and activating the new one. <b>fcx alive start</b> runs a small daemon that pings the licence registry on a schedule, so the licence record shows this machine as current between sign-ins (<b>fcx alive status</b> checks it, <b>fcx alive stop</b> stops it). <a href="/docs/security/">Full details: how codes, devices and revocation work</a>.</p>
       </div>
     </section>
 
@@ -189,7 +189,7 @@
             <tr><td>fcx login</td><td>Sign in with your licence email, password and the owner-issued FCX-XXXXXX code (alias: <b>fcx activate</b>).</td></tr>
             <tr><td>fcx logout</td><td>Remove the device licence from this machine.</td></tr>
             <tr><td>fcx status</td><td>Print the device licence card and re-check it with the registry.</td></tr>
-            <tr><td>fcx device</td><td>The full device identity card — exactly what the owner's admin Devices page sees.</td></tr>
+            <tr><td>fcx device</td><td>The full device identity card — the same view of this machine your clinic owner has.</td></tr>
             <tr><td>fcx whoami</td><td>One-line identity — signed-in email and device id.</td></tr>
             <tr><td>fcx vitals [--offline]</td><td>Environment health check, eight checks — Node, FCX home, config, licence, catalog cache, marketplace, keepalive, installed items (alias: <b>fcx doctor</b>). With <b>--offline</b> it skips the network checks.</td></tr>
             <tr><td colspan="2" style="font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--bg-soft);">Marketplace and catalog</td></tr>
@@ -203,13 +203,14 @@
             <tr><td>fcx sync</td><td>Refresh the catalog cache from the public marketplace.</td></tr>
             <tr><td colspan="2" style="font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);background:var(--bg-soft);">System and diagnostics</td></tr>
             <tr><td>fcx stats [--json]</td><td>Local usage dashboard — commands run, installs, recent activity.</td></tr>
-            <tr><td>fcx alive start|stop|status|run</td><td>Keepalive daemon — pings the licence registry on a schedule so the admin Devices page shows this machine as current.</td></tr>
+            <tr><td>fcx alive start|stop|status|run</td><td>Keepalive daemon — pings the licence registry on a schedule so the licence record shows this machine as current.</td></tr>
             <tr><td>fcx config list|get|set|reset</td><td>CLI settings — workspace folder, keepalive interval, appearance.</td></tr>
             <tr><td>fcx update</td><td>Compare your build with the registry and print the one-line update command when a newer CLI ships.</td></tr>
             <tr><td>fcx serve [--port 4319]</td><td>Host the registry locally — health, catalog and WorkBench bundle endpoints — and print the local and LAN URLs.</td></tr>
             <tr><td>fcx open</td><td>Open the full FocusCaseX workspace in your browser — the same features as the Android app.</td></tr>
             <tr><td>fcx mcp</td><td>Print MCP pairing info plus ready-to-paste agent setup snippets. The full walkthrough: <a href="/docs/mcp/">MCP &amp; AI agents</a>.</td></tr>
             <tr><td>fcx version / --version / --help</td><td>Version and help — it tracks the platform release.</td></tr>
+            <tr><td>fcx help [command]</td><td>Print the grouped help list, or one command in detail — <b>fcx help setup</b>, <b>fcx help serve</b>. Per-command <b>--help</b> works too.</td></tr>
           </tbody>
         </table>
       </div>
@@ -218,9 +219,10 @@
     <!-- 5. HOSTING ON THE LAN -->
     <section class="section" id="serve" aria-label="Hosting on the LAN" style="padding-top: 0;">
       <div class="kicker">Hosting</div>
-      <h2 style="margin-bottom: 6px;">Host the registry on the clinic LAN</h2>
-      <p class="explain" style="max-width: 640px;"><strong>fcx serve</strong> turns the machine it runs on into the registry for the whole clinic. It serves the catalog and WorkBench bundles over HTTP — port 4319 by default, <strong>--port</strong> to change it — and prints two URLs when it starts: one for the machine itself and one for the LAN. Point a browser at the LAN URL from any computer on the clinic network and the same catalog is right there.</p>
-      <p class="explain" style="max-width: 640px;">What it serves comes from the local catalog cache — run <strong>fcx sync</strong> and the LAN copy refreshes from the public marketplace.</p>
+      <h2 style="margin-bottom: 6px;">Host the registry on your clinic network</h2>
+      <p class="explain" style="max-width: 640px;"><strong>fcx serve</strong> turns the machine it runs on into the registry for the whole clinic. It serves the catalog and WorkBench bundles over HTTP — port 4319 by default, <strong>--port</strong> to change it — and prints two URLs when it starts: one for the machine itself and one LAN address per network card. When a clinic network exists, point a browser at the LAN URL from any computer on it and the same catalog is right there.</p>
+      <p class="explain" style="max-width: 640px;">No clinic network? Nothing breaks — the web workspace remains the way in, and it opens as usual from anywhere. The local URL on the serve machine always works too.</p>
+      <p class="explain" style="max-width: 640px;">What it serves comes from the local catalog cache — run <strong>fcx sync</strong> and the shared copy refreshes from the public marketplace.</p>
       <div class="cli-ref-scroll">
         <table class="cli-ref">
           <thead>
@@ -267,8 +269,6 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>~/.focuscasex/activation.json</td><td>The device licence token (mode 0600, never synced) — written by <b>fcx login</b>, checked by <b>fcx status</b>, removed by <b>fcx logout</b>.</td></tr>
-            <tr><td>~/.focuscasex/device.uuid</td><td>The stable machine id.</td></tr>
             <tr><td>~/.focuscasex/config.json</td><td>CLI settings — <b>fcx config</b> reads and writes it.</td></tr>
             <tr><td>~/.focuscasex/installed.json</td><td>What is installed — <b>fcx install list</b> reads it, <b>fcx uninstall</b> updates it.</td></tr>
             <tr><td>~/.focuscasex/stats.jsonl</td><td>Usage events behind <b>fcx stats</b> (JSON lines, append only).</td></tr>
@@ -295,7 +295,7 @@
     <section class="section" id="troubleshooting" aria-label="Troubleshooting" style="padding-top: 0;">
       <div class="kicker">When something's off</div>
       <h2 style="margin-bottom: 6px;">Troubleshooting</h2>
-      <p class="explain" style="max-width: 640px;">Five things come up most; each has a short answer.</p>
+      <p class="explain" style="max-width: 640px;">Six things come up most; each has a short answer.</p>
       <div class="cli-ref-scroll">
         <table class="cli-ref">
           <thead>
@@ -310,6 +310,7 @@
             <tr><td>This screen needs an interactive terminal</td><td>The console and the marketplace are full-screen views — they print this hint when the output is piped. Run them in a real terminal, or use the non-interactive paths: <b>fcx catalog</b>, <b>fcx install &lt;id-or-code&gt;</b>.</td></tr>
             <tr><td>port already in use</td><td>Start the server on another port: <b>fcx serve --port &lt;other&gt;</b>.</td></tr>
             <tr><td>version mismatch</td><td>Run <b>fcx update</b> — it prints the one-line command when a newer build ships — or re-run the install command from the top of this page, then check <b>fcx --version</b>.</td></tr>
+            <tr><td>the FCX- code is refused</td><td>Codes are exact — paste rather than retype, and make sure it is the code issued for your licence email. If the refusal says the device limit is full, your clinic owner moves the licence: the old machine is revoked, a fresh code is issued, and this machine activates. <a href="/docs/security/">How devices and limits work</a>.</td></tr>
           </tbody>
         </table>
       </div>
@@ -324,6 +325,18 @@
           <span class="tile"><span data-icon="BookOpen" data-icon-size="19"></span></span>
           <h3>Getting started</h3>
           <p>New to FocusCaseX? Install the app, sign in and take the workspace tour.</p>
+          <span class="go">Open<span data-icon="ArrowRight" data-icon-size="15"></span></span>
+        </a>
+        <a class="entry" href="/docs/">
+          <span class="tile"><span data-icon="Workflow" data-icon-size="19"></span></span>
+          <h3>The full guide</h3>
+          <p>Everything on one page — the app, every fcx command, authoring Extensions, security and the FAQ.</p>
+          <span class="go">Open<span data-icon="ArrowRight" data-icon-size="15"></span></span>
+        </a>
+        <a class="entry" href="/faq/">
+          <span class="tile"><span data-icon="CircleHelp" data-icon-size="19"></span></span>
+          <h3>FAQ</h3>
+          <p>Plain answers to the questions clinics ask most — licences, devices, offline use, updates.</p>
           <span class="go">Open<span data-icon="ArrowRight" data-icon-size="15"></span></span>
         </a>
         <a class="entry" href="/docs/mcp/">
@@ -384,7 +397,7 @@
           '<div class="foot"><div class="wrap foot-inner">' +
           '<div><div class="foot-brand">' + FCX.icon("Stethoscope", 17) + ' FocusCaseX</div>' +
           '<div class="foot-status">FocusCaseX documentation · maintained by CaseX Labs</div></div>' +
-          '<div class="foot-links"><a href="/docs/">Documentation</a><a href="/docs/cli/">FCX CLI</a><a href="/install/">Install guide</a></div>' +
+          '<div class="foot-links"><a href="/docs/">Documentation</a><a href="/docs/cli/">FCX CLI</a><a href="/faq/">FAQ</a><a href="/install/">Install guide</a></div>' +
           '</div></div>';
       }
       FCX.wireCopyButtons(document);

@@ -147,7 +147,7 @@
       <div class="kicker">The protocol</div>
       <h2>What MCP is, in plain words.</h2>
       <p class="mcp-lede"><b>Model Context Protocol (MCP)</b> is an open standard that lets AI agents — Claude, Cursor, anything that speaks it — call tools on your behalf. The agent thinks in its chat window; the tools run against real software: search this, book that, install this.</p>
-      <p class="mcp-lede" style="margin-top:12px;">FocusCaseX adds the other half: <b>your clinic records become agent-accessible through a local, paired server — with a person at the approval layer.</b> The app hosts the MCP server itself, on-device over your own Wi-Fi or on the web workspace at the endpoint above. You approve every connection, set every agent's scopes, and confirm every write.</p>
+      <p class="mcp-lede" style="margin-top:12px;">FocusCaseX adds the other half: <b>your clinic records become agent-accessible through a local, paired server — with a person at the approval layer.</b> The app hosts the MCP server itself — on-device over your clinic network when one exists, or on the web workspace at the endpoint above. You approve every connection, set every agent's scopes, and confirm every write.</p>
       <div class="band-grid" style="margin-top: 30px;">
         <div class="t-item">
           <span data-icon="Bot"></span>
@@ -524,7 +524,7 @@ http_headers = { <span class="cx-str">"Authorization"</span> = <span class="cx-s
         <span class="ep-tag">On-device</span>
         <code>http://&lt;device-ip&gt;:8080/api/mcp/server</code>
         <button class="chip" type="button" data-copy="http://&lt;device-ip&gt;:8080/api/mcp/server"><span data-icon="Copy" data-icon-size="13"></span><span>Copy</span></button>
-        <span class="muted small">The app on your phone or tablet serves MCP over your own Wi-Fi — the exact address is shown under Settings → MCP &amp; Automation.</span>
+        <span class="muted small">The app on your phone or tablet serves MCP over your clinic network when one exists — the exact address is shown under Settings → MCP &amp; Automation. No clinic network? The web workspace endpoint above works as usual, from anywhere.</span>
       </div>
       <p class="doc-note">Use the web endpoint when you work in the hosted workspace, the device address when the records live on the phone or tablet in the room. Both pair the same way; both log to the same audit log. Headless clients that can't show a pairing screen can use a personal token instead — Settings → MCP &amp; Automation → Create token — as a Bearer header, with the same scopes.</p>
 
