@@ -1,7 +1,7 @@
 {
   "v": 1,
   "registry": "focuscasex",
-  "generatedAt": "2026-11-28T03:50:26.313Z",
+  "generatedAt": "2026-11-28T03:50:56.889Z",
   "plans": {
     "currency": "INR",
     "updatedAt": "2026-11-28T00:00:00.000Z",
@@ -35,7 +35,7 @@
   "stats": {
     "devicesActive": 1,
     "devicesRevoked": 0,
-    "codesActive": 3,
+    "codesActive": 2,
     "requestsPending": 0
   },
   "enforce": "native-cli"
